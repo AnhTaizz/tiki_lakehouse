@@ -13,7 +13,6 @@ from libs.tiki_category import load_categories_from_api, load_categories_from_fi
 from libs.tiki_product import fetch_products_by_category
 from libs.utils import setup_logger, save_to_json
 
-# Import Spark
 from pyspark.sql import SparkSession
 from pyspark.sql.types import StructType, StructField, StringType, IntegerType, DoubleType, LongType
 
@@ -21,13 +20,13 @@ logger = setup_logger(__name__)
 
 """Extract - Cào dữ liệu từ API"""
 def crawl_tiki_data(target_category_id=1520):
+
     logger.info(f"=== BẮT ĐẦU CRAWL NGÀNH HÀNG ID {target_category_id} ===")
     
-    # Lấy cây danh mục
     raw_cats = load_categories_from_api(category_id=target_category_id)
     if not raw_cats:
         logger.warning("API danh mục lỗi. Chuyển sang đọc từ file local backup...")
-        backup_path = os.path.join(workspace_dir, 'data', 'lam_dep_suc_khoe_category.json')
+        backup_path = os.path.join(workspace_dir, 'data', 'tiki_category.json')
         raw_cats = load_categories_from_file(backup_path)
         
     leaf_cats = get_leaf_categories(raw_cats)
@@ -35,10 +34,8 @@ def crawl_tiki_data(target_category_id=1520):
     
     all_products = []
     
-    # MẸO: Nếu test, đổi thành leaf_cats[:2] để chạy 2 danh mục thôi cho nhanh.
-    # Chạy thật thì để nguyên leaf_cats
-    for idx, cat in enumerate(leaf_cats[:2]):
-        logger.info(f"[{idx+1}/{len(leaf_cats[:2])}] Đang xử lý: {cat['name']}...")
+    for idx, cat in enumerate(leaf_cats):
+        logger.info(f"[{idx+1}/{len(leaf_cats)}] Đang xử lý: {cat['name']}...")
         products = fetch_products_by_category(cat['id'], cat['url_key'])
         all_products.extend(products)
         
@@ -51,8 +48,8 @@ def crawl_tiki_data(target_category_id=1520):
     logger.info(f"Đã cào xong {len(all_products)} sản phẩm. Lưu raw tại: {raw_filepath}")
     
     return raw_filepath
-    
-"""Load - Đọc JSON và đẩy vào Iceberg bằng Spark"""
+
+"""Load - Đọc JSON và đẩy vào Iceberg bằng Spark với UPSERT + PARTITION"""
 def load_to_iceberg(raw_filepath):
     logger.info("=== BẮT ĐẦU ĐẨY DỮ LIỆU VÀO LAKEHOUSE (ICEBERG) ===")
     
@@ -60,7 +57,6 @@ def load_to_iceberg(raw_filepath):
         .appName("Tiki_Crawler_To_Iceberg") \
         .getOrCreate()
         
-    # Định nghĩa Schema
     schema = StructType([
         StructField("id", LongType(), True),
         StructField("sku", StringType(), True),
@@ -78,31 +74,51 @@ def load_to_iceberg(raw_filepath):
         StructField("quantity_sold", IntegerType(), True)
     ])
     
-    # Đọc file JSON
-    df = spark.read.schema(schema).json(raw_filepath)
+    df = spark.read.option("multiline", "true").schema(schema).json(raw_filepath)
     
-    # Thêm cột ngày crawl để dễ phân tích lịch sử giá (Time Travel / SCD Type 2)
     from pyspark.sql.functions import current_date
     df = df.withColumn("crawl_date", current_date())
-    
-    df.show(5, truncate=False)
 
     spark.sql("CREATE NAMESPACE IF NOT EXISTS local_catalog.tiki")
-    # Định nghĩa tên bảng
     table_name = "local_catalog.tiki.products"
     
     try:
-        logger.info(f"Đang ghi dữ liệu vào bảng Iceberg: {table_name}...")
-        # Ghi đè (append) dữ liệu mới vào bảng Iceberg
-        df.write \
-            .format("iceberg") \
-            .mode("append") \
-            .save(table_name)
-        logger.info("GHI ICEBERG THÀNH CÔNG!")
+        if spark.catalog.tableExists(table_name):
+            logger.info(f"Bảng {table_name} ĐÃ TỒN TẠI. Tiến hành UPSERT (MERGE INTO)...")
+            df.createOrReplaceTempView("dataframe_moi_cao_ve")
+            
+            merge_query = f"""
+                MERGE INTO {table_name} AS target
+                USING dataframe_moi_cao_ve AS source
+                ON target.id = source.id 
+                WHEN MATCHED THEN 
+                    UPDATE SET 
+                        target.price = source.price, 
+                        target.original_price = source.original_price,
+                        target.discount = source.discount,
+                        target.discount_rate = source.discount_rate,
+                        target.rating_average = source.rating_average,
+                        target.review_count = source.review_count,
+                        target.quantity_sold = source.quantity_sold,
+                        target.crawl_date = source.crawl_date
+                WHEN NOT MATCHED THEN 
+                    INSERT *
+            """
+            spark.sql(merge_query)
+            logger.info("ĐÃ UPSERT BẰNG MERGE INTO THÀNH CÔNG!")
+            
+        else:
+            logger.info(f"Bảng {table_name} CHƯA TỒN TẠI. Tiến hành tạo bảng lần đầu với PARTITION...")
+            # THÊM PARTITION THEO crawl_date VÀO ĐÂY
+            df.write \
+                .format("iceberg") \
+                .partitionBy("crawl_date") \
+                .saveAsTable(table_name)
+            logger.info("TẠO BẢNG LẦN ĐẦU KÈM PARTITION THÀNH CÔNG!")
+            
     except Exception as e:
         logger.error(f"Lỗi khi ghi vào Iceberg: {e}")
     finally:
-        # Giải phóng tài nguyên Spark sau khi hoàn thành
         spark.stop()
 
 if __name__ == "__main__":
