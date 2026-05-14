@@ -1,4 +1,5 @@
 **🛒 Tiki Data Lakehouse Project**
+
 Dự án xây dựng hệ thống Data Lakehouse hiện đại để thu thập, xử lý và lưu trữ dữ liệu sản phẩm từ nền tảng Tiki.vn.
 
 **🌟 Mục tiêu & Lộ trình**
