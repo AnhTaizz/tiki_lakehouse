@@ -58,6 +58,7 @@ services:
     ports:
       - "9083:9083"
     environment:
+      IS_RESUME: "true"
       SERVICE_NAME: "metastore"
       DB_DRIVER: "postgres"
       SERVICE_OPTS: >-

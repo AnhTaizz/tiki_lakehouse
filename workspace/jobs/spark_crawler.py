@@ -49,7 +49,7 @@ def crawl_tiki_data(target_category_id=1520):
     
     return raw_filepath
 
-"""Load - Đọc JSON và đẩy vào Iceberg bằng Spark với UPSERT + PARTITION"""
+"""Load - Đọc JSON và đẩy vào Iceberg bằng Spark (Kèm CDC và Partition)"""
 def load_to_iceberg(raw_filepath):
     logger.info("=== BẮT ĐẦU ĐẨY DỮ LIỆU VÀO LAKEHOUSE (ICEBERG) ===")
     
@@ -83,9 +83,38 @@ def load_to_iceberg(raw_filepath):
     table_name = "local_catalog.tiki.products"
     
     try:
+        # ĐĂNG KÝ BẢNG TẠM TRÊN SPARK
+        df.createOrReplaceTempView("dataframe_moi_cao_ve")
+
+        # CDC, SCD type 4
+        logger.info("Đang kiểm tra biến động giá để lưu lịch sử...")
+        
+        spark.sql("""
+            CREATE TABLE IF NOT EXISTS local_catalog.tiki.price_history (
+                id BIGINT,
+                price BIGINT,
+                crawl_date DATE
+            ) USING iceberg PARTITIONED BY (crawl_date)
+        """)
+        
+        if spark.catalog.tableExists(table_name):
+            spark.sql(f"""
+                INSERT INTO local_catalog.tiki.price_history
+                SELECT s.id, s.price, s.crawl_date
+                FROM dataframe_moi_cao_ve s
+                LEFT JOIN {table_name} t ON s.id = t.id
+                WHERE t.id IS NULL OR s.price != t.price
+            """)
+        else:
+            spark.sql("""
+                INSERT INTO local_catalog.tiki.price_history
+                SELECT id, price, crawl_date FROM dataframe_moi_cao_ve
+            """)
+        logger.info("Đã cập nhật xong bảng lịch sử giá (price_history).")
+
+        # Upsert : SCD type 1
         if spark.catalog.tableExists(table_name):
             logger.info(f"Bảng {table_name} ĐÃ TỒN TẠI. Tiến hành UPSERT (MERGE INTO)...")
-            df.createOrReplaceTempView("dataframe_moi_cao_ve")
             
             merge_query = f"""
                 MERGE INTO {table_name} AS target
@@ -109,7 +138,6 @@ def load_to_iceberg(raw_filepath):
             
         else:
             logger.info(f"Bảng {table_name} CHƯA TỒN TẠI. Tiến hành tạo bảng lần đầu với PARTITION...")
-            # THÊM PARTITION THEO crawl_date VÀO ĐÂY
             df.write \
                 .format("iceberg") \
                 .partitionBy("crawl_date") \

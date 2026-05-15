@@ -103,7 +103,7 @@ def fetch_products_by_category(category_id, url_key, max_pages=None):
             break
             
         current_page += 1
-        time.sleep(3)
+        time.sleep(2)
         
     return all_products
 
