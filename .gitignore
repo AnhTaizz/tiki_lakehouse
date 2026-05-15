@@ -35,3 +35,5 @@ postgres_data/
 Thumbs.db
 .vscode/
 .idea/
+
+README.md
