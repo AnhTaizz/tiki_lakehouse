@@ -136,6 +136,7 @@ services:
   airflow-scheduler:
     image: apache/airflow:2.8.1
     container_name: airflow_scheduler
+    user: root
     restart: always
     depends_on:
       airflow-postgres:
@@ -150,7 +151,12 @@ services:
     volumes:
       - ./workspace/dags:/opt/airflow/dags
       - ./workspace:/opt/airflow/workspace
-    command: scheduler
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: >
+      bash -c "
+      apt-get update && apt-get install -y docker.io &&
+      airflow scheduler
+      "
     networks:
       - lakehouse
 

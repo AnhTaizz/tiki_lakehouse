@@ -6,6 +6,10 @@ import argparse
 current_dir = os.path.dirname(os.path.abspath(__file__))
 workspace_dir = os.path.abspath(os.path.join(current_dir, '..'))
 
+# --- THÊM 2 DÒNG NÀY VÀO ĐỂ PYTHON TÌM ĐƯỢC THƯ MỤC LIBS ---
+if workspace_dir not in sys.path:
+    sys.path.append(workspace_dir)
+
 from libs.utils import setup_logger
 from pyspark.sql import SparkSession
 from pyspark.sql.types import StructType, StructField, StringType, IntegerType, DoubleType, LongType
