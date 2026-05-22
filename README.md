@@ -1,59 +1,59 @@
-**🛒 Tiki Data Lakehouse Project**
+# Tiki Data Lakehouse
 
-Dự án xây dựng hệ thống Data Lakehouse hiện đại để thu thập, xử lý và lưu trữ dữ liệu sản phẩm từ nền tảng Tiki.vn.
+Local data lakehouse project for crawling Tiki product data and loading raw rows into a Bronze Apache Iceberg table on top of MinIO, Hive Metastore, PostgreSQL, Spark, and Airflow.
 
+## Architecture
 
-**🌟 Mục tiêu & Lộ trình**
+- Ingestion: Python jobs crawl Tiki category and product APIs.
+- Compute: Spark runs in `jupyter/pyspark-notebook:spark-3.5.0`.
+- Storage: MinIO provides an S3-compatible warehouse.
+- Catalog: Hive Metastore stores Iceberg table metadata, backed by PostgreSQL.
+- Orchestration: Airflow schedules daily extract and Bronze load jobs.
+- Current pipeline scope: crawl -> local raw JSON file -> Bronze Iceberg append table.
 
-**Tuần 1:** Xây dựng hệ thống Spark Crawling (Hứng dữ liệu E-commerce từ API của Tiki) thông qua xử lý song song.
+## Project Layout
 
-**Tuần 2:** Xây dựng Lakehouse với định dạng Apache Iceberg để quản lý dữ liệu hiệu quả và chống trùng lặp.
+- `src/common`: shared API clients and helpers.
+- `src/jobs`: executable extract/load jobs.
+- `dags`: Airflow DAG definitions.
+- `config`: Spark and Hadoop configuration files.
+- `data`: local seed files and generated raw extracts.
+- `notebooks`: exploratory notebooks.
 
+## Quick Start
 
-**📊 Phạm vi dữ liệu (Current Scope)**
+1. Copy `.env.example` to `.env` and adjust local credentials if needed.
+2. Start the stack:
 
-Hiện tại, hệ thống tập trung thu thập dữ liệu từ ngành hàng: **Làm đẹp - Sức khỏe.**
+   ```bash
+   docker compose up -d --build
+   ```
 
-Dữ liệu bao gồm thông tin chi tiết về **sản phẩm như giá, lượt bán, thương hiệu và đánh giá từ khách hàng.**
+3. Open the services:
 
+   - Jupyter: http://localhost:8888
+   - MinIO Console: http://localhost:9001
+   - Airflow: http://localhost:8081
 
-**🎯 Những công nghệ và kỹ thuật đã áp dụng (Key Achievements)**
+Default local Airflow login is `admin` / `password123`. MinIO credentials come from `.env`.
 
-**Data Ingestion:** Xây dựng script Python (spark_crawler.py) tự động gọi API Tiki để lấy danh sách sản phẩm theo danh mục và bóc tách dữ liệu thô, sau đó hiển thị dạng DataFrame.
+## Main Commands
 
-**Modern Data Stack:** Tự setup toàn bộ hạ tầng bằng Docker Compose bao gồm:
+Run extract locally with the project source on `PYTHONPATH`:
 
-**Compute:** PySpark (chạy trên môi trường Jupyter Notebook jupyter/pyspark-notebook).
+```bash
+PYTHONPATH=src python src/jobs/tiki_extract.py
+```
 
-**Storage:** MinIO Object Storage (Giả lập AWS S3).
+Run Bronze load inside the Spark container:
 
-**Metadata Catalog:** Apache Hive Metastore + PostgreSQL.
+```bash
+docker exec tiki_spark_crawler /opt/conda/bin/python /home/jovyan/work/src/jobs/tiki_load_iceberg.py --raw_file /home/jovyan/work/data/<raw-file>.json
+```
 
-**Change Data Capture (CDC):** Áp dụng Apache Iceberg để thực hiện luồng CDC. Sử dụng lệnh MERGE INTO (Upsert) trong PySpark để so sánh ID sản phẩm và đối chiếu dữ liệu nguồn với dữ liệu đích:
+## Notes
 
-**INSERT:** Khi ID hoàn toàn mới, chèn toàn bộ dòng dữ liệu đó vào bảng.
-
-**UPDATE:** Khi tìm thấy sản phẩm đã tồn tại, cập nhật các trường dữ liệu thường xuyên thay đổi (giá cả, lượt bán, đánh giá). Cơ chế này giúp chống trùng lặp tuyệt đối.
-
-**Data Versioning (Time Travel):** Ứng dụng tính năng Time Travel của Iceberg để truy vấn lại trạng thái dữ liệu (Snapshots) tại các thời điểm trong quá khứ dưới hạ tầng MinIO, tối ưu hóa lưu trữ.
-
-
-**📂 Cấu trúc thư mục nổi bật**
-
-/tiki_lakehouse/docker-compose.yml: File setup hạ tầng container (Spark, Minio, Hive, DB).
-
-/workspace/jobs/spark_crawler.py: Job cào dữ liệu và đẩy vào bảng Iceberg phân vùng theo ngày.
-
-/workspace/notebooks/load_data_to_iceberg.ipynb: Notebook minh họa luồng xử lý và CDC bằng lệnh SQL.
-
-/workspace/notebooks/iceberg_time_travel/: Thư mục thử nghiệm các tính năng quản lý phiên bản của Iceberg.
-
-
-**🚀 Cách chạy thử dự án (Quick Start)**
-
-Khởi động các services bằng lệnh:
-        **docker-compose up -d**
-
-Mở Jupyter Notebook tại **localhost:8888** để chạy các luồng xử lý dữ liệu.
-
-Truy cập MinIO console tại **localhost:9001 (user: admin / pass: password123)** để xem file vật lý (Parquet/JSON).
+- `data/tiki_category.json` and `data/lam_dep_suc_khoe_category.json` are seed/backup category files.
+- Generated raw extract files are ignored by git.
+- Spark uses the `local_catalog` Iceberg catalog and appends raw rows to `local_catalog.tiki_bronze.products_raw`.
+- Silver/Gold transformations, upserts, and price history are intentionally deferred while the project focuses on the crawl and Airflow scheduling flow.

@@ -19,9 +19,10 @@ _SUCCESS
 .part-*
 part-*
 
-workspace/data/*
-!workspace/data/tiki_category.json
-!workspace/data/lam_dep_suc_khoe_category.json
+data/*
+!data/tiki_category.json
+!data/lam_dep_suc_khoe_category.json
+!data/.gitkeep
 
 spark-warehouse/
 metastore_db/
@@ -30,11 +31,11 @@ warehouse/
 
 minio_data/
 postgres_data/
+airflow_db_data/
 
 .DS_Store
 Thumbs.db
 .vscode/
 .idea/
 
-README.md
 .env

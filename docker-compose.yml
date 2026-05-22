@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   spark-notebook:
     image: jupyter/pyspark-notebook:spark-3.5.0
@@ -8,22 +6,20 @@ services:
       - "8888:8888"
       - "4040:4040"
     volumes:
-      # Áp dụng cấu trúc thư mục phân tách mã nguồn, dữ liệu mẫu và notebook nháp
       - ./src:/home/jovyan/work/src
       - ./notebooks:/home/jovyan/work/notebooks
       - ./data:/home/jovyan/work/data
-      # Quy hoạch hệ thống cấu hình tập trung vào thư mục config
-      - ./config/spark/spark-defaults.conf:/usr/local/spark/conf/spark-defaults.conf
-      - ./config/hive/core-site.xml:/usr/local/spark/conf/core-site.xml
-      # Lưu trữ đệm để Spark tránh tải lại các gói thư viện .jar qua mạng khi khởi động lại
+      - ./config/spark-defaults.conf:/usr/local/spark/conf/spark-defaults.conf
+      - ./config/core-site.xml:/usr/local/spark/conf/core-site.xml
       - ivy2_cache:/root/.ivy2
     environment:
-      - JUPYTER_ENABLE_LAB=yes
-      - GRANT_SUDO=yes
+      JUPYTER_ENABLE_LAB: "yes"
+      GRANT_SUDO: "yes"
+      PYTHONPATH: /home/jovyan/work/src
     user: root
     depends_on:
       hive-metastore:
-        condition: service_healthy # Spark chỉ bật khi Hive Metastore đã mở port 9083 thành công
+        condition: service_healthy
       minio:
         condition: service_started
     networks:
@@ -57,7 +53,6 @@ services:
       - postgres_data:/var/lib/postgresql/data
     networks:
       - lakehouse
-    # Kiểm tra trạng thái sẵn sàng phản hồi kết nối của PostgreSQL cơ sở dữ liệu metastore
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${HIVE_DB_USER} -d ${HIVE_DB_NAME}"]
       interval: 10s
@@ -66,7 +61,7 @@ services:
 
   hive-metastore:
     build:
-      context: ./hive-custom # Xây dựng từ Dockerfile để tự động hóa khâu nạp gói JAR đồng bộ
+      context: ./hive-custom
     container_name: hive-metastore
     ports:
       - "9083:9083"
@@ -81,8 +76,7 @@ services:
         -Djavax.jdo.option.ConnectionUserName=${HIVE_DB_USER}
         -Djavax.jdo.option.ConnectionPassword=${HIVE_DB_PASSWORD}
     volumes:
-      - ./config/hive/core-site.xml:/opt/hive/conf/core-site.xml
-    # Khởi tạo tự động cấu trúc bảng metadata hệ thống (initSchema) rồi mới kích hoạt metastore
+      - ./config/core-site.xml:/opt/hive/conf/core-site.xml
     command: >
       bash -c "
       /opt/hive/bin/schematool -dbType postgres -initSchema || true &&
@@ -90,10 +84,9 @@ services:
       "
     depends_on:
       postgres:
-        condition: service_healthy # Chỉ chạy khi cơ sở dữ liệu PostgreSQL đã phản hồi khoẻ mạnh
+        condition: service_healthy
     networks:
       - lakehouse
-    # Giám sát trạng thái cổng dịch vụ 9083 của Metastore để phát tín hiệu cho Spark biết
     healthcheck:
       test: ["CMD", "nc", "-z", "localhost", "9083"]
       interval: 15s
@@ -113,20 +106,26 @@ services:
       - airflow_db_data:/var/lib/postgresql/data
     networks:
       - lakehouse
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${AIRFLOW_DB_USER} -d ${AIRFLOW_DB_NAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   airflow-init:
     image: apache/airflow:2.8.1
     container_name: airflow_init
     depends_on:
-      - airflow-postgres
+      airflow-postgres:
+        condition: service_healthy
     environment:
-      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
-      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://${AIRFLOW_DB_USER}:${AIRFLOW_DB_PASSWORD}@airflow-postgres:5432/${AIRFLOW_DB_NAME}
-      - AIRFLOW__WEBSERVER__SECRET_KEY=${AIRFLOW_SECRET_KEY}
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://${AIRFLOW_DB_USER}:${AIRFLOW_DB_PASSWORD}@airflow-postgres:5432/${AIRFLOW_DB_NAME}
+      AIRFLOW__WEBSERVER__SECRET_KEY: ${AIRFLOW_SECRET_KEY}
     command: >
       bash -c "
       airflow db migrate &&
-      airflow users create --username admin --password password123 --firstname Admin --lastname User --role Admin --email admin@example.com
+      airflow users create --username admin --password ${AIRFLOW_ADMIN_PASSWORD:-password123} --firstname Admin --lastname User --role Admin --email admin@example.com || true
       "
     networks:
       - lakehouse
@@ -137,20 +136,21 @@ services:
     restart: always
     depends_on:
       airflow-postgres:
-        condition: service_started
+        condition: service_healthy
       airflow-init:
         condition: service_completed_successfully
     ports:
       - "8081:8080"
     environment:
-      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
-      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://${AIRFLOW_DB_USER}:${AIRFLOW_DB_PASSWORD}@airflow-postgres:5432/${AIRFLOW_DB_NAME}
-      - AIRFLOW__CORE__LOAD_EXAMPLES=false
-      - AIRFLOW__WEBSERVER__SECRET_KEY=${AIRFLOW_SECRET_KEY}
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://${AIRFLOW_DB_USER}:${AIRFLOW_DB_PASSWORD}@airflow-postgres:5432/${AIRFLOW_DB_NAME}
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      AIRFLOW__WEBSERVER__SECRET_KEY: ${AIRFLOW_SECRET_KEY}
+      PYTHONPATH: /opt/airflow/src
     volumes:
-      # Đồng bộ hóa cấu trúc liên kết các luồng lập lịch và phân vùng mã nguồn xử lý
       - ./dags:/opt/airflow/dags
       - ./src:/opt/airflow/src
+      - ./data:/opt/airflow/data
     command: webserver
     networks:
       - lakehouse
@@ -162,21 +162,24 @@ services:
     restart: always
     depends_on:
       airflow-postgres:
-        condition: service_started
+        condition: service_healthy
       airflow-init:
         condition: service_completed_successfully
     environment:
-      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
-      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://${AIRFLOW_DB_USER}:${AIRFLOW_DB_PASSWORD}@airflow-postgres:5432/${AIRFLOW_DB_NAME}
-      - AIRFLOW__CORE__LOAD_EXAMPLES=false
-      - AIRFLOW__WEBSERVER__SECRET_KEY=${AIRFLOW_SECRET_KEY}
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://${AIRFLOW_DB_USER}:${AIRFLOW_DB_PASSWORD}@airflow-postgres:5432/${AIRFLOW_DB_NAME}
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      AIRFLOW__WEBSERVER__SECRET_KEY: ${AIRFLOW_SECRET_KEY}
+      PYTHONPATH: /opt/airflow/src
     volumes:
       - ./dags:/opt/airflow/dags
       - ./src:/opt/airflow/src
+      - ./data:/opt/airflow/data
       - /var/run/docker.sock:/var/run/docker.sock
     command: >
       bash -c "
-      apt-get update && apt-get install -y docker.io &&
+      apt-get update &&
+      apt-get install -y --no-install-recommends docker.io &&
       airflow scheduler
       "
     networks:
@@ -186,7 +189,7 @@ volumes:
   minio_data:
   postgres_data:
   airflow_db_data:
-  ivy2_cache: # Phân vùng lưu trữ bộ nhớ đệm thư viện toàn cục
+  ivy2_cache:
 
 networks:
   lakehouse:
