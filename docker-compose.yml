@@ -15,7 +15,7 @@ services:
     environment:
       JUPYTER_ENABLE_LAB: "yes"
       GRANT_SUDO: "yes"
-      PYTHONPATH: /home/jovyan/work/src
+      PYTHONPATH: /home/jovyan/work/src:/usr/local/spark/python:/usr/local/spark/python/lib/py4j-0.10.9.7-src.zip
     user: root
     depends_on:
       hive-metastore:
@@ -113,7 +113,10 @@ services:
       retries: 5
 
   airflow-init:
-    image: apache/airflow:2.8.1
+    build:
+      context: .
+      dockerfile: airflow-custom/Dockerfile
+    image: tiki_lakehouse-airflow:2.8.1
     container_name: airflow_init
     depends_on:
       airflow-postgres:
@@ -131,7 +134,10 @@ services:
       - lakehouse
 
   airflow-webserver:
-    image: apache/airflow:2.8.1
+    build:
+      context: .
+      dockerfile: airflow-custom/Dockerfile
+    image: tiki_lakehouse-airflow:2.8.1
     container_name: airflow_webserver
     restart: always
     depends_on:
@@ -156,7 +162,10 @@ services:
       - lakehouse
 
   airflow-scheduler:
-    image: apache/airflow:2.8.1
+    build:
+      context: .
+      dockerfile: airflow-custom/Dockerfile
+    image: tiki_lakehouse-airflow:2.8.1
     container_name: airflow_scheduler
     user: root
     restart: always
@@ -178,8 +187,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     command: >
       bash -c "
-      apt-get update &&
-      apt-get install -y --no-install-recommends docker.io &&
       airflow scheduler
       "
     networks:

@@ -1,12 +1,8 @@
 import time
-
-import requests
-
+from curl_cffi import requests
 from common.utils import setup_logger
 
-
 logger = setup_logger(__name__)
-
 
 class HttpClient:
     def __init__(self):
@@ -22,7 +18,9 @@ class HttpClient:
     def get(self, url, params=None, max_retries=3, delay=3):
         for attempt in range(max_retries):
             try:
-                response = requests.get(url, headers=self.headers, params=params, timeout=10)
+                response = requests.get(
+                    url, headers=self.headers, params=params, timeout=10, impersonate="chrome120"
+                )
                 if response.status_code == 200:
                     return response.json()
 
@@ -39,3 +37,4 @@ class HttpClient:
             time.sleep(delay)
 
         return None
+
