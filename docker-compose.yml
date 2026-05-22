@@ -78,9 +78,92 @@ services:
     networks:
       - lakehouse
 
+  airflow-postgres:
+    image: postgres:13
+    container_name: airflow_db
+    ports:
+      - "5437:5432" # Tránh xung đột với cổng 5436 của Hive Postgres
+    environment:
+      POSTGRES_DB: airflow
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow_pass
+    volumes:
+      - airflow_db_data:/var/lib/postgresql/data
+    networks:
+      - lakehouse
+
+  airflow-init:
+    image: apache/airflow:2.8.1
+    container_name: airflow_init
+    depends_on:
+      - airflow-postgres
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow_pass@airflow-postgres:5432/airflow
+      - AIRFLOW__WEBSERVER__SECRET_KEY=tiki_lakehouse_secret_key_2026
+    # Lệnh Bash tường minh: Cài đặt DB và Tạo user admin/password123
+    command: >
+      bash -c "
+      airflow db migrate &&
+      airflow users create --username admin --password password123 --firstname Admin --lastname User --role Admin --email admin@example.com
+      "
+    networks:
+      - lakehouse
+
+  airflow-webserver:
+    image: apache/airflow:2.8.1
+    container_name: airflow_webserver
+    restart: always
+    depends_on:
+      airflow-postgres:
+        condition: service_started
+      airflow-init:
+        condition: service_completed_successfully # Đợi init chạy xong 100%
+    ports:
+      - "8081:8080" # Lưu ý: Bạn đã đổi port ngoài thành 8081
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow_pass@airflow-postgres:5432/airflow
+      - AIRFLOW__CORE__LOAD_EXAMPLES=false
+      - AIRFLOW__WEBSERVER__SECRET_KEY=tiki_lakehouse_secret_key_2026
+    volumes:
+      - ./workspace/dags:/opt/airflow/dags
+      - ./workspace:/opt/airflow/workspace
+    command: webserver
+    networks:
+      - lakehouse
+
+  airflow-scheduler:
+    image: apache/airflow:2.8.1
+    container_name: airflow_scheduler
+    user: root
+    restart: always
+    depends_on:
+      airflow-postgres:
+        condition: service_started
+      airflow-init:
+        condition: service_completed_successfully # Đợi init chạy xong 100%
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow_pass@airflow-postgres:5432/airflow
+      - AIRFLOW__CORE__LOAD_EXAMPLES=false
+      - AIRFLOW__WEBSERVER__SECRET_KEY=tiki_lakehouse_secret_key_2026
+    volumes:
+      - ./workspace/dags:/opt/airflow/dags
+      - ./workspace:/opt/airflow/workspace
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: >
+      bash -c "
+      apt-get update && apt-get install -y docker.io &&
+      airflow scheduler
+      "
+    networks:
+      - lakehouse
+
 volumes:
   minio_data:
   postgres_data:
+  airflow_db_data:
 
 networks:
   lakehouse:
