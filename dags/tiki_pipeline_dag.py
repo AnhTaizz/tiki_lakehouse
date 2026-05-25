@@ -22,7 +22,7 @@ default_args = {
 with DAG(
     "tiki_beauty_lakehouse_pipeline",
     default_args=default_args,
-    description="Pipeline crawl Tiki Beauty data and append raw rows to Bronze Iceberg",
+    description="Pipeline crawl Tiki Beauty data and load to Medallion Iceberg tables",
     schedule_interval="0 2 * * *",
     catchup=False,
     tags=["tiki", "lakehouse", "beauty"],
@@ -37,8 +37,8 @@ with DAG(
         do_xcom_push=True,
     )
 
-    load_bronze_task = BashOperator(
-        task_id="load_bronze_iceberg",
+    load_medallion_task = BashOperator(
+        task_id="load_medallion_iceberg",
         env={
             **os.environ,
             "PYTHONPATH": "/opt/airflow/src",
@@ -50,4 +50,4 @@ with DAG(
         """,
     )
 
-    extract_task >> load_bronze_task
+    extract_task >> load_medallion_task
