@@ -1,14 +1,17 @@
 import os
 from datetime import datetime, timedelta
+import pendulum
 
 from airflow import DAG
 from airflow.operators.bash import BashOperator
 
 
+local_tz = pendulum.timezone("Asia/Ho_Chi_Minh")
+
 default_args = {
     "owner": "anhtaizz",
     "depends_on_past": False,
-    "start_date": datetime(2026, 5, 20),
+    "start_date": datetime(2026, 5, 20, tzinfo=local_tz),
     "email_on_failure": False,
     "email_on_retry": False,
     "retries": 1,
