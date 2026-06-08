@@ -23,7 +23,7 @@ with DAG(
     "tiki_beauty_lakehouse_pipeline",
     default_args=default_args,
     description="Pipeline crawl Tiki Beauty data and load to Medallion Iceberg tables",
-    schedule_interval="0 2 * * *",
+    schedule_interval="0 15 * * *",
     catchup=False,
     tags=["tiki", "lakehouse", "beauty"],
 ) as dag:

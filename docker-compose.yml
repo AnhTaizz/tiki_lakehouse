@@ -139,7 +139,6 @@ services:
       dockerfile: airflow-custom/Dockerfile
     image: tiki_lakehouse-airflow:2.8.1
     container_name: airflow_webserver
-    restart: always
     depends_on:
       airflow-postgres:
         condition: service_healthy
@@ -157,6 +156,7 @@ services:
       - ./dags:/opt/airflow/dags
       - ./src:/opt/airflow/src
       - ./data:/opt/airflow/data
+      - ./logs:/opt/airflow/logs
     command: webserver
     networks:
       - lakehouse
@@ -168,7 +168,6 @@ services:
     image: tiki_lakehouse-airflow:2.8.1
     container_name: airflow_scheduler
     user: root
-    restart: always
     depends_on:
       airflow-postgres:
         condition: service_healthy
@@ -184,6 +183,7 @@ services:
       - ./dags:/opt/airflow/dags
       - ./src:/opt/airflow/src
       - ./data:/opt/airflow/data
+      - ./logs:/opt/airflow/logs
       - /var/run/docker.sock:/var/run/docker.sock
     command: >
       bash -c "

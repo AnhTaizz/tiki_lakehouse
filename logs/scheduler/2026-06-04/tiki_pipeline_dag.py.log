@@ -1,0 +1,532 @@
+[2026-06-04T07:57:29.700+0000] {processor.py:161} INFO - Started process (PID=173) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T07:57:29.704+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T07:57:29.706+0000] {logging_mixin.py:188} INFO - [2026-06-04T07:57:29.706+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T07:57:29.770+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T07:57:30.054+0000] {logging_mixin.py:188} INFO - [2026-06-04T07:57:30.054+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T07:57:30.090+0000] {logging_mixin.py:188} INFO - [2026-06-04T07:57:30.089+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-03 08:00:00+00:00, run_after=2026-06-04 08:00:00+00:00
+[2026-06-04T07:57:30.145+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.450 seconds
+[2026-06-04T07:58:00.603+0000] {processor.py:161} INFO - Started process (PID=178) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T07:58:00.605+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T07:58:00.606+0000] {logging_mixin.py:188} INFO - [2026-06-04T07:58:00.606+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T07:58:00.670+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T07:58:00.743+0000] {logging_mixin.py:188} INFO - [2026-06-04T07:58:00.743+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T07:58:00.779+0000] {logging_mixin.py:188} INFO - [2026-06-04T07:58:00.779+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-03 08:00:00+00:00, run_after=2026-06-04 08:00:00+00:00
+[2026-06-04T07:58:00.822+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.226 seconds
+[2026-06-04T07:58:31.056+0000] {processor.py:161} INFO - Started process (PID=183) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T07:58:31.059+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T07:58:31.063+0000] {logging_mixin.py:188} INFO - [2026-06-04T07:58:31.062+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T07:58:31.136+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T07:58:31.183+0000] {logging_mixin.py:188} INFO - [2026-06-04T07:58:31.183+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T07:58:31.233+0000] {logging_mixin.py:188} INFO - [2026-06-04T07:58:31.231+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-03 08:00:00+00:00, run_after=2026-06-04 08:00:00+00:00
+[2026-06-04T07:58:31.271+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.221 seconds
+[2026-06-04T07:59:01.781+0000] {processor.py:161} INFO - Started process (PID=188) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T07:59:01.785+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T07:59:01.788+0000] {logging_mixin.py:188} INFO - [2026-06-04T07:59:01.787+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T07:59:01.841+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T07:59:01.892+0000] {logging_mixin.py:188} INFO - [2026-06-04T07:59:01.891+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T07:59:01.944+0000] {logging_mixin.py:188} INFO - [2026-06-04T07:59:01.944+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-03 08:00:00+00:00, run_after=2026-06-04 08:00:00+00:00
+[2026-06-04T07:59:01.992+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.223 seconds
+[2026-06-04T07:59:32.325+0000] {processor.py:161} INFO - Started process (PID=193) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T07:59:32.327+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T07:59:32.330+0000] {logging_mixin.py:188} INFO - [2026-06-04T07:59:32.329+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T07:59:32.372+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T07:59:32.417+0000] {logging_mixin.py:188} INFO - [2026-06-04T07:59:32.416+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T07:59:32.464+0000] {logging_mixin.py:188} INFO - [2026-06-04T07:59:32.463+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-03 08:00:00+00:00, run_after=2026-06-04 08:00:00+00:00
+[2026-06-04T07:59:32.514+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.195 seconds
+[2026-06-04T08:00:02.872+0000] {processor.py:161} INFO - Started process (PID=202) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:00:02.875+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:00:02.877+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:00:02.876+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:00:02.929+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:00:02.978+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:00:02.977+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:00:03.011+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:00:03.010+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:00:03.048+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.181 seconds
+[2026-06-04T08:00:33.454+0000] {processor.py:161} INFO - Started process (PID=223) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:00:33.457+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:00:33.458+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:00:33.458+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:00:33.528+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:00:33.582+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:00:33.581+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:00:33.622+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:00:33.621+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:00:33.685+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.235 seconds
+[2026-06-04T08:01:03.834+0000] {processor.py:161} INFO - Started process (PID=245) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:01:03.838+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:01:03.840+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:01:03.839+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:01:03.921+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:01:03.974+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:01:03.974+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:01:04.009+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:01:04.008+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:01:04.065+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.238 seconds
+[2026-06-04T08:01:34.561+0000] {processor.py:161} INFO - Started process (PID=269) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:01:34.563+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:01:34.565+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:01:34.564+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:01:34.622+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:01:34.690+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:01:34.689+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:01:34.736+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:01:34.736+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:01:34.781+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.224 seconds
+[2026-06-04T08:02:05.053+0000] {processor.py:161} INFO - Started process (PID=288) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:02:05.058+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:02:05.061+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:02:05.060+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:02:05.166+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:02:05.202+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:02:05.202+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:02:05.237+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:02:05.236+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:02:05.283+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.236 seconds
+[2026-06-04T08:02:35.828+0000] {processor.py:161} INFO - Started process (PID=309) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:02:35.829+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:02:35.830+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:02:35.830+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:02:35.901+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:02:35.950+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:02:35.949+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:02:35.982+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:02:35.982+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:02:36.016+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.192 seconds
+[2026-06-04T08:03:06.314+0000] {processor.py:161} INFO - Started process (PID=330) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:03:06.316+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:03:06.318+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:03:06.318+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:03:06.391+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:03:06.436+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:03:06.436+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:03:06.467+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:03:06.467+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:03:06.507+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.199 seconds
+[2026-06-04T08:03:36.949+0000] {processor.py:161} INFO - Started process (PID=350) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:03:36.952+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:03:36.956+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:03:36.955+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:03:37.010+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:03:37.058+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:03:37.057+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:03:37.099+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:03:37.099+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:03:37.136+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.191 seconds
+[2026-06-04T08:04:07.397+0000] {processor.py:161} INFO - Started process (PID=374) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:04:07.399+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:04:07.401+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:04:07.401+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:04:07.464+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:04:07.539+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:04:07.539+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:04:07.597+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:04:07.596+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:04:07.667+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.275 seconds
+[2026-06-04T08:04:38.035+0000] {processor.py:161} INFO - Started process (PID=407) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:04:38.038+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:04:38.043+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:04:38.041+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:04:38.109+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:04:38.165+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:04:38.165+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:04:38.237+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:04:38.236+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:04:38.292+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.265 seconds
+[2026-06-04T08:05:08.611+0000] {processor.py:161} INFO - Started process (PID=444) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:05:08.614+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:05:08.616+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:05:08.615+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:05:08.676+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:05:08.729+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:05:08.728+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:05:08.777+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:05:08.776+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:05:08.825+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.221 seconds
+[2026-06-04T08:05:39.223+0000] {processor.py:161} INFO - Started process (PID=484) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:05:39.225+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:05:39.229+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:05:39.228+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:05:39.304+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:05:39.354+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:05:39.354+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:05:39.401+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:05:39.400+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:05:39.451+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.239 seconds
+[2026-06-04T08:06:09.814+0000] {processor.py:161} INFO - Started process (PID=513) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:06:09.818+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:06:09.828+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:06:09.824+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:06:09.906+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:06:09.958+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:06:09.957+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:06:10.008+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:06:10.007+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:06:10.057+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.257 seconds
+[2026-06-04T08:06:40.376+0000] {processor.py:161} INFO - Started process (PID=532) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:06:40.378+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:06:40.380+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:06:40.379+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:06:40.431+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:06:40.490+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:06:40.489+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:06:40.522+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:06:40.522+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:06:40.560+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.190 seconds
+[2026-06-04T08:07:10.972+0000] {processor.py:161} INFO - Started process (PID=550) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:07:10.975+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:07:10.978+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:07:10.977+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:07:11.026+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:07:11.063+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:07:11.062+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:07:11.096+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:07:11.095+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:07:11.153+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.185 seconds
+[2026-06-04T08:07:41.606+0000] {processor.py:161} INFO - Started process (PID=572) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:07:41.608+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:07:41.613+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:07:41.612+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:07:41.679+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:07:41.724+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:07:41.724+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:07:41.770+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:07:41.769+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:07:41.814+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.216 seconds
+[2026-06-04T08:08:11.964+0000] {processor.py:161} INFO - Started process (PID=607) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:08:11.970+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:08:11.976+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:08:11.975+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:08:12.094+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:08:12.174+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:08:12.173+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:08:12.259+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:08:12.258+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:08:12.333+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.377 seconds
+[2026-06-04T08:08:42.800+0000] {processor.py:161} INFO - Started process (PID=626) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:08:42.804+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:08:42.808+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:08:42.806+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:08:42.865+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:08:42.906+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:08:42.906+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:08:42.951+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:08:42.950+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:08:43.014+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.221 seconds
+[2026-06-04T08:09:13.324+0000] {processor.py:161} INFO - Started process (PID=649) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:09:13.328+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:09:13.332+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:09:13.331+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:09:13.383+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:09:13.420+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:09:13.419+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:09:13.447+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:09:13.447+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:09:13.489+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.180 seconds
+[2026-06-04T08:09:43.883+0000] {processor.py:161} INFO - Started process (PID=668) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:09:43.887+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:09:43.890+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:09:43.889+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:09:43.958+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:09:44.007+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:09:44.007+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:09:44.042+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:09:44.041+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:09:44.169+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.302 seconds
+[2026-06-04T08:10:14.377+0000] {processor.py:161} INFO - Started process (PID=686) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:10:14.380+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:10:14.383+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:10:14.382+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:10:14.435+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:10:14.479+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:10:14.479+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:10:14.517+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:10:14.517+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:10:14.555+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.186 seconds
+[2026-06-04T08:10:44.786+0000] {processor.py:161} INFO - Started process (PID=712) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:10:44.788+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:10:44.791+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:10:44.790+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:10:44.836+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:10:44.878+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:10:44.878+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:10:44.917+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:10:44.917+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:10:44.956+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.177 seconds
+[2026-06-04T08:11:15.381+0000] {processor.py:161} INFO - Started process (PID=737) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:11:15.383+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:11:15.386+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:11:15.385+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:11:15.438+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:11:15.481+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:11:15.481+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:11:15.520+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:11:15.519+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:11:15.564+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.188 seconds
+[2026-06-04T08:11:45.831+0000] {processor.py:161} INFO - Started process (PID=763) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:11:45.832+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:11:45.834+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:11:45.833+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:11:45.894+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:11:45.945+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:11:45.944+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:11:45.990+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:11:45.990+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:11:46.034+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.208 seconds
+[2026-06-04T08:12:16.395+0000] {processor.py:161} INFO - Started process (PID=784) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:12:16.397+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:12:16.399+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:12:16.399+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:12:16.471+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:12:16.508+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:12:16.508+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:12:16.539+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:12:16.539+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:12:16.585+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.198 seconds
+[2026-06-04T08:12:47.090+0000] {processor.py:161} INFO - Started process (PID=808) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:12:47.092+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:12:47.094+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:12:47.094+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:12:47.165+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:12:47.226+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:12:47.224+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:12:47.275+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:12:47.275+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:12:47.316+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.231 seconds
+[2026-06-04T08:13:17.531+0000] {processor.py:161} INFO - Started process (PID=836) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:13:17.532+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:13:17.534+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:13:17.533+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:13:17.583+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:13:17.624+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:13:17.624+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:13:17.685+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:13:17.685+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:13:17.729+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.203 seconds
+[2026-06-04T08:13:48.260+0000] {processor.py:161} INFO - Started process (PID=857) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:13:48.262+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:13:48.266+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:13:48.264+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:13:48.373+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:13:48.407+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:13:48.407+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:13:48.442+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:13:48.442+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:13:48.478+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.225 seconds
+[2026-06-04T08:14:18.716+0000] {processor.py:161} INFO - Started process (PID=890) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:14:18.720+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:14:18.724+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:14:18.723+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:14:18.780+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:14:18.818+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:14:18.818+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:14:18.851+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:14:18.851+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:14:18.900+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.189 seconds
+[2026-06-04T08:14:49.435+0000] {processor.py:161} INFO - Started process (PID=918) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:14:49.437+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:14:49.439+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:14:49.438+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:14:49.475+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:14:49.531+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:14:49.531+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:14:49.565+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:14:49.565+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:14:49.613+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.182 seconds
+[2026-06-04T08:15:19.866+0000] {processor.py:161} INFO - Started process (PID=941) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:15:19.868+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:15:19.870+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:15:19.869+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:15:19.928+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:15:19.994+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:15:19.993+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:15:20.038+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:15:20.037+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:15:20.081+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.221 seconds
+[2026-06-04T08:15:50.466+0000] {processor.py:161} INFO - Started process (PID=962) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:15:50.468+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:15:50.472+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:15:50.471+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:15:50.528+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:15:50.563+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:15:50.563+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:15:50.592+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:15:50.591+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:15:50.633+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.171 seconds
+[2026-06-04T08:16:20.890+0000] {processor.py:161} INFO - Started process (PID=1000) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:16:20.893+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:16:20.895+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:16:20.895+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:16:20.971+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:16:21.027+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:16:21.027+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:16:21.074+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:16:21.074+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:16:21.129+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.245 seconds
+[2026-06-04T08:16:51.380+0000] {processor.py:161} INFO - Started process (PID=1005) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:16:51.390+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:16:51.403+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:16:51.401+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:16:51.487+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:16:51.583+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:16:51.582+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:16:51.684+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:16:51.683+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:16:51.798+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.430 seconds
+[2026-06-04T08:17:21.946+0000] {processor.py:161} INFO - Started process (PID=1010) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:17:21.949+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:17:21.953+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:17:21.952+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:17:22.037+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:17:22.165+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:17:22.164+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:17:22.270+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:17:22.269+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:17:22.330+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.392 seconds
+[2026-06-04T08:17:52.845+0000] {processor.py:161} INFO - Started process (PID=1015) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:17:52.848+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:17:52.851+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:17:52.850+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:17:52.899+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:17:52.937+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:17:52.936+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:17:52.972+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:17:52.971+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:17:53.018+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.179 seconds
+[2026-06-04T08:18:23.299+0000] {processor.py:161} INFO - Started process (PID=1020) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:18:23.301+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:18:23.304+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:18:23.303+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:18:23.436+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:18:23.472+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:18:23.472+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:18:23.505+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:18:23.504+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:18:23.540+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.250 seconds
+[2026-06-04T08:18:53.912+0000] {processor.py:161} INFO - Started process (PID=1025) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:18:53.916+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:18:53.918+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:18:53.918+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:18:53.996+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:18:54.029+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:18:54.029+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:18:54.059+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:18:54.059+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:18:54.094+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.185 seconds
+[2026-06-04T08:19:24.421+0000] {processor.py:161} INFO - Started process (PID=1030) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:19:24.423+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:19:24.425+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:19:24.425+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:19:24.458+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:19:24.492+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:19:24.492+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:19:24.529+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:19:24.529+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:19:24.592+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.176 seconds
+[2026-06-04T08:19:55.087+0000] {processor.py:161} INFO - Started process (PID=1035) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:19:55.091+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:19:55.093+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:19:55.092+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:19:55.166+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:19:55.209+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:19:55.209+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:19:55.250+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:19:55.249+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:19:55.330+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.250 seconds
+[2026-06-04T08:20:25.594+0000] {processor.py:161} INFO - Started process (PID=1040) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:20:25.597+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:20:25.598+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:20:25.598+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:20:25.655+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:20:25.711+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:20:25.711+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:20:25.768+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:20:25.767+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:20:25.802+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.212 seconds
+[2026-06-04T08:20:56.217+0000] {processor.py:161} INFO - Started process (PID=1045) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:20:56.219+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:20:56.221+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:20:56.221+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:20:56.312+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:20:56.360+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:20:56.360+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:20:56.394+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:20:56.393+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:20:56.429+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.217 seconds
+[2026-06-04T08:21:26.759+0000] {processor.py:161} INFO - Started process (PID=1050) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:21:26.761+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:21:26.763+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:21:26.763+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:21:26.836+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:21:26.882+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:21:26.882+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:21:26.915+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:21:26.915+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:21:26.954+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.205 seconds
+[2026-06-04T08:21:57.298+0000] {processor.py:161} INFO - Started process (PID=1055) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:21:57.301+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:21:57.303+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:21:57.302+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:21:57.379+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:21:57.442+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:21:57.441+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:21:57.474+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:21:57.474+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:21:57.512+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.223 seconds
+[2026-06-04T08:22:27.863+0000] {processor.py:161} INFO - Started process (PID=1060) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:22:27.865+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:22:27.866+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:22:27.866+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:22:27.950+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:22:27.986+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:22:27.985+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:22:28.023+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:22:28.023+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:22:28.091+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.233 seconds
+[2026-06-04T08:22:58.664+0000] {processor.py:161} INFO - Started process (PID=1065) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:22:58.667+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:22:58.668+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:22:58.668+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:22:58.729+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:22:58.786+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:22:58.785+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:22:58.821+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:22:58.821+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:22:58.857+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.199 seconds
+[2026-06-04T08:23:29.290+0000] {processor.py:161} INFO - Started process (PID=1070) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:23:29.294+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:23:29.297+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:23:29.296+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:23:29.373+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:23:29.425+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:23:29.425+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:23:29.461+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:23:29.460+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:23:29.492+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.217 seconds
+[2026-06-04T08:23:59.937+0000] {processor.py:161} INFO - Started process (PID=1075) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:23:59.940+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:23:59.943+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:23:59.942+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:24:00.065+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:24:00.100+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:24:00.099+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:24:00.132+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:24:00.132+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:24:00.173+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.239 seconds
+[2026-06-04T08:24:30.508+0000] {processor.py:161} INFO - Started process (PID=1080) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:24:30.510+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:24:30.513+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:24:30.512+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:24:30.561+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:24:30.615+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:24:30.614+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:24:30.654+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:24:30.654+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:24:30.702+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.197 seconds
+[2026-06-04T08:25:01.060+0000] {processor.py:161} INFO - Started process (PID=1085) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:25:01.065+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:25:01.071+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:25:01.069+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:25:01.168+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:25:01.203+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:25:01.203+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:25:01.234+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:25:01.233+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:25:01.273+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.223 seconds
+[2026-06-04T08:25:31.677+0000] {processor.py:161} INFO - Started process (PID=1090) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:25:31.682+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:25:31.686+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:25:31.685+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:25:31.758+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:25:31.813+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:25:31.812+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:25:31.851+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:25:31.850+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:25:31.890+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.225 seconds
+[2026-06-04T08:26:02.141+0000] {processor.py:161} INFO - Started process (PID=1095) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:26:02.144+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:26:02.147+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:26:02.146+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:26:02.212+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:26:02.301+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:26:02.300+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:26:02.338+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:26:02.338+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:26:02.379+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.245 seconds
+[2026-06-04T08:26:32.752+0000] {processor.py:161} INFO - Started process (PID=1100) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:26:32.754+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:26:32.756+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:26:32.756+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:26:32.829+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:26:32.885+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:26:32.884+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:26:32.961+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:26:32.960+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:26:33.028+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.287 seconds
+[2026-06-04T08:27:03.333+0000] {processor.py:161} INFO - Started process (PID=1105) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:27:03.337+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:27:03.342+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:27:03.339+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:27:03.469+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:27:03.662+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:27:03.659+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:27:03.800+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:27:03.799+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:27:03.880+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.562 seconds
+[2026-06-04T08:27:34.036+0000] {processor.py:161} INFO - Started process (PID=1110) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:27:34.039+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:27:34.042+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:27:34.041+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:27:34.090+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:27:34.130+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:27:34.129+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:27:34.161+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:27:34.160+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:27:34.193+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.164 seconds
+[2026-06-04T08:28:04.568+0000] {processor.py:161} INFO - Started process (PID=1115) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:28:04.570+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:28:04.572+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:28:04.572+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:28:04.621+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:28:04.658+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:28:04.658+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:28:04.691+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:28:04.691+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:28:04.729+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.167 seconds
+[2026-06-04T08:28:35.103+0000] {processor.py:161} INFO - Started process (PID=1120) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:28:35.104+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:28:35.106+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:28:35.106+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:28:35.161+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:28:35.213+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:28:35.212+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:28:35.255+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:28:35.255+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:28:35.312+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.214 seconds
+[2026-06-04T08:29:05.631+0000] {processor.py:161} INFO - Started process (PID=1125) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:29:05.634+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:29:05.637+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:29:05.637+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:29:05.698+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:29:05.748+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:29:05.748+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:29:05.782+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:29:05.781+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:29:05.831+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.206 seconds
+[2026-06-04T08:29:36.292+0000] {processor.py:161} INFO - Started process (PID=1130) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:29:36.295+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:29:36.299+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:29:36.298+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:29:36.438+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:29:36.476+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:29:36.475+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:29:36.506+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:29:36.506+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:29:36.586+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.298 seconds
+[2026-06-04T08:30:06.736+0000] {processor.py:161} INFO - Started process (PID=1135) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:30:06.738+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:30:06.741+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:30:06.740+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:30:06.846+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:30:06.885+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:30:06.884+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:30:06.916+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:30:06.916+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:30:06.948+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.216 seconds
+[2026-06-04T08:30:37.137+0000] {processor.py:161} INFO - Started process (PID=1140) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:30:37.140+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:30:37.143+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:30:37.143+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:30:37.226+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:30:37.286+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:30:37.286+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:30:37.330+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:30:37.330+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:30:37.386+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.255 seconds
+[2026-06-04T08:31:07.770+0000] {processor.py:161} INFO - Started process (PID=1145) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:31:07.772+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:31:07.775+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:31:07.774+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:31:07.831+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:31:07.867+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:31:07.867+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:31:07.898+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:31:07.897+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:31:07.928+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.162 seconds
+[2026-06-04T08:31:38.272+0000] {processor.py:161} INFO - Started process (PID=1150) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:31:38.274+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:31:38.275+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:31:38.275+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:31:38.353+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:31:38.406+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:31:38.406+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:31:38.448+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:31:38.448+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:31:38.487+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.219 seconds
+[2026-06-04T08:32:08.896+0000] {processor.py:161} INFO - Started process (PID=1155) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:32:08.898+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:32:08.899+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:32:08.899+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:32:08.938+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:32:08.980+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:32:08.980+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:32:09.012+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:32:09.012+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:32:09.061+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.169 seconds
+[2026-06-04T08:32:39.301+0000] {processor.py:161} INFO - Started process (PID=1160) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:32:39.306+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:32:39.310+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:32:39.309+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:32:39.366+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:32:39.416+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:32:39.416+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:32:39.448+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:32:39.448+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:32:39.481+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.189 seconds
+[2026-06-04T08:33:09.798+0000] {processor.py:161} INFO - Started process (PID=1165) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:33:09.801+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:33:09.803+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:33:09.803+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:33:09.906+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:33:09.949+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:33:09.949+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:33:09.978+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:33:09.978+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:33:10.010+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.217 seconds
+[2026-06-04T08:33:40.660+0000] {processor.py:161} INFO - Started process (PID=1170) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:33:40.663+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:33:40.668+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:33:40.667+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:33:40.714+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:33:40.750+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:33:40.750+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:33:40.796+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:33:40.795+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:33:40.844+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.195 seconds
+[2026-06-04T08:34:11.074+0000] {processor.py:161} INFO - Started process (PID=1175) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:34:11.076+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:34:11.079+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:34:11.078+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:34:11.142+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:34:11.202+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:34:11.202+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:34:11.242+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:34:11.242+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:34:11.305+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.238 seconds
+[2026-06-04T08:34:41.790+0000] {processor.py:161} INFO - Started process (PID=1180) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:34:41.795+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:34:41.799+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:34:41.798+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:34:41.858+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:34:41.908+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:34:41.908+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:34:41.950+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:34:41.949+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:34:41.998+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.216 seconds
+[2026-06-04T08:35:12.258+0000] {processor.py:161} INFO - Started process (PID=1185) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:35:12.261+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:35:12.265+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:35:12.264+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:35:12.323+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:35:12.368+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:35:12.368+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:35:12.399+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:35:12.398+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:35:12.435+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.182 seconds
+[2026-06-04T08:35:42.927+0000] {processor.py:161} INFO - Started process (PID=1190) to work on /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:35:42.929+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/tiki_pipeline_dag.py for tasks to queue
+[2026-06-04T08:35:42.931+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:35:42.930+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:35:42.992+0000] {processor.py:840} INFO - DAG(s) 'tiki_beauty_lakehouse_pipeline' retrieved from /opt/airflow/dags/tiki_pipeline_dag.py
+[2026-06-04T08:35:43.075+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:35:43.074+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-06-04T08:35:43.118+0000] {logging_mixin.py:188} INFO - [2026-06-04T08:35:43.117+0000] {dag.py:3823} INFO - Setting next_dagrun for tiki_beauty_lakehouse_pipeline to 2026-06-04 08:00:00+00:00, run_after=2026-06-05 08:00:00+00:00
+[2026-06-04T08:35:43.163+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/tiki_pipeline_dag.py took 0.241 seconds

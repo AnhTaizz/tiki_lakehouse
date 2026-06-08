@@ -1,0 +1,59 @@
+[2026-06-07T08:19:55.810+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: tiki_beauty_lakehouse_pipeline.load_medallion_iceberg scheduled__2026-06-06T08:00:00+00:00 [queued]>
+[2026-06-07T08:19:55.825+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: tiki_beauty_lakehouse_pipeline.load_medallion_iceberg scheduled__2026-06-06T08:00:00+00:00 [queued]>
+[2026-06-07T08:19:55.826+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 2
+[2026-06-07T08:19:55.846+0000] {taskinstance.py:2191} INFO - Executing <Task(BashOperator): load_medallion_iceberg> on 2026-06-06 08:00:00+00:00
+[2026-06-07T08:19:55.858+0000] {standard_task_runner.py:60} INFO - Started process 1037 to run task
+[2026-06-07T08:19:55.866+0000] {standard_task_runner.py:87} INFO - Running: ['airflow', 'tasks', 'run', 'tiki_beauty_lakehouse_pipeline', 'load_medallion_iceberg', 'scheduled__2026-06-06T08:00:00+00:00', '--job-id', '104', '--raw', '--subdir', 'DAGS_FOLDER/tiki_pipeline_dag.py', '--cfg-path', '/tmp/tmpeklkkvd4']
+[2026-06-07T08:19:55.871+0000] {standard_task_runner.py:88} INFO - Job 104: Subtask load_medallion_iceberg
+[2026-06-07T08:19:56.111+0000] {task_command.py:423} INFO - Running <TaskInstance: tiki_beauty_lakehouse_pipeline.load_medallion_iceberg scheduled__2026-06-06T08:00:00+00:00 [running]> on host 9e90c8b35f3c
+[2026-06-07T08:19:56.222+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='anhtaizz' AIRFLOW_CTX_DAG_ID='tiki_beauty_lakehouse_pipeline' AIRFLOW_CTX_TASK_ID='load_medallion_iceberg' AIRFLOW_CTX_EXECUTION_DATE='2026-06-06T08:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2026-06-06T08:00:00+00:00'
+[2026-06-07T08:19:56.224+0000] {subprocess.py:63} INFO - Tmp dir root location: /tmp
+[2026-06-07T08:19:56.225+0000] {subprocess.py:75} INFO - Running command: ['/usr/bin/bash', '-c', '\n            RAW_PATH="/opt/airflow/data/tiki_beauty_health_raw_2026-06-07.json"\n            FILENAME=$(basename "$RAW_PATH")\n            docker exec tiki_spark_crawler /opt/conda/bin/python /home/jovyan/work/src/jobs/tiki_load_iceberg.py --raw_file /home/jovyan/work/data/$FILENAME\n        ']
+[2026-06-07T08:19:56.233+0000] {subprocess.py:86} INFO - Output:
+[2026-06-07T08:19:58.311+0000] {subprocess.py:93} INFO - 2026-06-07 08:19:58,309 - __main__ - INFO - Starting Tiki Medallion pipeline for: /home/jovyan/work/data/tiki_beauty_health_raw_2026-06-07.json
+[2026-06-07T08:20:00.486+0000] {subprocess.py:93} INFO - :: loading settings :: url = jar:file:/usr/local/spark-3.5.0-bin-hadoop3/jars/ivy-2.5.1.jar!/org/apache/ivy/core/settings/ivysettings.xml
+[2026-06-07T08:20:00.578+0000] {subprocess.py:93} INFO - Ivy Default Cache set to: /root/.ivy2/cache
+[2026-06-07T08:20:00.579+0000] {subprocess.py:93} INFO - The jars for the packages stored in: /root/.ivy2/jars
+[2026-06-07T08:20:00.584+0000] {subprocess.py:93} INFO - org.apache.iceberg#iceberg-spark-runtime-3.5_2.12 added as a dependency
+[2026-06-07T08:20:00.585+0000] {subprocess.py:93} INFO - org.apache.hadoop#hadoop-aws added as a dependency
+[2026-06-07T08:20:00.586+0000] {subprocess.py:93} INFO - com.amazonaws#aws-java-sdk-bundle added as a dependency
+[2026-06-07T08:20:00.587+0000] {subprocess.py:93} INFO - :: resolving dependencies :: org.apache.spark#spark-submit-parent-15b92a70-7f3a-434b-9eab-4d3e894d572e;1.0
+[2026-06-07T08:20:00.588+0000] {subprocess.py:93} INFO - 	confs: [default]
+[2026-06-07T08:20:00.714+0000] {subprocess.py:93} INFO - 	found org.apache.iceberg#iceberg-spark-runtime-3.5_2.12;1.6.0 in central
+[2026-06-07T08:20:00.760+0000] {subprocess.py:93} INFO - 	found org.apache.hadoop#hadoop-aws;3.3.4 in central
+[2026-06-07T08:20:00.777+0000] {subprocess.py:93} INFO - 	found com.amazonaws#aws-java-sdk-bundle;1.12.262 in central
+[2026-06-07T08:20:00.795+0000] {subprocess.py:93} INFO - 	found org.wildfly.openssl#wildfly-openssl;1.0.7.Final in central
+[2026-06-07T08:20:00.809+0000] {subprocess.py:93} INFO - :: resolution report :: resolve 218ms :: artifacts dl 5ms
+[2026-06-07T08:20:00.811+0000] {subprocess.py:93} INFO - 	:: modules in use:
+[2026-06-07T08:20:00.811+0000] {subprocess.py:93} INFO - 	com.amazonaws#aws-java-sdk-bundle;1.12.262 from central in [default]
+[2026-06-07T08:20:00.812+0000] {subprocess.py:93} INFO - 	org.apache.hadoop#hadoop-aws;3.3.4 from central in [default]
+[2026-06-07T08:20:00.813+0000] {subprocess.py:93} INFO - 	org.apache.iceberg#iceberg-spark-runtime-3.5_2.12;1.6.0 from central in [default]
+[2026-06-07T08:20:00.814+0000] {subprocess.py:93} INFO - 	org.wildfly.openssl#wildfly-openssl;1.0.7.Final from central in [default]
+[2026-06-07T08:20:00.814+0000] {subprocess.py:93} INFO - 	---------------------------------------------------------------------
+[2026-06-07T08:20:00.815+0000] {subprocess.py:93} INFO - 	|                  |            modules            ||   artifacts   |
+[2026-06-07T08:20:00.816+0000] {subprocess.py:93} INFO - 	|       conf       | number| search|dwnlded|evicted|| number|dwnlded|
+[2026-06-07T08:20:00.816+0000] {subprocess.py:93} INFO - 	---------------------------------------------------------------------
+[2026-06-07T08:20:00.817+0000] {subprocess.py:93} INFO - 	|      default     |   4   |   0   |   0   |   0   ||   4   |   0   |
+[2026-06-07T08:20:00.818+0000] {subprocess.py:93} INFO - 	---------------------------------------------------------------------
+[2026-06-07T08:20:00.818+0000] {subprocess.py:93} INFO - :: retrieving :: org.apache.spark#spark-submit-parent-15b92a70-7f3a-434b-9eab-4d3e894d572e
+[2026-06-07T08:20:00.819+0000] {subprocess.py:93} INFO - 	confs: [default]
+[2026-06-07T08:20:00.823+0000] {subprocess.py:93} INFO - 	0 artifacts copied, 4 already retrieved (0kB/6ms)
+[2026-06-07T08:20:01.102+0000] {subprocess.py:93} INFO - 26/06/07 08:20:01 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+[2026-06-07T08:20:01.336+0000] {subprocess.py:93} INFO - Setting default log level to "WARN".
+[2026-06-07T08:20:01.338+0000] {subprocess.py:93} INFO - To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
+[2026-06-07T08:20:07.654+0000] {subprocess.py:93} INFO - 2026-06-07 08:20:07,652 - __main__ - INFO - Step 1: Loading raw data to Bronze Iceberg table
+[2026-06-07T08:20:09.031+0000] {subprocess.py:93} INFO - 26/06/07 08:20:09 WARN MetricsConfig: Cannot locate configuration: tried hadoop-metrics2-s3a-file-system.properties,hadoop-metrics2.properties
+[2026-06-07T08:20:10.053+0000] {subprocess.py:93} INFO - 2026-06-07 08:20:10,052 - __main__ - INFO - Table local_catalog.tiki_bronze.products_raw exists, appending Bronze rows
+[2026-06-07T08:20:16.511+0000] {subprocess.py:93} INFO - [Stage 0:>                                                          (0 + 1) / 1][Stage 2:>                                                          (0 + 1) / 1]                                                                                2026-06-07 08:20:16,509 - __main__ - INFO - Bronze append completed
+[2026-06-07T08:20:16.513+0000] {subprocess.py:93} INFO - 2026-06-07 08:20:16,509 - __main__ - INFO - Step 2: Loading price history to Silver Iceberg table
+[2026-06-07T08:20:16.588+0000] {subprocess.py:93} INFO - 2026-06-07 08:20:16,586 - __main__ - INFO - Comparing new crawl with active products to detect price updates
+[2026-06-07T08:20:18.794+0000] {subprocess.py:93} INFO - [Stage 3:>                                                          (0 + 3) / 3]                                                                                2026-06-07 08:20:18,792 - __main__ - INFO - Detected 14 rows with price changes or new products
+[2026-06-07T08:20:20.215+0000] {subprocess.py:93} INFO - [Stage 8:>                                                          (0 + 1) / 1]                                                                                2026-06-07 08:20:20,211 - __main__ - INFO - Successfully appended 14 changed rows to history
+[2026-06-07T08:20:20.216+0000] {subprocess.py:93} INFO - 2026-06-07 08:20:20,211 - __main__ - INFO - Step 3: Updating Silver Active table (SCD Type 1)
+[2026-06-07T08:20:20.234+0000] {subprocess.py:93} INFO - 2026-06-07 08:20:20,230 - __main__ - INFO - Active table local_catalog.tiki.products exists. Performing MERGE INTO
+[2026-06-07T08:20:24.299+0000] {subprocess.py:93} INFO - [Stage 14:>                                                         (0 + 1) / 1][Stage 17:>                                                       (0 + 10) / 10]                                                                                2026-06-07 08:20:24,296 - __main__ - INFO - MERGE INTO active table completed successfully
+[2026-06-07T08:20:24.301+0000] {subprocess.py:93} INFO - 2026-06-07 08:20:24,296 - __main__ - INFO - Pipeline executed successfully!
+[2026-06-07T08:20:25.261+0000] {subprocess.py:97} INFO - Command exited with return code 0
+[2026-06-07T08:20:25.287+0000] {taskinstance.py:1138} INFO - Marking task as SUCCESS. dag_id=tiki_beauty_lakehouse_pipeline, task_id=load_medallion_iceberg, execution_date=20260606T080000, start_date=20260607T081955, end_date=20260607T082025
+[2026-06-07T08:20:25.322+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 0
+[2026-06-07T08:20:25.340+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check

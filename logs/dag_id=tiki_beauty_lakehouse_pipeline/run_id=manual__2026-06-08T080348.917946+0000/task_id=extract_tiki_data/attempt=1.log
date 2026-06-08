@@ -1,0 +1,35 @@
+[2026-06-08T08:03:49.984+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: tiki_beauty_lakehouse_pipeline.extract_tiki_data manual__2026-06-08T08:03:48.917946+00:00 [queued]>
+[2026-06-08T08:03:49.998+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: tiki_beauty_lakehouse_pipeline.extract_tiki_data manual__2026-06-08T08:03:48.917946+00:00 [queued]>
+[2026-06-08T08:03:50.000+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 2
+[2026-06-08T08:03:50.018+0000] {taskinstance.py:2191} INFO - Executing <Task(BashOperator): extract_tiki_data> on 2026-06-08 08:03:48.917946+00:00
+[2026-06-08T08:03:50.026+0000] {standard_task_runner.py:60} INFO - Started process 300 to run task
+[2026-06-08T08:03:50.034+0000] {standard_task_runner.py:87} INFO - Running: ['airflow', 'tasks', 'run', 'tiki_beauty_lakehouse_pipeline', 'extract_tiki_data', 'manual__2026-06-08T08:03:48.917946+00:00', '--job-id', '107', '--raw', '--subdir', 'DAGS_FOLDER/tiki_pipeline_dag.py', '--cfg-path', '/tmp/tmpygth9hsh']
+[2026-06-08T08:03:50.041+0000] {standard_task_runner.py:88} INFO - Job 107: Subtask extract_tiki_data
+[2026-06-08T08:03:50.210+0000] {task_command.py:423} INFO - Running <TaskInstance: tiki_beauty_lakehouse_pipeline.extract_tiki_data manual__2026-06-08T08:03:48.917946+00:00 [running]> on host 9e90c8b35f3c
+[2026-06-08T08:03:50.373+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='anhtaizz' AIRFLOW_CTX_DAG_ID='tiki_beauty_lakehouse_pipeline' AIRFLOW_CTX_TASK_ID='extract_tiki_data' AIRFLOW_CTX_EXECUTION_DATE='2026-06-08T08:03:48.917946+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-06-08T08:03:48.917946+00:00'
+[2026-06-08T08:03:50.377+0000] {subprocess.py:63} INFO - Tmp dir root location: /tmp
+[2026-06-08T08:03:50.379+0000] {subprocess.py:75} INFO - Running command: ['/usr/bin/bash', '-c', 'python /opt/airflow/src/jobs/tiki_extract.py']
+[2026-06-08T08:03:50.392+0000] {subprocess.py:86} INFO - Output:
+[2026-06-08T08:03:51.328+0000] {subprocess.py:93} INFO - 2026-06-08 08:03:51,327 - __main__ - INFO - Start crawling category id 1520
+[2026-06-08T08:03:51.331+0000] {subprocess.py:93} INFO - 2026-06-08 08:03:51,328 - common.tiki_category - INFO - Loading category tree from Tiki API (ID: 1520)
+[2026-06-08T08:04:01.339+0000] {subprocess.py:93} INFO - 2026-06-08 08:04:01,338 - common.http_client - ERROR - Connection error: Failed to perform, curl: (28) Connection timed out after 10002 milliseconds. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+[2026-06-08T08:04:10.347+0000] {local_task_job_runner.py:302} WARNING - State of this instance has been externally set to restarting. Terminating instance.
+[2026-06-08T08:04:10.350+0000] {process_utils.py:131} INFO - Sending 15 to group 300. PIDs of all processes in the group: [301, 300]
+[2026-06-08T08:04:10.352+0000] {process_utils.py:86} INFO - Sending the signal 15 to group 300
+[2026-06-08T08:04:10.353+0000] {taskinstance.py:2450} ERROR - Received SIGTERM. Terminating subprocesses.
+[2026-06-08T08:04:10.354+0000] {subprocess.py:104} INFO - Sending SIGTERM signal to process group
+[2026-06-08T08:04:10.372+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/operators/bash.py", line 203, in execute
+    result = self.subprocess_hook.run_command(
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/hooks/subprocess.py", line 91, in run_command
+    for raw_line in iter(self.sub_process.stdout.readline, b""):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 2452, in signal_handler
+    raise AirflowException("Task received SIGTERM signal")
+airflow.exceptions.AirflowException: Task received SIGTERM signal
+[2026-06-08T08:04:10.377+0000] {taskinstance.py:1138} INFO - Marking task as UP_FOR_RETRY. dag_id=tiki_beauty_lakehouse_pipeline, task_id=extract_tiki_data, execution_date=20260608T080348, start_date=20260608T080349, end_date=20260608T080410
+[2026-06-08T08:04:10.402+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 107 for task extract_tiki_data (Task received SIGTERM signal; 300)
+[2026-06-08T08:04:10.446+0000] {process_utils.py:79} INFO - Process psutil.Process(pid=300, status='terminated', exitcode=1, started='08:03:49') (300) terminated with exit code 1
+[2026-06-08T08:04:10.448+0000] {process_utils.py:79} INFO - Process psutil.Process(pid=301, status='terminated', started='08:03:49') (301) terminated with exit code None
