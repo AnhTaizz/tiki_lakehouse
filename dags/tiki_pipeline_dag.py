@@ -1,7 +1,7 @@
 """
 tiki_pipeline_dag.py
 ====================
-DAG chính: chạy hàng ngày lúc 22:00 (ICT)
+DAG chính: chạy hàng ngày lúc 15:00 (ICT)
   Task 1 — extract_tiki_data  : crawl Tiki API → raw JSON file
   Task 2 — load_bronze_silver : Bronze + Silver Iceberg tables
   Task 3 — transform_gold     : Gold aggregates → Iceberg + Reporting Postgres
@@ -38,7 +38,7 @@ with DAG(
     description=(
         "Daily pipeline: crawl Tiki Beauty → Bronze → Silver → Gold → Superset"
     ),
-    schedule_interval="0 15 * * *",  # 22:00 ICT (UTC+7) = 15:00 UTC
+    schedule_interval="0 15 * * *",  # 15:00 ICT (UTC+7)
     catchup=False,
     tags=["tiki", "lakehouse", "beauty", "daily"],
     doc_md="""
@@ -46,7 +46,7 @@ with DAG(
 
 ### Flow
 ```
-[22:00 ICT] Crawl Tiki API
+[15:00 ICT] Crawl Tiki API
     → Bronze Iceberg (raw append)
     → Silver Iceberg (SCD Type 1 active + SCD Type 4 price history)
     → Gold Iceberg + Reporting Postgres (Superset dashboards)
