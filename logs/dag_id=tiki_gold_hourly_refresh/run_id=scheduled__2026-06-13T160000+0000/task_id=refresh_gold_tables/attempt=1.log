@@ -1,90 +1,0 @@
-[2026-06-13T17:00:02.309+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: tiki_gold_hourly_refresh.refresh_gold_tables scheduled__2026-06-13T16:00:00+00:00 [queued]>
-[2026-06-13T17:00:02.331+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: tiki_gold_hourly_refresh.refresh_gold_tables scheduled__2026-06-13T16:00:00+00:00 [queued]>
-[2026-06-13T17:00:02.333+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 2
-[2026-06-13T17:00:02.375+0000] {taskinstance.py:2191} INFO - Executing <Task(BashOperator): refresh_gold_tables> on 2026-06-13 16:00:00+00:00
-[2026-06-13T17:00:02.391+0000] {standard_task_runner.py:60} INFO - Started process 5667 to run task
-[2026-06-13T17:00:02.405+0000] {standard_task_runner.py:87} INFO - Running: ['airflow', 'tasks', 'run', 'tiki_gold_hourly_refresh', 'refresh_gold_tables', 'scheduled__2026-06-13T16:00:00+00:00', '--job-id', '148', '--raw', '--subdir', 'DAGS_FOLDER/tiki_gold_hourly_dag.py', '--cfg-path', '/tmp/tmpytiznpy_']
-[2026-06-13T17:00:02.415+0000] {standard_task_runner.py:88} INFO - Job 148: Subtask refresh_gold_tables
-[2026-06-13T17:00:02.563+0000] {task_command.py:423} INFO - Running <TaskInstance: tiki_gold_hourly_refresh.refresh_gold_tables scheduled__2026-06-13T16:00:00+00:00 [running]> on host c014a76b1489
-[2026-06-13T17:00:02.831+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='anhtaizz' AIRFLOW_CTX_DAG_ID='tiki_gold_hourly_refresh' AIRFLOW_CTX_TASK_ID='refresh_gold_tables' AIRFLOW_CTX_EXECUTION_DATE='2026-06-13T16:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2026-06-13T16:00:00+00:00'
-[2026-06-13T17:00:02.837+0000] {subprocess.py:63} INFO - Tmp dir root location: /tmp
-[2026-06-13T17:00:02.839+0000] {subprocess.py:75} INFO - Running command: ['/usr/bin/bash', '-c', '\n            echo "[$(date \'+%Y-%m-%d %H:%M:%S\')] Starting hourly Gold refresh ..."\n            docker exec tiki_spark_crawler \\\n                /opt/conda/bin/python /home/jovyan/work/src/jobs/tiki_gold.py\n            echo "[$(date \'+%Y-%m-%d %H:%M:%S\')] Gold refresh complete."\n        ']
-[2026-06-13T17:00:02.860+0000] {subprocess.py:86} INFO - Output:
-[2026-06-13T17:00:02.896+0000] {subprocess.py:93} INFO - [2026-06-13 17:00:02] Starting hourly Gold refresh ...
-[2026-06-13T17:00:04.325+0000] {subprocess.py:93} INFO - 2026-06-13 17:00:04,322 - __main__ - INFO - ============================================================
-[2026-06-13T17:00:04.327+0000] {subprocess.py:93} INFO - 2026-06-13 17:00:04,323 - __main__ - INFO - Starting Tiki GOLD layer pipeline
-[2026-06-13T17:00:04.328+0000] {subprocess.py:93} INFO - 2026-06-13 17:00:04,323 - __main__ - INFO - Target Postgres: reporting-postgres / reporting
-[2026-06-13T17:00:04.329+0000] {subprocess.py:93} INFO - 2026-06-13 17:00:04,323 - __main__ - INFO - ============================================================
-[2026-06-13T17:00:08.280+0000] {subprocess.py:93} INFO - :: loading settings :: url = jar:file:/usr/local/spark-3.5.0-bin-hadoop3/jars/ivy-2.5.1.jar!/org/apache/ivy/core/settings/ivysettings.xml
-[2026-06-13T17:00:08.536+0000] {subprocess.py:93} INFO - Ivy Default Cache set to: /root/.ivy2/cache
-[2026-06-13T17:00:08.539+0000] {subprocess.py:93} INFO - The jars for the packages stored in: /root/.ivy2/jars
-[2026-06-13T17:00:08.559+0000] {subprocess.py:93} INFO - org.apache.iceberg#iceberg-spark-runtime-3.5_2.12 added as a dependency
-[2026-06-13T17:00:08.564+0000] {subprocess.py:93} INFO - org.apache.hadoop#hadoop-aws added as a dependency
-[2026-06-13T17:00:08.567+0000] {subprocess.py:93} INFO - com.amazonaws#aws-java-sdk-bundle added as a dependency
-[2026-06-13T17:00:08.576+0000] {subprocess.py:93} INFO - org.postgresql#postgresql added as a dependency
-[2026-06-13T17:00:08.578+0000] {subprocess.py:93} INFO - :: resolving dependencies :: org.apache.spark#spark-submit-parent-c1e78cb2-e7a2-4c7c-9e6b-5907569a588b;1.0
-[2026-06-13T17:00:08.579+0000] {subprocess.py:93} INFO - 	confs: [default]
-[2026-06-13T17:00:08.975+0000] {subprocess.py:93} INFO - 	found org.apache.iceberg#iceberg-spark-runtime-3.5_2.12;1.6.0 in central
-[2026-06-13T17:00:09.048+0000] {subprocess.py:93} INFO - 	found org.apache.hadoop#hadoop-aws;3.3.4 in central
-[2026-06-13T17:00:09.073+0000] {subprocess.py:93} INFO - 	found com.amazonaws#aws-java-sdk-bundle;1.12.262 in central
-[2026-06-13T17:00:09.107+0000] {subprocess.py:93} INFO - 	found org.wildfly.openssl#wildfly-openssl;1.0.7.Final in central
-[2026-06-13T17:00:09.129+0000] {subprocess.py:93} INFO - 	found org.postgresql#postgresql;42.7.3 in central
-[2026-06-13T17:00:09.146+0000] {subprocess.py:93} INFO - 	found org.checkerframework#checker-qual;3.42.0 in central
-[2026-06-13T17:00:09.178+0000] {subprocess.py:93} INFO - :: resolution report :: resolve 597ms :: artifacts dl 15ms
-[2026-06-13T17:00:09.180+0000] {subprocess.py:93} INFO - 	:: modules in use:
-[2026-06-13T17:00:09.181+0000] {subprocess.py:93} INFO - 	com.amazonaws#aws-java-sdk-bundle;1.12.262 from central in [default]
-[2026-06-13T17:00:09.182+0000] {subprocess.py:93} INFO - 	org.apache.hadoop#hadoop-aws;3.3.4 from central in [default]
-[2026-06-13T17:00:09.184+0000] {subprocess.py:93} INFO - 	org.apache.iceberg#iceberg-spark-runtime-3.5_2.12;1.6.0 from central in [default]
-[2026-06-13T17:00:09.185+0000] {subprocess.py:93} INFO - 	org.checkerframework#checker-qual;3.42.0 from central in [default]
-[2026-06-13T17:00:09.186+0000] {subprocess.py:93} INFO - 	org.postgresql#postgresql;42.7.3 from central in [default]
-[2026-06-13T17:00:09.187+0000] {subprocess.py:93} INFO - 	org.wildfly.openssl#wildfly-openssl;1.0.7.Final from central in [default]
-[2026-06-13T17:00:09.188+0000] {subprocess.py:93} INFO - 	---------------------------------------------------------------------
-[2026-06-13T17:00:09.189+0000] {subprocess.py:93} INFO - 	|                  |            modules            ||   artifacts   |
-[2026-06-13T17:00:09.190+0000] {subprocess.py:93} INFO - 	|       conf       | number| search|dwnlded|evicted|| number|dwnlded|
-[2026-06-13T17:00:09.192+0000] {subprocess.py:93} INFO - 	---------------------------------------------------------------------
-[2026-06-13T17:00:09.193+0000] {subprocess.py:93} INFO - 	|      default     |   6   |   0   |   0   |   0   ||   6   |   0   |
-[2026-06-13T17:00:09.194+0000] {subprocess.py:93} INFO - 	---------------------------------------------------------------------
-[2026-06-13T17:00:09.195+0000] {subprocess.py:93} INFO - :: retrieving :: org.apache.spark#spark-submit-parent-c1e78cb2-e7a2-4c7c-9e6b-5907569a588b
-[2026-06-13T17:00:09.196+0000] {subprocess.py:93} INFO - 	confs: [default]
-[2026-06-13T17:00:09.200+0000] {subprocess.py:93} INFO - 	0 artifacts copied, 6 already retrieved (0kB/11ms)
-[2026-06-13T17:00:09.804+0000] {subprocess.py:93} INFO - 26/06/13 17:00:09 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
-[2026-06-13T17:00:10.460+0000] {subprocess.py:93} INFO - Setting default log level to "WARN".
-[2026-06-13T17:00:10.461+0000] {subprocess.py:93} INFO - To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
-[2026-06-13T17:00:12.833+0000] {subprocess.py:93} INFO - 26/06/13 17:00:12 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.
-[2026-06-13T17:00:27.620+0000] {subprocess.py:93} INFO - 26/06/13 17:00:27 WARN MetricsConfig: Cannot locate configuration: tried hadoop-metrics2-s3a-file-system.properties,hadoop-metrics2.properties
-[2026-06-13T17:00:29.936+0000] {subprocess.py:93} INFO - 2026-06-13 17:00:29,935 - __main__ - INFO - Computing gold.brand_performance ...
-[2026-06-13T17:00:30.934+0000] {subprocess.py:93} INFO - 2026-06-13 17:00:30,930 - __main__ - INFO - Writing Iceberg Gold table: local_catalog.tiki_gold.brand_performance
-[2026-06-13T17:00:40.823+0000] {subprocess.py:93} INFO - [Stage 0:>                                                          (0 + 1) / 1][Stage 2:>                                                          (0 + 1) / 1]                                                                                [Stage 12:>                                                         (0 + 1) / 1]                                                                                2026-06-13 17:00:40,817 - __main__ - INFO - Iceberg write complete: local_catalog.tiki_gold.brand_performance
-[2026-06-13T17:00:40.827+0000] {subprocess.py:93} INFO - 2026-06-13 17:00:40,817 - __main__ - INFO - Writing Reporting Postgres table: brand_performance
-[2026-06-13T17:00:44.591+0000] {subprocess.py:93} INFO - [Stage 25:>                                                         (0 + 1) / 1]                                                                                2026-06-13 17:00:44,589 - __main__ - INFO - Postgres write complete: brand_performance
-[2026-06-13T17:00:44.592+0000] {subprocess.py:93} INFO - 2026-06-13 17:00:44,589 - __main__ - INFO - Computing gold.price_trend ...
-[2026-06-13T17:00:44.951+0000] {subprocess.py:93} INFO - 2026-06-13 17:00:44,921 - __main__ - ERROR - Gold pipeline failed: [UNRESOLVED_COLUMN.WITH_SUGGESTION] A column or function parameter with name `category_name` cannot be resolved. Did you mean one of the following? [`category_id`, `brand_name`, `name`, `crawl_date`, `discount`].; line 5 pos 12;
-[2026-06-13T17:00:44.952+0000] {subprocess.py:93} INFO - 'Sort ['crawl_date DESC NULLS LAST, 'category_id ASC NULLS FIRST], true
-[2026-06-13T17:00:44.953+0000] {subprocess.py:93} INFO - +- 'Aggregate [crawl_date#324, category_id#322, 'category_name], [crawl_date#324, category_id#322, 'category_name, count(id#310L) AS total_price_changes#305L, round((avg(price#314L) / cast(1000 as double)), 1) AS avg_new_price_k#306, round((cast(min(price#314L) as double) / cast(1000 as double)), 1) AS min_new_price_k#307, round((cast(max(price#314L) as double) / cast(1000 as double)), 1) AS max_new_price_k#308, round(avg(discount_rate#317), 1) AS avg_new_discount_rate#309]
-[2026-06-13T17:00:44.954+0000] {subprocess.py:93} INFO -    +- SubqueryAlias local_catalog.tiki_silver.price_history
-[2026-06-13T17:00:44.955+0000] {subprocess.py:93} INFO -       +- RelationV2[id#310L, sku#311, name#312, url_key#313, price#314L, original_price#315L, discount#316L, discount_rate#317, brand_name#318, rating_average#319, review_count#320, thumbnail_url#321, category_id#322, quantity_sold#323, crawl_date#324, loaded_at#325, source_file#326] local_catalog.tiki_silver.price_history local_catalog.tiki_silver.price_history
-[2026-06-13T17:00:44.955+0000] {subprocess.py:93} INFO - Traceback (most recent call last):
-[2026-06-13T17:00:44.956+0000] {subprocess.py:93} INFO -   File "/home/jovyan/work/src/jobs/tiki_gold.py", line 252, in run_gold_pipeline
-[2026-06-13T17:00:44.957+0000] {subprocess.py:93} INFO -     compute_price_trend(spark)
-[2026-06-13T17:00:44.957+0000] {subprocess.py:93} INFO -   File "/home/jovyan/work/src/jobs/tiki_gold.py", line 108, in compute_price_trend
-[2026-06-13T17:00:44.958+0000] {subprocess.py:93} INFO -     df = spark.sql("""
-[2026-06-13T17:00:44.959+0000] {subprocess.py:93} INFO -          ^^^^^^^^^^^^^
-[2026-06-13T17:00:44.960+0000] {subprocess.py:93} INFO -   File "/usr/local/spark/python/pyspark/sql/session.py", line 1631, in sql
-[2026-06-13T17:00:44.961+0000] {subprocess.py:93} INFO -     return DataFrame(self._jsparkSession.sql(sqlQuery, litArgs), self)
-[2026-06-13T17:00:44.962+0000] {subprocess.py:93} INFO -                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-[2026-06-13T17:00:44.962+0000] {subprocess.py:93} INFO -   File "/usr/local/spark/python/lib/py4j-0.10.9.7-src.zip/py4j/java_gateway.py", line 1322, in __call__
-[2026-06-13T17:00:44.963+0000] {subprocess.py:93} INFO -     return_value = get_return_value(
-[2026-06-13T17:00:44.964+0000] {subprocess.py:93} INFO -                    ^^^^^^^^^^^^^^^^^
-[2026-06-13T17:00:44.964+0000] {subprocess.py:93} INFO -   File "/usr/local/spark/python/pyspark/errors/exceptions/captured.py", line 185, in deco
-[2026-06-13T17:00:44.965+0000] {subprocess.py:93} INFO -     raise converted from None
-[2026-06-13T17:00:44.965+0000] {subprocess.py:93} INFO - pyspark.errors.exceptions.captured.AnalysisException: [UNRESOLVED_COLUMN.WITH_SUGGESTION] A column or function parameter with name `category_name` cannot be resolved. Did you mean one of the following? [`category_id`, `brand_name`, `name`, `crawl_date`, `discount`].; line 5 pos 12;
-[2026-06-13T17:00:44.966+0000] {subprocess.py:93} INFO - 'Sort ['crawl_date DESC NULLS LAST, 'category_id ASC NULLS FIRST], true
-[2026-06-13T17:00:44.967+0000] {subprocess.py:93} INFO - +- 'Aggregate [crawl_date#324, category_id#322, 'category_name], [crawl_date#324, category_id#322, 'category_name, count(id#310L) AS total_price_changes#305L, round((avg(price#314L) / cast(1000 as double)), 1) AS avg_new_price_k#306, round((cast(min(price#314L) as double) / cast(1000 as double)), 1) AS min_new_price_k#307, round((cast(max(price#314L) as double) / cast(1000 as double)), 1) AS max_new_price_k#308, round(avg(discount_rate#317), 1) AS avg_new_discount_rate#309]
-[2026-06-13T17:00:44.967+0000] {subprocess.py:93} INFO -    +- SubqueryAlias local_catalog.tiki_silver.price_history
-[2026-06-13T17:00:44.968+0000] {subprocess.py:93} INFO -       +- RelationV2[id#310L, sku#311, name#312, url_key#313, price#314L, original_price#315L, discount#316L, discount_rate#317, brand_name#318, rating_average#319, review_count#320, thumbnail_url#321, category_id#322, quantity_sold#323, crawl_date#324, loaded_at#325, source_file#326] local_catalog.tiki_silver.price_history local_catalog.tiki_silver.price_history
-[2026-06-13T17:00:44.969+0000] {subprocess.py:93} INFO - 
-[2026-06-13T17:00:46.139+0000] {subprocess.py:93} INFO - [2026-06-13 17:00:46] Gold refresh complete.
-[2026-06-13T17:00:46.141+0000] {subprocess.py:97} INFO - Command exited with return code 0
-[2026-06-13T17:00:46.192+0000] {taskinstance.py:1138} INFO - Marking task as SUCCESS. dag_id=tiki_gold_hourly_refresh, task_id=refresh_gold_tables, execution_date=20260613T160000, start_date=20260613T170002, end_date=20260613T170046
-[2026-06-13T17:00:46.280+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 0
-[2026-06-13T17:00:46.305+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check

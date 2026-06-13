@@ -40,3 +40,7 @@ Thumbs.db
 
 .env
 auto_run.bat
+
+# Logs
+logs/
+*.log
