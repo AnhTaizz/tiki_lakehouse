@@ -139,9 +139,11 @@ tiki_lakehouse/
 │   └── tiki_gold_hourly_dag.py  # Hourly Gold refresh DAG
 ├── docs/
 │   └── airflow_workflow.md      # Airflow workflow documentation
-├── config/
-│   ├── spark-defaults.conf      # Spark + Iceberg + MinIO config
-│   └── core-site.xml            # S3A credentials
+├── docker/
+│   ├── airflow/                 # Dockerfile cho Airflow custom image
+│   ├── hive/                    # Dockerfile cho Hive Metastore
+│   ├── superset/                # Dockerfile và config cho Superset
+│   └── shared/                  # Spark + Iceberg + MinIO config (core-site.xml, v.v.)
 ├── notebooks/                   # Exploratory notebooks
 ├── data/                        # Raw JSON extracts (git-ignored)
 └── docker-compose.yml

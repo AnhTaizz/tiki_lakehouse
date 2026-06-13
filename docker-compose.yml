@@ -9,8 +9,8 @@ services:
       - ./src:/home/jovyan/work/src
       - ./notebooks:/home/jovyan/work/notebooks
       - ./data:/home/jovyan/work/data
-      - ./config/spark-defaults.conf:/usr/local/spark/conf/spark-defaults.conf
-      - ./config/core-site.xml:/usr/local/spark/conf/core-site.xml
+      - ./docker/shared/spark-defaults.conf:/usr/local/spark/conf/spark-defaults.conf
+      - ./docker/shared/core-site.xml:/usr/local/spark/conf/core-site.xml
       - ivy2_cache:/root/.ivy2
     environment:
       JUPYTER_ENABLE_LAB: "yes"
@@ -63,7 +63,7 @@ services:
 
   hive-metastore:
     build:
-      context: ./hive-custom
+      context: ./docker/hive
     container_name: hive-metastore
     ports:
       - "9083:9083"
@@ -78,7 +78,7 @@ services:
         -Djavax.jdo.option.ConnectionUserName=${HIVE_DB_USER}
         -Djavax.jdo.option.ConnectionPassword=${HIVE_DB_PASSWORD}
     volumes:
-      - ./config/core-site.xml:/opt/hive/conf/core-site.xml
+      - ./docker/shared/core-site.xml:/opt/hive/conf/core-site.xml
     command: >
       bash -c "
       /opt/hive/bin/schematool -dbType postgres -initSchema || true &&
@@ -117,7 +117,7 @@ services:
   airflow-init:
     build:
       context: .
-      dockerfile: airflow-custom/Dockerfile
+      dockerfile: docker/airflow/Dockerfile
     image: tiki_lakehouse-airflow:2.8.1
     container_name: airflow_init
     depends_on:
@@ -138,7 +138,7 @@ services:
   airflow-webserver:
     build:
       context: .
-      dockerfile: airflow-custom/Dockerfile
+      dockerfile: docker/airflow/Dockerfile
     image: tiki_lakehouse-airflow:2.8.1
     container_name: airflow_webserver
     depends_on:
@@ -166,7 +166,7 @@ services:
   airflow-scheduler:
     build:
       context: .
-      dockerfile: airflow-custom/Dockerfile
+      dockerfile: docker/airflow/Dockerfile
     image: tiki_lakehouse-airflow:2.8.1
     container_name: airflow_scheduler
     user: root
@@ -242,7 +242,7 @@ services:
   superset-init:
     build:
       context: .
-      dockerfile: superset-custom/Dockerfile
+      dockerfile: docker/superset/Dockerfile
     image: tiki_lakehouse-superset:latest
     container_name: superset_init
     environment:
@@ -251,7 +251,7 @@ services:
       SUPERSET_DB_PASSWORD: ${SUPERSET_DB_PASSWORD:-superset123}
       SUPERSET_ADMIN_PASSWORD: ${SUPERSET_ADMIN_PASSWORD:-password123}
     volumes:
-      - ./superset-config/superset_config.py:/app/pythonpath/superset_config.py:ro
+      - ./docker/superset/superset_config.py:/app/pythonpath/superset_config.py:ro
     # Fix: fab create-admin phải trên 1 dòng — YAML block scalar tách dòng → bash lỗi
     command: >
       bash -c "
@@ -273,7 +273,7 @@ services:
   superset:
     build:
       context: .
-      dockerfile: superset-custom/Dockerfile
+      dockerfile: docker/superset/Dockerfile
     image: tiki_lakehouse-superset:latest
     container_name: tiki_superset
     ports:
@@ -283,7 +283,7 @@ services:
       SUPERSET_SECRET_KEY: ${SUPERSET_SECRET_KEY:-tiki_superset_secret_2026}
       SUPERSET_DB_PASSWORD: ${SUPERSET_DB_PASSWORD:-superset123}
     volumes:
-      - ./superset-config/superset_config.py:/app/pythonpath/superset_config.py:ro
+      - ./docker/superset/superset_config.py:/app/pythonpath/superset_config.py:ro
     command: superset run -h 0.0.0.0 -p 8088 --with-threads
     depends_on:
       superset-init:

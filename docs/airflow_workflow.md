@@ -90,11 +90,13 @@ tiki_lakehouse/
 │
 ├── notebooks/               # Exploratory notebooks (crawl, load, Iceberg study)
 ├── data/                    # Raw JSON extracts (git-ignored)
-├── airflow-custom/          # Dockerfile cho Airflow custom image
-├── hive-custom/             # Dockerfile cho Hive Metastore
-└── config/
-    ├── spark-defaults.conf      # Spark packages, Iceberg catalog, MinIO settings
-    └── core-site.xml            # S3A filesystem config (credentials inject qua docker-compose env)
+└── docker/                  # Các thư mục chứa cấu hình và Dockerfile
+    ├── airflow/                 # Dockerfile cho Airflow custom image
+    ├── hive/                    # Dockerfile cho Hive Metastore
+    ├── superset/                # Dockerfile và config cho Superset
+    └── shared/
+        ├── spark-defaults.conf      # Spark packages, Iceberg catalog, MinIO settings
+        └── core-site.xml            # S3A filesystem config (credentials inject qua docker-compose env)
 ```
 
 ---
