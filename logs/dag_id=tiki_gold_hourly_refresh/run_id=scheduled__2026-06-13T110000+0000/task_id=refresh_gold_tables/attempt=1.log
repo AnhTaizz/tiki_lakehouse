@@ -1,0 +1,88 @@
+[2026-06-13T12:00:02.375+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: tiki_gold_hourly_refresh.refresh_gold_tables scheduled__2026-06-13T11:00:00+00:00 [queued]>
+[2026-06-13T12:00:02.449+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: tiki_gold_hourly_refresh.refresh_gold_tables scheduled__2026-06-13T11:00:00+00:00 [queued]>
+[2026-06-13T12:00:02.461+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 2
+[2026-06-13T12:00:02.533+0000] {taskinstance.py:2191} INFO - Executing <Task(BashOperator): refresh_gold_tables> on 2026-06-13 11:00:00+00:00
+[2026-06-13T12:00:02.551+0000] {standard_task_runner.py:60} INFO - Started process 4756 to run task
+[2026-06-13T12:00:02.556+0000] {standard_task_runner.py:87} INFO - Running: ['airflow', 'tasks', 'run', 'tiki_gold_hourly_refresh', 'refresh_gold_tables', 'scheduled__2026-06-13T11:00:00+00:00', '--job-id', '141', '--raw', '--subdir', 'DAGS_FOLDER/tiki_gold_hourly_dag.py', '--cfg-path', '/tmp/tmpwctx5k35']
+[2026-06-13T12:00:02.559+0000] {standard_task_runner.py:88} INFO - Job 141: Subtask refresh_gold_tables
+[2026-06-13T12:00:02.633+0000] {task_command.py:423} INFO - Running <TaskInstance: tiki_gold_hourly_refresh.refresh_gold_tables scheduled__2026-06-13T11:00:00+00:00 [running]> on host deda9373ab15
+[2026-06-13T12:00:02.753+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='anhtaizz' AIRFLOW_CTX_DAG_ID='tiki_gold_hourly_refresh' AIRFLOW_CTX_TASK_ID='refresh_gold_tables' AIRFLOW_CTX_EXECUTION_DATE='2026-06-13T11:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2026-06-13T11:00:00+00:00'
+[2026-06-13T12:00:02.757+0000] {subprocess.py:63} INFO - Tmp dir root location: /tmp
+[2026-06-13T12:00:02.758+0000] {subprocess.py:75} INFO - Running command: ['/usr/bin/bash', '-c', '\n            echo "[$(date \'+%Y-%m-%d %H:%M:%S\')] Starting hourly Gold refresh ..."\n            docker exec tiki_spark_crawler \\\n                /opt/conda/bin/python /home/jovyan/work/src/jobs/tiki_gold.py\n            echo "[$(date \'+%Y-%m-%d %H:%M:%S\')] Gold refresh complete."\n        ']
+[2026-06-13T12:00:02.773+0000] {subprocess.py:86} INFO - Output:
+[2026-06-13T12:00:02.792+0000] {subprocess.py:93} INFO - [2026-06-13 12:00:02] Starting hourly Gold refresh ...
+[2026-06-13T12:00:04.374+0000] {subprocess.py:93} INFO - 2026-06-13 12:00:04,372 - __main__ - INFO - ============================================================
+[2026-06-13T12:00:04.375+0000] {subprocess.py:93} INFO - 2026-06-13 12:00:04,372 - __main__ - INFO - Starting Tiki GOLD layer pipeline
+[2026-06-13T12:00:04.375+0000] {subprocess.py:93} INFO - 2026-06-13 12:00:04,372 - __main__ - INFO - Target Postgres: reporting-postgres / reporting
+[2026-06-13T12:00:04.376+0000] {subprocess.py:93} INFO - 2026-06-13 12:00:04,372 - __main__ - INFO - ============================================================
+[2026-06-13T12:00:06.734+0000] {subprocess.py:93} INFO - :: loading settings :: url = jar:file:/usr/local/spark-3.5.0-bin-hadoop3/jars/ivy-2.5.1.jar!/org/apache/ivy/core/settings/ivysettings.xml
+[2026-06-13T12:00:06.863+0000] {subprocess.py:93} INFO - Ivy Default Cache set to: /root/.ivy2/cache
+[2026-06-13T12:00:06.864+0000] {subprocess.py:93} INFO - The jars for the packages stored in: /root/.ivy2/jars
+[2026-06-13T12:00:06.873+0000] {subprocess.py:93} INFO - org.apache.iceberg#iceberg-spark-runtime-3.5_2.12 added as a dependency
+[2026-06-13T12:00:06.874+0000] {subprocess.py:93} INFO - org.apache.hadoop#hadoop-aws added as a dependency
+[2026-06-13T12:00:06.874+0000] {subprocess.py:93} INFO - com.amazonaws#aws-java-sdk-bundle added as a dependency
+[2026-06-13T12:00:06.875+0000] {subprocess.py:93} INFO - org.postgresql#postgresql added as a dependency
+[2026-06-13T12:00:06.875+0000] {subprocess.py:93} INFO - :: resolving dependencies :: org.apache.spark#spark-submit-parent-d379a006-993c-4c2d-a587-ca4e91a58714;1.0
+[2026-06-13T12:00:06.876+0000] {subprocess.py:93} INFO - 	confs: [default]
+[2026-06-13T12:00:07.050+0000] {subprocess.py:93} INFO - 	found org.apache.iceberg#iceberg-spark-runtime-3.5_2.12;1.6.0 in central
+[2026-06-13T12:00:07.108+0000] {subprocess.py:93} INFO - 	found org.apache.hadoop#hadoop-aws;3.3.4 in central
+[2026-06-13T12:00:07.127+0000] {subprocess.py:93} INFO - 	found com.amazonaws#aws-java-sdk-bundle;1.12.262 in central
+[2026-06-13T12:00:07.147+0000] {subprocess.py:93} INFO - 	found org.wildfly.openssl#wildfly-openssl;1.0.7.Final in central
+[2026-06-13T12:00:07.162+0000] {subprocess.py:93} INFO - 	found org.postgresql#postgresql;42.7.3 in central
+[2026-06-13T12:00:07.179+0000] {subprocess.py:93} INFO - 	found org.checkerframework#checker-qual;3.42.0 in central
+[2026-06-13T12:00:07.199+0000] {subprocess.py:93} INFO - :: resolution report :: resolve 314ms :: artifacts dl 10ms
+[2026-06-13T12:00:07.200+0000] {subprocess.py:93} INFO - 	:: modules in use:
+[2026-06-13T12:00:07.201+0000] {subprocess.py:93} INFO - 	com.amazonaws#aws-java-sdk-bundle;1.12.262 from central in [default]
+[2026-06-13T12:00:07.202+0000] {subprocess.py:93} INFO - 	org.apache.hadoop#hadoop-aws;3.3.4 from central in [default]
+[2026-06-13T12:00:07.203+0000] {subprocess.py:93} INFO - 	org.apache.iceberg#iceberg-spark-runtime-3.5_2.12;1.6.0 from central in [default]
+[2026-06-13T12:00:07.203+0000] {subprocess.py:93} INFO - 	org.checkerframework#checker-qual;3.42.0 from central in [default]
+[2026-06-13T12:00:07.204+0000] {subprocess.py:93} INFO - 	org.postgresql#postgresql;42.7.3 from central in [default]
+[2026-06-13T12:00:07.204+0000] {subprocess.py:93} INFO - 	org.wildfly.openssl#wildfly-openssl;1.0.7.Final from central in [default]
+[2026-06-13T12:00:07.205+0000] {subprocess.py:93} INFO - 	---------------------------------------------------------------------
+[2026-06-13T12:00:07.206+0000] {subprocess.py:93} INFO - 	|                  |            modules            ||   artifacts   |
+[2026-06-13T12:00:07.206+0000] {subprocess.py:93} INFO - 	|       conf       | number| search|dwnlded|evicted|| number|dwnlded|
+[2026-06-13T12:00:07.207+0000] {subprocess.py:93} INFO - 	---------------------------------------------------------------------
+[2026-06-13T12:00:07.207+0000] {subprocess.py:93} INFO - 	|      default     |   6   |   0   |   0   |   0   ||   6   |   0   |
+[2026-06-13T12:00:07.207+0000] {subprocess.py:93} INFO - 	---------------------------------------------------------------------
+[2026-06-13T12:00:07.208+0000] {subprocess.py:93} INFO - :: retrieving :: org.apache.spark#spark-submit-parent-d379a006-993c-4c2d-a587-ca4e91a58714
+[2026-06-13T12:00:07.208+0000] {subprocess.py:93} INFO - 	confs: [default]
+[2026-06-13T12:00:07.213+0000] {subprocess.py:93} INFO - 	0 artifacts copied, 6 already retrieved (0kB/6ms)
+[2026-06-13T12:00:07.482+0000] {subprocess.py:93} INFO - 26/06/13 12:00:07 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+[2026-06-13T12:00:07.761+0000] {subprocess.py:93} INFO - Setting default log level to "WARN".
+[2026-06-13T12:00:07.762+0000] {subprocess.py:93} INFO - To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
+[2026-06-13T12:00:08.906+0000] {subprocess.py:93} INFO - 26/06/13 12:00:08 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.
+[2026-06-13T12:00:15.583+0000] {subprocess.py:93} INFO - 26/06/13 12:00:15 WARN MetricsConfig: Cannot locate configuration: tried hadoop-metrics2-s3a-file-system.properties,hadoop-metrics2.properties
+[2026-06-13T12:00:16.784+0000] {subprocess.py:93} INFO - 2026-06-13 12:00:16,782 - __main__ - INFO - Computing gold.brand_performance ...
+[2026-06-13T12:00:17.261+0000] {subprocess.py:93} INFO - 2026-06-13 12:00:17,259 - __main__ - INFO - Writing Iceberg Gold table: local_catalog.tiki_gold.brand_performance
+[2026-06-13T12:00:23.302+0000] {subprocess.py:93} INFO - [Stage 0:>                                                          (0 + 1) / 1]                                                                                2026-06-13 12:00:23,301 - __main__ - INFO - Iceberg write complete: local_catalog.tiki_gold.brand_performance
+[2026-06-13T12:00:23.303+0000] {subprocess.py:93} INFO - 2026-06-13 12:00:23,301 - __main__ - INFO - Writing Reporting Postgres table: brand_performance
+[2026-06-13T12:00:25.670+0000] {subprocess.py:93} INFO - [Stage 25:>                                                         (0 + 1) / 1]                                                                                2026-06-13 12:00:25,668 - __main__ - INFO - Postgres write complete: brand_performance
+[2026-06-13T12:00:25.676+0000] {subprocess.py:93} INFO - 2026-06-13 12:00:25,668 - __main__ - INFO - Computing gold.price_trend ...
+[2026-06-13T12:00:25.791+0000] {subprocess.py:93} INFO - 2026-06-13 12:00:25,789 - __main__ - INFO - Writing Iceberg Gold table: local_catalog.tiki_gold.price_trend
+[2026-06-13T12:00:32.240+0000] {subprocess.py:93} INFO - [Stage 26:>                                                         (0 + 7) / 7][Stage 26:========>                                                 (1 + 6) / 7][Stage 28:>                                                       (0 + 12) / 12][Stage 28:====>                                                   (1 + 11) / 12][Stage 28:=======================>                                 (5 + 7) / 12][Stage 28:============================>                            (6 + 6) / 12]                                                                                2026-06-13 12:00:32,238 - __main__ - INFO - Iceberg write complete: local_catalog.tiki_gold.price_trend
+[2026-06-13T12:00:32.241+0000] {subprocess.py:93} INFO - 2026-06-13 12:00:32,238 - __main__ - INFO - Writing Reporting Postgres table: price_trend
+[2026-06-13T12:00:34.580+0000] {subprocess.py:93} INFO - [Stage 39:========================>                                 (3 + 4) / 7][Stage 41:>                                                       (0 + 12) / 12][Stage 41:=================================>                       (7 + 5) / 12]                                                                                2026-06-13 12:00:34,577 - __main__ - INFO - Postgres write complete: price_trend
+[2026-06-13T12:00:34.581+0000] {subprocess.py:93} INFO - 2026-06-13 12:00:34,577 - __main__ - INFO - Computing gold.discount_analysis ...
+[2026-06-13T12:00:34.618+0000] {subprocess.py:93} INFO - 2026-06-13 12:00:34,616 - __main__ - INFO - Writing Iceberg Gold table: local_catalog.tiki_gold.discount_analysis
+[2026-06-13T12:00:36.736+0000] {subprocess.py:93} INFO - [Stage 54:>                                                         (0 + 1) / 1]                                                                                2026-06-13 12:00:36,734 - __main__ - INFO - Iceberg write complete: local_catalog.tiki_gold.discount_analysis
+[2026-06-13T12:00:36.737+0000] {subprocess.py:93} INFO - 2026-06-13 12:00:36,734 - __main__ - INFO - Writing Reporting Postgres table: discount_analysis
+[2026-06-13T12:00:37.412+0000] {subprocess.py:93} INFO - 2026-06-13 12:00:37,410 - __main__ - INFO - Postgres write complete: discount_analysis
+[2026-06-13T12:00:37.413+0000] {subprocess.py:93} INFO - 2026-06-13 12:00:37,410 - __main__ - INFO - Computing gold.top_products ...
+[2026-06-13T12:00:37.470+0000] {subprocess.py:93} INFO - 2026-06-13 12:00:37,469 - __main__ - INFO - Writing Iceberg Gold table: local_catalog.tiki_gold.top_products
+[2026-06-13T12:00:38.242+0000] {subprocess.py:93} INFO - 2026-06-13 12:00:38,240 - __main__ - INFO - Iceberg write complete: local_catalog.tiki_gold.top_products
+[2026-06-13T12:00:38.244+0000] {subprocess.py:93} INFO - 2026-06-13 12:00:38,240 - __main__ - INFO - Writing Reporting Postgres table: top_products
+[2026-06-13T12:00:38.628+0000] {subprocess.py:93} INFO - 2026-06-13 12:00:38,626 - __main__ - INFO - Postgres write complete: top_products
+[2026-06-13T12:00:38.629+0000] {subprocess.py:93} INFO - 2026-06-13 12:00:38,626 - __main__ - INFO - Computing gold.daily_summary ...
+[2026-06-13T12:00:38.648+0000] {subprocess.py:93} INFO - 2026-06-13 12:00:38,646 - __main__ - INFO - Writing Iceberg Gold table: local_catalog.tiki_gold.daily_summary
+[2026-06-13T12:00:40.916+0000] {subprocess.py:93} INFO - [Stage 80:>                                                         (0 + 7) / 7]                                                                                2026-06-13 12:00:40,914 - __main__ - INFO - Iceberg write complete: local_catalog.tiki_gold.daily_summary
+[2026-06-13T12:00:40.917+0000] {subprocess.py:93} INFO - 2026-06-13 12:00:40,914 - __main__ - INFO - Writing Reporting Postgres table: daily_summary
+[2026-06-13T12:00:42.032+0000] {subprocess.py:93} INFO - 2026-06-13 12:00:42,029 - __main__ - INFO - Postgres write complete: daily_summary
+[2026-06-13T12:00:42.033+0000] {subprocess.py:93} INFO - 2026-06-13 12:00:42,029 - __main__ - INFO - ============================================================
+[2026-06-13T12:00:42.034+0000] {subprocess.py:93} INFO - 2026-06-13 12:00:42,029 - __main__ - INFO - Gold pipeline completed successfully!
+[2026-06-13T12:00:42.036+0000] {subprocess.py:93} INFO - 2026-06-13 12:00:42,029 - __main__ - INFO - Superset dashboard sẽ tự refresh khi query lại Postgres.
+[2026-06-13T12:00:42.037+0000] {subprocess.py:93} INFO - 2026-06-13 12:00:42,029 - __main__ - INFO - ============================================================
+[2026-06-13T12:00:42.786+0000] {subprocess.py:93} INFO - [2026-06-13 12:00:42] Gold refresh complete.
+[2026-06-13T12:00:42.787+0000] {subprocess.py:97} INFO - Command exited with return code 0
+[2026-06-13T12:00:42.823+0000] {taskinstance.py:1138} INFO - Marking task as SUCCESS. dag_id=tiki_gold_hourly_refresh, task_id=refresh_gold_tables, execution_date=20260613T110000, start_date=20260613T120002, end_date=20260613T120042
+[2026-06-13T12:00:42.886+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 0
+[2026-06-13T12:00:42.950+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check

@@ -32,6 +32,7 @@ def build_product_schema():
             StructField("review_count", IntegerType(), True),
             StructField("thumbnail_url", StringType(), True),
             StructField("category_id", IntegerType(), True),
+            StructField("category_name", StringType(), True),
             StructField("quantity_sold", IntegerType(), True),
         ]
     )
@@ -43,8 +44,8 @@ def load_bronze(spark, df):
     table_name = "local_catalog.tiki_bronze.products_raw"
 
     if spark.catalog.tableExists(table_name):
-        logger.info("Table %s exists, appending Bronze rows", table_name)
-        df.write.format("iceberg").mode("append").saveAsTable(table_name)
+        logger.info("Table %s exists, overwriting Bronze partition for idempotency", table_name)
+        df.writeTo(table_name).overwritePartitions()
         logger.info("Bronze append completed")
     else:
         logger.info("Table %s does not exist, creating Bronze table", table_name)
@@ -55,9 +56,9 @@ def load_bronze(spark, df):
 # SCD type 4
 def load_silver_history(spark, df_new):
     logger.info("Step 2: Loading price history to Silver Iceberg table")
-    spark.sql("CREATE NAMESPACE IF NOT EXISTS local_catalog.tiki")
-    history_table = "local_catalog.tiki.price_history"
-    active_table = "local_catalog.tiki.products"
+    spark.sql("CREATE NAMESPACE IF NOT EXISTS local_catalog.tiki_silver")
+    history_table = "local_catalog.tiki_silver.price_history"
+    active_table = "local_catalog.tiki_silver.products"
 
     from pyspark.sql.functions import col
 
@@ -102,8 +103,8 @@ def load_silver_history(spark, df_new):
 
 def load_silver_active(spark, df_new):
     logger.info("Step 3: Updating Silver Active table (SCD Type 1)")
-    spark.sql("CREATE NAMESPACE IF NOT EXISTS local_catalog.tiki")
-    active_table = "local_catalog.tiki.products"
+    spark.sql("CREATE NAMESPACE IF NOT EXISTS local_catalog.tiki_silver")
+    active_table = "local_catalog.tiki_silver.products"
 
     if spark.catalog.tableExists(active_table):
         logger.info("Active table %s exists. Performing MERGE INTO", active_table)
@@ -128,6 +129,7 @@ def load_silver_active(spark, df_new):
                     t.review_count = s.review_count,
                     t.thumbnail_url = s.thumbnail_url,
                     t.category_id = s.category_id,
+                    t.category_name = s.category_name,
                     t.quantity_sold = s.quantity_sold,
                     t.crawl_date = s.crawl_date,
                     t.loaded_at = s.loaded_at,
@@ -145,7 +147,7 @@ def load_silver_active(spark, df_new):
 
 def run_pipeline(raw_filepath):
     from pyspark.sql import SparkSession
-    from pyspark.sql.functions import current_date, current_timestamp, lit
+    from pyspark.sql.functions import current_date, current_timestamp, lit, regexp_extract, col, to_date
 
     logger.info("Starting Tiki Medallion pipeline for: %s", raw_filepath)
 
@@ -158,9 +160,10 @@ def run_pipeline(raw_filepath):
     try:
         df_new = spark.read.option("multiline", "true").schema(build_product_schema()).json(raw_filepath)
         df_new = (
-            df_new.withColumn("crawl_date", current_date())
+            df_new.withColumn("source_file", lit(os.path.basename(raw_filepath)))
             .withColumn("loaded_at", current_timestamp())
-            .withColumn("source_file", lit(os.path.basename(raw_filepath)))
+            # Trích xuất ngày từ tên file (ví dụ: tiki_beauty_health_raw_2026-06-11.json -> 2026-06-11)
+            .withColumn("crawl_date", to_date(regexp_extract(col("source_file"), r"(\d{4}-\d{2}-\d{2})", 1)))
         )
 
         # Bronze Raw table

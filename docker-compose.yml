@@ -22,6 +22,8 @@ services:
         condition: service_healthy
       minio:
         condition: service_started
+      reporting-postgres:
+        condition: service_healthy
     networks:
       - lakehouse
 
@@ -192,11 +194,113 @@ services:
     networks:
       - lakehouse
 
+  # ---------------------------------------------------------------------------
+  # Reporting Postgres — Gold layer data cho Superset dashboards
+  # ---------------------------------------------------------------------------
+  reporting-postgres:
+    image: postgres:13
+    container_name: reporting_db
+    ports:
+      - "5438:5432"
+    environment:
+      POSTGRES_DB: ${REPORTING_DB_NAME:-reporting}
+      POSTGRES_USER: ${REPORTING_DB_USER:-reporting}
+      POSTGRES_PASSWORD: ${REPORTING_DB_PASSWORD:-reporting123}
+    volumes:
+      - reporting_db_data:/var/lib/postgresql/data
+    networks:
+      - lakehouse
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${REPORTING_DB_USER:-reporting} -d ${REPORTING_DB_NAME:-reporting}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ---------------------------------------------------------------------------
+  # Superset internal Postgres — lưu trữ metadata của Superset (dashboards, charts)
+  # ---------------------------------------------------------------------------
+  superset-postgres:
+    image: postgres:13
+    container_name: superset_db
+    environment:
+      POSTGRES_DB: superset
+      POSTGRES_USER: superset
+      POSTGRES_PASSWORD: ${SUPERSET_DB_PASSWORD:-superset123}
+    volumes:
+      - superset_db_data:/var/lib/postgresql/data
+    networks:
+      - lakehouse
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U superset -d superset"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ---------------------------------------------------------------------------
+  # Superset Init — chạy 1 lần: upgrade DB, tạo admin user, init roles
+  # ---------------------------------------------------------------------------
+  superset-init:
+    build:
+      context: .
+      dockerfile: superset-custom/Dockerfile
+    image: tiki_lakehouse-superset:latest
+    container_name: superset_init
+    environment:
+      SUPERSET_CONFIG_PATH: /app/pythonpath/superset_config.py
+      SUPERSET_SECRET_KEY: ${SUPERSET_SECRET_KEY:-tiki_superset_secret_2026}
+      SUPERSET_DB_PASSWORD: ${SUPERSET_DB_PASSWORD:-superset123}
+      SUPERSET_ADMIN_PASSWORD: ${SUPERSET_ADMIN_PASSWORD:-password123}
+    volumes:
+      - ./superset-config/superset_config.py:/app/pythonpath/superset_config.py:ro
+    # Fix: fab create-admin phải trên 1 dòng — YAML block scalar tách dòng → bash lỗi
+    command: >
+      bash -c "
+      superset db upgrade &&
+      superset fab create-admin --username admin --firstname Admin --lastname User --email admin@example.com --password $${SUPERSET_ADMIN_PASSWORD:-password123} || true &&
+      superset init
+      "
+    depends_on:
+      superset-postgres:
+        condition: service_healthy
+    networks:
+      - lakehouse
+
+  # ---------------------------------------------------------------------------
+  # Superset — Business Intelligence Dashboard
+  # Truy cập: http://localhost:8088  |  Login: admin / password123
+  # Kết nối data: Host=reporting-postgres, Port=5432, DB=reporting
+  # ---------------------------------------------------------------------------
+  superset:
+    build:
+      context: .
+      dockerfile: superset-custom/Dockerfile
+    image: tiki_lakehouse-superset:latest
+    container_name: tiki_superset
+    ports:
+      - "8088:8088"
+    environment:
+      SUPERSET_CONFIG_PATH: /app/pythonpath/superset_config.py
+      SUPERSET_SECRET_KEY: ${SUPERSET_SECRET_KEY:-tiki_superset_secret_2026}
+      SUPERSET_DB_PASSWORD: ${SUPERSET_DB_PASSWORD:-superset123}
+    volumes:
+      - ./superset-config/superset_config.py:/app/pythonpath/superset_config.py:ro
+    command: superset run -h 0.0.0.0 -p 8088 --with-threads
+    depends_on:
+      superset-init:
+        condition: service_completed_successfully
+      reporting-postgres:
+        condition: service_healthy
+    networks:
+      - lakehouse
+
+
 volumes:
   minio_data:
   postgres_data:
   airflow_db_data:
   ivy2_cache:
+  reporting_db_data:
+  superset_db_data:
 
 networks:
   lakehouse:
