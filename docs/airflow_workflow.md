@@ -50,7 +50,7 @@ cho đến khi có một Airflow DAG chạy tự động hàng ngày/hàng giờ
                              ▼
 ┌──────────────────────────────────────────────────────────────────┐
 │                  JOB CHẠY THEO SCHEDULE                          │
-│  - Daily 22:00 ICT: extract → load_bronze_silver → transform_gold│
+│  - Daily 15:00 ICT: extract → load_bronze_silver → transform_gold│
 │  - Hourly (mỗi giờ): transform_gold (refresh Gold only)          │
 └────────────────────────────┬─────────────────────────────────────┘
                              │
@@ -251,7 +251,7 @@ RAW JSON Files (local data/)
 
 | DAG | Schedule | Mục đích |
 |---|---|---|
-| `tiki_beauty_lakehouse_pipeline` | `0 15 * * *` (22:00 ICT) | Full pipeline: crawl → Bronze → Silver → Gold |
+| `tiki_beauty_lakehouse_pipeline` | `0 15 * * *` (15:00 ICT) | Full pipeline: crawl → Bronze → Silver → Gold |
 | `tiki_gold_hourly_refresh` | `0 * * * *` (mỗi giờ) | Refresh Gold tables từ Silver đang có |
 
 > **Lý do tách 2 DAG**: Crawl tốn 30-45 phút và có risk bị rate-limit.

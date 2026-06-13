@@ -8,7 +8,7 @@ and presents business insights via a **Superset dashboard**.
 
 ```
 ┌────────────────────────────────────────────────────────────────────┐
-│  Airflow (daily 22:00 ICT + hourly Gold refresh)                   │
+│  Airflow (daily 15:00 ICT + hourly Gold refresh)                   │
 │  ┌─────────────┐    ┌──────────────────┐    ┌───────────────────┐  │
 │  │   Extract   │──> │  Bronze + Silver │──> │   Gold Layer      │  │
 │  │ Tiki API    │    │ Iceberg (MinIO)  │    │ Iceberg + Postgres│  │
@@ -116,7 +116,7 @@ docker compose up -d --build
 
 | DAG | Schedule | Mô tả |
 |---|---|---|
-| `tiki_beauty_lakehouse_pipeline` | Hàng ngày 22:00 ICT | Full pipeline: crawl → Bronze → Silver → Gold |
+| `tiki_beauty_lakehouse_pipeline` | Hàng ngày 15:00 ICT | Full pipeline: crawl → Bronze → Silver → Gold |
 | `tiki_gold_hourly_refresh` | Mỗi giờ | Chỉ refresh Gold + Superset |
 
 ### Quy trình thêm job mới
