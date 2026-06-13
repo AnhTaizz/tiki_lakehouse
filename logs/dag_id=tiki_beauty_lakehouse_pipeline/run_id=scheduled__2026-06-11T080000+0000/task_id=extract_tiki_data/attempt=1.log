@@ -1,0 +1,1165 @@
+[2026-06-12T08:00:01.177+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: tiki_beauty_lakehouse_pipeline.extract_tiki_data scheduled__2026-06-11T08:00:00+00:00 [queued]>
+[2026-06-12T08:00:01.203+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: tiki_beauty_lakehouse_pipeline.extract_tiki_data scheduled__2026-06-11T08:00:00+00:00 [queued]>
+[2026-06-12T08:00:01.205+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 3
+[2026-06-12T08:00:01.230+0000] {taskinstance.py:2191} INFO - Executing <Task(BashOperator): extract_tiki_data> on 2026-06-11 08:00:00+00:00
+[2026-06-12T08:00:01.235+0000] {standard_task_runner.py:60} INFO - Started process 214 to run task
+[2026-06-12T08:00:01.240+0000] {standard_task_runner.py:87} INFO - Running: ['airflow', 'tasks', 'run', 'tiki_beauty_lakehouse_pipeline', 'extract_tiki_data', 'scheduled__2026-06-11T08:00:00+00:00', '--job-id', '124', '--raw', '--subdir', 'DAGS_FOLDER/tiki_pipeline_dag.py', '--cfg-path', '/tmp/tmpm2pb0791']
+[2026-06-12T08:00:01.245+0000] {standard_task_runner.py:88} INFO - Job 124: Subtask extract_tiki_data
+[2026-06-12T08:00:01.359+0000] {task_command.py:423} INFO - Running <TaskInstance: tiki_beauty_lakehouse_pipeline.extract_tiki_data scheduled__2026-06-11T08:00:00+00:00 [running]> on host 9e90c8b35f3c
+[2026-06-12T08:00:01.492+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='anhtaizz' AIRFLOW_CTX_DAG_ID='tiki_beauty_lakehouse_pipeline' AIRFLOW_CTX_TASK_ID='extract_tiki_data' AIRFLOW_CTX_EXECUTION_DATE='2026-06-11T08:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2026-06-11T08:00:00+00:00'
+[2026-06-12T08:00:01.494+0000] {subprocess.py:63} INFO - Tmp dir root location: /tmp
+[2026-06-12T08:00:01.495+0000] {subprocess.py:75} INFO - Running command: ['/usr/bin/bash', '-c', 'python /opt/airflow/src/jobs/tiki_extract.py']
+[2026-06-12T08:00:01.507+0000] {subprocess.py:86} INFO - Output:
+[2026-06-12T08:00:02.601+0000] {subprocess.py:93} INFO - 2026-06-12 08:00:02,600 - __main__ - INFO - Start crawling category id 1520
+[2026-06-12T08:00:02.602+0000] {subprocess.py:93} INFO - 2026-06-12 08:00:02,600 - common.tiki_category - INFO - Loading category tree from Tiki API (ID: 1520)
+[2026-06-12T08:00:04.083+0000] {subprocess.py:93} INFO - 2026-06-12 08:00:04,083 - __main__ - INFO - Found 258 leaf categories
+[2026-06-12T08:00:04.084+0000] {subprocess.py:93} INFO - 2026-06-12 08:00:04,083 - __main__ - INFO - [1/258] Processing: Mặt nạ đất sét
+[2026-06-12T08:00:04.085+0000] {subprocess.py:93} INFO - 2026-06-12 08:00:04,083 - common.tiki_product - INFO - Category 11709 (mat-na-dat-set) - fetching page 1/1
+[2026-06-12T08:00:09.773+0000] {subprocess.py:93} INFO - 2026-06-12 08:00:09,772 - common.tiki_product - INFO - Category 11709 (mat-na-dat-set) - fetching page 2/3
+[2026-06-12T08:00:13.092+0000] {subprocess.py:93} INFO - 2026-06-12 08:00:13,092 - common.tiki_product - INFO - Category 11709 (mat-na-dat-set) - fetching page 3/3
+[2026-06-12T08:00:13.693+0000] {subprocess.py:93} INFO - 2026-06-12 08:00:13,692 - common.tiki_product - INFO - Reached last page (3). Finished category 11709.
+[2026-06-12T08:00:13.695+0000] {subprocess.py:93} INFO - 2026-06-12 08:00:13,693 - __main__ - INFO - [2/258] Processing: Mặt nạ giấy
+[2026-06-12T08:00:13.696+0000] {subprocess.py:93} INFO - 2026-06-12 08:00:13,693 - common.tiki_product - INFO - Category 8208 (mat-na-giay) - fetching page 1/1
+[2026-06-12T08:00:17.024+0000] {subprocess.py:93} INFO - 2026-06-12 08:00:17,024 - common.tiki_product - INFO - Category 8208 (mat-na-giay) - fetching page 2/7
+[2026-06-12T08:00:19.424+0000] {subprocess.py:93} INFO - 2026-06-12 08:00:19,423 - common.tiki_product - INFO - Category 8208 (mat-na-giay) - fetching page 3/7
+[2026-06-12T08:00:21.752+0000] {subprocess.py:93} INFO - 2026-06-12 08:00:21,751 - common.tiki_product - INFO - Category 8208 (mat-na-giay) - fetching page 4/7
+[2026-06-12T08:00:24.477+0000] {subprocess.py:93} INFO - 2026-06-12 08:00:24,476 - common.tiki_product - INFO - Category 8208 (mat-na-giay) - fetching page 5/7
+[2026-06-12T08:00:26.800+0000] {subprocess.py:93} INFO - 2026-06-12 08:00:26,800 - common.tiki_product - INFO - Category 8208 (mat-na-giay) - fetching page 6/7
+[2026-06-12T08:00:29.146+0000] {subprocess.py:93} INFO - 2026-06-12 08:00:29,146 - common.tiki_product - INFO - Category 8208 (mat-na-giay) - fetching page 7/7
+[2026-06-12T08:00:30.072+0000] {subprocess.py:93} INFO - 2026-06-12 08:00:30,071 - common.tiki_product - INFO - Reached last page (7). Finished category 8208.
+[2026-06-12T08:00:30.073+0000] {subprocess.py:93} INFO - 2026-06-12 08:00:30,072 - __main__ - INFO - [3/258] Processing: Mặt nạ ngủ
+[2026-06-12T08:00:30.074+0000] {subprocess.py:93} INFO - 2026-06-12 08:00:30,072 - common.tiki_product - INFO - Category 11711 (mat-na-ngu) - fetching page 1/1
+[2026-06-12T08:00:32.535+0000] {subprocess.py:93} INFO - 2026-06-12 08:00:32,533 - common.tiki_product - INFO - Category 11711 (mat-na-ngu) - fetching page 2/2
+[2026-06-12T08:00:32.774+0000] {subprocess.py:93} INFO - 2026-06-12 08:00:32,773 - common.tiki_product - INFO - Reached last page (2). Finished category 11711.
+[2026-06-12T08:00:32.777+0000] {subprocess.py:93} INFO - 2026-06-12 08:00:32,774 - __main__ - INFO - [4/258] Processing: Xịt khoáng
+[2026-06-12T08:00:32.780+0000] {subprocess.py:93} INFO - 2026-06-12 08:00:32,774 - common.tiki_product - INFO - Category 5872 (xit-khoang) - fetching page 1/1
+[2026-06-12T08:00:35.169+0000] {subprocess.py:93} INFO - 2026-06-12 08:00:35,168 - common.tiki_product - INFO - Category 5872 (xit-khoang) - fetching page 2/3
+[2026-06-12T08:00:37.462+0000] {subprocess.py:93} INFO - 2026-06-12 08:00:37,461 - common.tiki_product - INFO - Category 5872 (xit-khoang) - fetching page 3/3
+[2026-06-12T08:00:37.650+0000] {subprocess.py:93} INFO - 2026-06-12 08:00:37,649 - common.tiki_product - INFO - Reached last page (3). Finished category 5872.
+[2026-06-12T08:00:37.650+0000] {subprocess.py:93} INFO - 2026-06-12 08:00:37,650 - __main__ - INFO - [5/258] Processing: Kem mắt
+[2026-06-12T08:00:37.651+0000] {subprocess.py:93} INFO - 2026-06-12 08:00:37,650 - common.tiki_product - INFO - Category 5894 (kem-mat) - fetching page 1/1
+[2026-06-12T08:00:39.927+0000] {subprocess.py:93} INFO - 2026-06-12 08:00:39,926 - common.tiki_product - INFO - Category 5894 (kem-mat) - fetching page 2/2
+[2026-06-12T08:00:40.187+0000] {subprocess.py:93} INFO - 2026-06-12 08:00:40,187 - common.tiki_product - INFO - Reached last page (2). Finished category 5894.
+[2026-06-12T08:00:40.189+0000] {subprocess.py:93} INFO - 2026-06-12 08:00:40,187 - __main__ - INFO - [6/258] Processing: Mặt nạ mắt
+[2026-06-12T08:00:40.189+0000] {subprocess.py:93} INFO - 2026-06-12 08:00:40,188 - common.tiki_product - INFO - Category 68338 (mat-na-mat) - fetching page 1/1
+[2026-06-12T08:00:40.483+0000] {subprocess.py:93} INFO - 2026-06-12 08:00:40,482 - common.tiki_product - INFO - Reached last page (1). Finished category 68338.
+[2026-06-12T08:00:40.484+0000] {subprocess.py:93} INFO - 2026-06-12 08:00:40,482 - __main__ - INFO - [7/258] Processing: Serum mắt
+[2026-06-12T08:00:40.486+0000] {subprocess.py:93} INFO - 2026-06-12 08:00:40,483 - common.tiki_product - INFO - Category 68339 (serum-mat) - fetching page 1/1
+[2026-06-12T08:00:40.773+0000] {subprocess.py:93} INFO - 2026-06-12 08:00:40,772 - common.tiki_product - INFO - Reached last page (1). Finished category 68339.
+[2026-06-12T08:00:40.774+0000] {subprocess.py:93} INFO - 2026-06-12 08:00:40,773 - __main__ - INFO - [8/258] Processing: Toner cho da dầu
+[2026-06-12T08:00:40.777+0000] {subprocess.py:93} INFO - 2026-06-12 08:00:40,773 - common.tiki_product - INFO - Category 68334 (toner-cho-da-dau) - fetching page 1/1
+[2026-06-12T08:00:43.085+0000] {subprocess.py:93} INFO - 2026-06-12 08:00:43,085 - common.tiki_product - INFO - Category 68334 (toner-cho-da-dau) - fetching page 2/2
+[2026-06-12T08:00:43.336+0000] {subprocess.py:93} INFO - 2026-06-12 08:00:43,336 - common.tiki_product - INFO - Reached last page (2). Finished category 68334.
+[2026-06-12T08:00:43.341+0000] {subprocess.py:93} INFO - 2026-06-12 08:00:43,336 - __main__ - INFO - [9/258] Processing: Toner cho da thường và khô
+[2026-06-12T08:00:43.345+0000] {subprocess.py:93} INFO - 2026-06-12 08:00:43,336 - common.tiki_product - INFO - Category 68335 (toner-cho-da-thuong-va-kho) - fetching page 1/1
+[2026-06-12T08:00:45.749+0000] {subprocess.py:93} INFO - 2026-06-12 08:00:45,748 - common.tiki_product - INFO - Category 68335 (toner-cho-da-thuong-va-kho) - fetching page 2/5
+[2026-06-12T08:00:48.109+0000] {subprocess.py:93} INFO - 2026-06-12 08:00:48,108 - common.tiki_product - INFO - Category 68335 (toner-cho-da-thuong-va-kho) - fetching page 3/5
+[2026-06-12T08:00:50.444+0000] {subprocess.py:93} INFO - 2026-06-12 08:00:50,440 - common.tiki_product - INFO - Category 68335 (toner-cho-da-thuong-va-kho) - fetching page 4/5
+[2026-06-12T08:00:52.769+0000] {subprocess.py:93} INFO - 2026-06-12 08:00:52,768 - common.tiki_product - INFO - Category 68335 (toner-cho-da-thuong-va-kho) - fetching page 5/5
+[2026-06-12T08:00:53.055+0000] {subprocess.py:93} INFO - 2026-06-12 08:00:53,055 - common.tiki_product - INFO - Reached last page (5). Finished category 68335.
+[2026-06-12T08:00:53.056+0000] {subprocess.py:93} INFO - 2026-06-12 08:00:53,055 - __main__ - INFO - [10/258] Processing: Kem chống nắng
+[2026-06-12T08:00:53.057+0000] {subprocess.py:93} INFO - 2026-06-12 08:00:53,055 - common.tiki_product - INFO - Category 3422 (kem-chong-nang) - fetching page 1/1
+[2026-06-12T08:00:55.330+0000] {subprocess.py:93} INFO - 2026-06-12 08:00:55,329 - common.tiki_product - INFO - Category 3422 (kem-chong-nang) - fetching page 2/13
+[2026-06-12T08:00:57.606+0000] {subprocess.py:93} INFO - 2026-06-12 08:00:57,605 - common.tiki_product - INFO - Category 3422 (kem-chong-nang) - fetching page 3/13
+[2026-06-12T08:01:00.548+0000] {subprocess.py:93} INFO - 2026-06-12 08:01:00,548 - common.tiki_product - INFO - Category 3422 (kem-chong-nang) - fetching page 4/13
+[2026-06-12T08:01:02.780+0000] {subprocess.py:93} INFO - 2026-06-12 08:01:02,780 - common.tiki_product - INFO - Category 3422 (kem-chong-nang) - fetching page 5/13
+[2026-06-12T08:01:05.060+0000] {subprocess.py:93} INFO - 2026-06-12 08:01:05,059 - common.tiki_product - INFO - Category 3422 (kem-chong-nang) - fetching page 6/13
+[2026-06-12T08:01:07.348+0000] {subprocess.py:93} INFO - 2026-06-12 08:01:07,346 - common.tiki_product - INFO - Category 3422 (kem-chong-nang) - fetching page 7/13
+[2026-06-12T08:01:09.688+0000] {subprocess.py:93} INFO - 2026-06-12 08:01:09,687 - common.tiki_product - INFO - Category 3422 (kem-chong-nang) - fetching page 8/13
+[2026-06-12T08:01:11.980+0000] {subprocess.py:93} INFO - 2026-06-12 08:01:11,978 - common.tiki_product - INFO - Category 3422 (kem-chong-nang) - fetching page 9/13
+[2026-06-12T08:01:14.260+0000] {subprocess.py:93} INFO - 2026-06-12 08:01:14,259 - common.tiki_product - INFO - Category 3422 (kem-chong-nang) - fetching page 10/13
+[2026-06-12T08:01:16.480+0000] {subprocess.py:93} INFO - 2026-06-12 08:01:16,480 - common.tiki_product - INFO - Category 3422 (kem-chong-nang) - fetching page 11/13
+[2026-06-12T08:01:18.715+0000] {subprocess.py:93} INFO - 2026-06-12 08:01:18,714 - common.tiki_product - INFO - Category 3422 (kem-chong-nang) - fetching page 12/13
+[2026-06-12T08:01:21.036+0000] {subprocess.py:93} INFO - 2026-06-12 08:01:21,036 - common.tiki_product - INFO - Category 3422 (kem-chong-nang) - fetching page 13/13
+[2026-06-12T08:01:21.221+0000] {subprocess.py:93} INFO - 2026-06-12 08:01:21,220 - common.tiki_product - INFO - Reached last page (13). Finished category 3422.
+[2026-06-12T08:01:21.225+0000] {subprocess.py:93} INFO - 2026-06-12 08:01:21,221 - __main__ - INFO - [11/258] Processing: Kem trị mụn
+[2026-06-12T08:01:21.232+0000] {subprocess.py:93} INFO - 2026-06-12 08:01:21,221 - common.tiki_product - INFO - Category 11683 (kem-tri-mun) - fetching page 1/1
+[2026-06-12T08:01:23.549+0000] {subprocess.py:93} INFO - 2026-06-12 08:01:23,548 - common.tiki_product - INFO - Category 11683 (kem-tri-mun) - fetching page 2/2
+[2026-06-12T08:01:23.816+0000] {subprocess.py:93} INFO - 2026-06-12 08:01:23,815 - common.tiki_product - INFO - Reached last page (2). Finished category 11683.
+[2026-06-12T08:01:23.820+0000] {subprocess.py:93} INFO - 2026-06-12 08:01:23,816 - __main__ - INFO - [12/258] Processing: Lột mụn
+[2026-06-12T08:01:23.824+0000] {subprocess.py:93} INFO - 2026-06-12 08:01:23,816 - common.tiki_product - INFO - Category 11685 (lot-mun) - fetching page 1/1
+[2026-06-12T08:01:24.078+0000] {subprocess.py:93} INFO - 2026-06-12 08:01:24,077 - common.tiki_product - INFO - Reached last page (1). Finished category 11685.
+[2026-06-12T08:01:24.084+0000] {subprocess.py:93} INFO - 2026-06-12 08:01:24,078 - __main__ - INFO - [13/258] Processing: Kem trị sẹo
+[2026-06-12T08:01:24.091+0000] {subprocess.py:93} INFO - 2026-06-12 08:01:24,079 - common.tiki_product - INFO - Category 8306 (kem-tri-seo) - fetching page 1/1
+[2026-06-12T08:01:24.305+0000] {subprocess.py:93} INFO - 2026-06-12 08:01:24,304 - common.tiki_product - INFO - Reached last page (1). Finished category 8306.
+[2026-06-12T08:01:24.310+0000] {subprocess.py:93} INFO - 2026-06-12 08:01:24,304 - __main__ - INFO - [14/258] Processing: Miếng dán mụn
+[2026-06-12T08:01:24.314+0000] {subprocess.py:93} INFO - 2026-06-12 08:01:24,305 - common.tiki_product - INFO - Category 5891 (mieng-dan-mun) - fetching page 1/1
+[2026-06-12T08:01:24.551+0000] {subprocess.py:93} INFO - 2026-06-12 08:01:24,550 - common.tiki_product - INFO - Reached last page (1). Finished category 5891.
+[2026-06-12T08:01:24.552+0000] {subprocess.py:93} INFO - 2026-06-12 08:01:24,551 - __main__ - INFO - [15/258] Processing: Kem chống lão hóa
+[2026-06-12T08:01:24.553+0000] {subprocess.py:93} INFO - 2026-06-12 08:01:24,551 - common.tiki_product - INFO - Category 11675 (kem-chong-lao-hoa) - fetching page 1/1
+[2026-06-12T08:01:26.905+0000] {subprocess.py:93} INFO - 2026-06-12 08:01:26,905 - common.tiki_product - INFO - Category 11675 (kem-chong-lao-hoa) - fetching page 2/4
+[2026-06-12T08:01:29.188+0000] {subprocess.py:93} INFO - 2026-06-12 08:01:29,187 - common.tiki_product - INFO - Category 11675 (kem-chong-lao-hoa) - fetching page 3/4
+[2026-06-12T08:01:31.427+0000] {subprocess.py:93} INFO - 2026-06-12 08:01:31,427 - common.tiki_product - INFO - Category 11675 (kem-chong-lao-hoa) - fetching page 4/4
+[2026-06-12T08:01:31.620+0000] {subprocess.py:93} INFO - 2026-06-12 08:01:31,619 - common.tiki_product - INFO - Reached last page (4). Finished category 11675.
+[2026-06-12T08:01:31.624+0000] {subprocess.py:93} INFO - 2026-06-12 08:01:31,620 - __main__ - INFO - [16/258] Processing: Kem dưỡng ẩm
+[2026-06-12T08:01:31.627+0000] {subprocess.py:93} INFO - 2026-06-12 08:01:31,620 - common.tiki_product - INFO - Category 11697 (kem-duong-am) - fetching page 1/1
+[2026-06-12T08:01:33.970+0000] {subprocess.py:93} INFO - 2026-06-12 08:01:33,969 - common.tiki_product - INFO - Category 11697 (kem-duong-am) - fetching page 2/7
+[2026-06-12T08:01:36.280+0000] {subprocess.py:93} INFO - 2026-06-12 08:01:36,280 - common.tiki_product - INFO - Category 11697 (kem-duong-am) - fetching page 3/7
+[2026-06-12T08:01:38.538+0000] {subprocess.py:93} INFO - 2026-06-12 08:01:38,537 - common.tiki_product - INFO - Category 11697 (kem-duong-am) - fetching page 4/7
+[2026-06-12T08:01:40.827+0000] {subprocess.py:93} INFO - 2026-06-12 08:01:40,827 - common.tiki_product - INFO - Category 11697 (kem-duong-am) - fetching page 5/7
+[2026-06-12T08:01:43.127+0000] {subprocess.py:93} INFO - 2026-06-12 08:01:43,126 - common.tiki_product - INFO - Category 11697 (kem-duong-am) - fetching page 6/7
+[2026-06-12T08:01:45.413+0000] {subprocess.py:93} INFO - 2026-06-12 08:01:45,413 - common.tiki_product - INFO - Category 11697 (kem-duong-am) - fetching page 7/7
+[2026-06-12T08:01:45.680+0000] {subprocess.py:93} INFO - 2026-06-12 08:01:45,679 - common.tiki_product - INFO - Reached last page (7). Finished category 11697.
+[2026-06-12T08:01:45.684+0000] {subprocess.py:93} INFO - 2026-06-12 08:01:45,680 - __main__ - INFO - [17/258] Processing: Kem dưỡng trắng
+[2026-06-12T08:01:45.689+0000] {subprocess.py:93} INFO - 2026-06-12 08:01:45,680 - common.tiki_product - INFO - Category 11669 (kem-duong-trang) - fetching page 1/1
+[2026-06-12T08:01:48.126+0000] {subprocess.py:93} INFO - 2026-06-12 08:01:48,125 - common.tiki_product - INFO - Category 11669 (kem-duong-trang) - fetching page 2/7
+[2026-06-12T08:01:50.458+0000] {subprocess.py:93} INFO - 2026-06-12 08:01:50,457 - common.tiki_product - INFO - Category 11669 (kem-duong-trang) - fetching page 3/7
+[2026-06-12T08:01:53.165+0000] {subprocess.py:93} INFO - 2026-06-12 08:01:53,165 - common.tiki_product - INFO - Category 11669 (kem-duong-trang) - fetching page 4/7
+[2026-06-12T08:01:55.482+0000] {subprocess.py:93} INFO - 2026-06-12 08:01:55,482 - common.tiki_product - INFO - Category 11669 (kem-duong-trang) - fetching page 5/7
+[2026-06-12T08:01:57.925+0000] {subprocess.py:93} INFO - 2026-06-12 08:01:57,925 - common.tiki_product - INFO - Category 11669 (kem-duong-trang) - fetching page 6/7
+[2026-06-12T08:02:00.329+0000] {subprocess.py:93} INFO - 2026-06-12 08:02:00,329 - common.tiki_product - INFO - Category 11669 (kem-duong-trang) - fetching page 7/7
+[2026-06-12T08:02:00.621+0000] {subprocess.py:93} INFO - 2026-06-12 08:02:00,621 - common.tiki_product - INFO - Reached last page (7). Finished category 11669.
+[2026-06-12T08:02:00.623+0000] {subprocess.py:93} INFO - 2026-06-12 08:02:00,621 - __main__ - INFO - [18/258] Processing: Kem dưỡng trị mụn và phục hồi
+[2026-06-12T08:02:00.625+0000] {subprocess.py:93} INFO - 2026-06-12 08:02:00,622 - common.tiki_product - INFO - Category 68337 (kem-duong-tri-mun-va-phuc-hoi) - fetching page 1/1
+[2026-06-12T08:02:03.004+0000] {subprocess.py:93} INFO - 2026-06-12 08:02:03,003 - common.tiki_product - INFO - Category 68337 (kem-duong-tri-mun-va-phuc-hoi) - fetching page 2/5
+[2026-06-12T08:02:05.410+0000] {subprocess.py:93} INFO - 2026-06-12 08:02:05,409 - common.tiki_product - INFO - Category 68337 (kem-duong-tri-mun-va-phuc-hoi) - fetching page 3/5
+[2026-06-12T08:02:07.797+0000] {subprocess.py:93} INFO - 2026-06-12 08:02:07,796 - common.tiki_product - INFO - Category 68337 (kem-duong-tri-mun-va-phuc-hoi) - fetching page 4/5
+[2026-06-12T08:02:10.152+0000] {subprocess.py:93} INFO - 2026-06-12 08:02:10,152 - common.tiki_product - INFO - Category 68337 (kem-duong-tri-mun-va-phuc-hoi) - fetching page 5/5
+[2026-06-12T08:02:10.528+0000] {subprocess.py:93} INFO - 2026-06-12 08:02:10,527 - common.tiki_product - INFO - Reached last page (5). Finished category 68337.
+[2026-06-12T08:02:10.532+0000] {subprocess.py:93} INFO - 2026-06-12 08:02:10,528 - __main__ - INFO - [19/258] Processing: Sản phẩm chăm sóc da mặt khác
+[2026-06-12T08:02:10.534+0000] {subprocess.py:93} INFO - 2026-06-12 08:02:10,529 - common.tiki_product - INFO - Category 17174 (san-pham-cham-soc-da-mat-khac) - fetching page 1/1
+[2026-06-12T08:02:12.957+0000] {subprocess.py:93} INFO - 2026-06-12 08:02:12,956 - common.tiki_product - INFO - Category 17174 (san-pham-cham-soc-da-mat-khac) - fetching page 2/2
+[2026-06-12T08:02:13.240+0000] {subprocess.py:93} INFO - 2026-06-12 08:02:13,240 - common.tiki_product - INFO - Reached last page (2). Finished category 17174.
+[2026-06-12T08:02:13.244+0000] {subprocess.py:93} INFO - 2026-06-12 08:02:13,240 - __main__ - INFO - [20/258] Processing: Serum trị mụn và phục hồi
+[2026-06-12T08:02:13.250+0000] {subprocess.py:93} INFO - 2026-06-12 08:02:13,240 - common.tiki_product - INFO - Category 11703 (serum-tri-mun-va-phuc-hoi) - fetching page 1/1
+[2026-06-12T08:02:15.724+0000] {subprocess.py:93} INFO - 2026-06-12 08:02:15,723 - common.tiki_product - INFO - Category 11703 (serum-tri-mun-va-phuc-hoi) - fetching page 2/5
+[2026-06-12T08:02:18.071+0000] {subprocess.py:93} INFO - 2026-06-12 08:02:18,070 - common.tiki_product - INFO - Category 11703 (serum-tri-mun-va-phuc-hoi) - fetching page 3/5
+[2026-06-12T08:02:20.413+0000] {subprocess.py:93} INFO - 2026-06-12 08:02:20,413 - common.tiki_product - INFO - Category 11703 (serum-tri-mun-va-phuc-hoi) - fetching page 4/5
+[2026-06-12T08:02:22.806+0000] {subprocess.py:93} INFO - 2026-06-12 08:02:22,803 - common.tiki_product - INFO - Category 11703 (serum-tri-mun-va-phuc-hoi) - fetching page 5/5
+[2026-06-12T08:02:23.116+0000] {subprocess.py:93} INFO - 2026-06-12 08:02:23,115 - common.tiki_product - INFO - Reached last page (5). Finished category 11703.
+[2026-06-12T08:02:23.121+0000] {subprocess.py:93} INFO - 2026-06-12 08:02:23,116 - __main__ - INFO - [21/258] Processing: Serum chống lão hóa
+[2026-06-12T08:02:23.128+0000] {subprocess.py:93} INFO - 2026-06-12 08:02:23,116 - common.tiki_product - INFO - Category 11673 (serum-chong-lao-hoa) - fetching page 1/1
+[2026-06-12T08:02:25.575+0000] {subprocess.py:93} INFO - 2026-06-12 08:02:25,574 - common.tiki_product - INFO - Category 11673 (serum-chong-lao-hoa) - fetching page 2/5
+[2026-06-12T08:02:27.969+0000] {subprocess.py:93} INFO - 2026-06-12 08:02:27,965 - common.tiki_product - INFO - Category 11673 (serum-chong-lao-hoa) - fetching page 3/5
+[2026-06-12T08:02:30.317+0000] {subprocess.py:93} INFO - 2026-06-12 08:02:30,316 - common.tiki_product - INFO - Category 11673 (serum-chong-lao-hoa) - fetching page 4/5
+[2026-06-12T08:02:32.781+0000] {subprocess.py:93} INFO - 2026-06-12 08:02:32,778 - common.tiki_product - INFO - Category 11673 (serum-chong-lao-hoa) - fetching page 5/5
+[2026-06-12T08:02:33.162+0000] {subprocess.py:93} INFO - 2026-06-12 08:02:33,162 - common.tiki_product - INFO - Reached last page (5). Finished category 11673.
+[2026-06-12T08:02:33.165+0000] {subprocess.py:93} INFO - 2026-06-12 08:02:33,162 - __main__ - INFO - [22/258] Processing: Serum dưỡng ẩm
+[2026-06-12T08:02:33.169+0000] {subprocess.py:93} INFO - 2026-06-12 08:02:33,163 - common.tiki_product - INFO - Category 11695 (serum-duong-am) - fetching page 1/1
+[2026-06-12T08:02:35.604+0000] {subprocess.py:93} INFO - 2026-06-12 08:02:35,603 - common.tiki_product - INFO - Category 11695 (serum-duong-am) - fetching page 2/4
+[2026-06-12T08:02:38.005+0000] {subprocess.py:93} INFO - 2026-06-12 08:02:38,004 - common.tiki_product - INFO - Category 11695 (serum-duong-am) - fetching page 3/4
+[2026-06-12T08:02:40.369+0000] {subprocess.py:93} INFO - 2026-06-12 08:02:40,369 - common.tiki_product - INFO - Category 11695 (serum-duong-am) - fetching page 4/4
+[2026-06-12T08:02:40.709+0000] {subprocess.py:93} INFO - 2026-06-12 08:02:40,708 - common.tiki_product - INFO - Reached last page (4). Finished category 11695.
+[2026-06-12T08:02:40.715+0000] {subprocess.py:93} INFO - 2026-06-12 08:02:40,709 - __main__ - INFO - [23/258] Processing: Serum dưỡng trắng
+[2026-06-12T08:02:40.720+0000] {subprocess.py:93} INFO - 2026-06-12 08:02:40,710 - common.tiki_product - INFO - Category 11667 (serum-duong-trang) - fetching page 1/1
+[2026-06-12T08:02:43.156+0000] {subprocess.py:93} INFO - 2026-06-12 08:02:43,155 - common.tiki_product - INFO - Category 11667 (serum-duong-trang) - fetching page 2/5
+[2026-06-12T08:02:45.507+0000] {subprocess.py:93} INFO - 2026-06-12 08:02:45,506 - common.tiki_product - INFO - Category 11667 (serum-duong-trang) - fetching page 3/5
+[2026-06-12T08:02:47.896+0000] {subprocess.py:93} INFO - 2026-06-12 08:02:47,896 - common.tiki_product - INFO - Category 11667 (serum-duong-trang) - fetching page 4/5
+[2026-06-12T08:02:50.209+0000] {subprocess.py:93} INFO - 2026-06-12 08:02:50,208 - common.tiki_product - INFO - Category 11667 (serum-duong-trang) - fetching page 5/5
+[2026-06-12T08:02:50.456+0000] {subprocess.py:93} INFO - 2026-06-12 08:02:50,456 - common.tiki_product - INFO - Reached last page (5). Finished category 11667.
+[2026-06-12T08:02:50.458+0000] {subprocess.py:93} INFO - 2026-06-12 08:02:50,456 - __main__ - INFO - [24/258] Processing: Bộ chăm sóc da mặt
+[2026-06-12T08:02:50.459+0000] {subprocess.py:93} INFO - 2026-06-12 08:02:50,456 - common.tiki_product - INFO - Category 8227 (bo-cham-soc-da-mat) - fetching page 1/1
+[2026-06-12T08:02:52.749+0000] {subprocess.py:93} INFO - 2026-06-12 08:02:52,749 - common.tiki_product - INFO - Category 8227 (bo-cham-soc-da-mat) - fetching page 2/3
+[2026-06-12T08:02:55.034+0000] {subprocess.py:93} INFO - 2026-06-12 08:02:55,033 - common.tiki_product - INFO - Category 8227 (bo-cham-soc-da-mat) - fetching page 3/3
+[2026-06-12T08:02:55.307+0000] {subprocess.py:93} INFO - 2026-06-12 08:02:55,307 - common.tiki_product - INFO - Reached last page (3). Finished category 8227.
+[2026-06-12T08:02:55.309+0000] {subprocess.py:93} INFO - 2026-06-12 08:02:55,308 - __main__ - INFO - [25/258] Processing: Sữa rửa mặt
+[2026-06-12T08:02:55.311+0000] {subprocess.py:93} INFO - 2026-06-12 08:02:55,308 - common.tiki_product - INFO - Category 1583 (sua-rua-mat) - fetching page 1/1
+[2026-06-12T08:02:57.650+0000] {subprocess.py:93} INFO - 2026-06-12 08:02:57,650 - common.tiki_product - INFO - Category 1583 (sua-rua-mat) - fetching page 2/17
+[2026-06-12T08:02:59.990+0000] {subprocess.py:93} INFO - 2026-06-12 08:02:59,990 - common.tiki_product - INFO - Category 1583 (sua-rua-mat) - fetching page 3/17
+[2026-06-12T08:03:02.288+0000] {subprocess.py:93} INFO - 2026-06-12 08:03:02,287 - common.tiki_product - INFO - Category 1583 (sua-rua-mat) - fetching page 4/17
+[2026-06-12T08:03:04.545+0000] {subprocess.py:93} INFO - 2026-06-12 08:03:04,545 - common.tiki_product - INFO - Category 1583 (sua-rua-mat) - fetching page 5/17
+[2026-06-12T08:03:06.792+0000] {subprocess.py:93} INFO - 2026-06-12 08:03:06,791 - common.tiki_product - INFO - Category 1583 (sua-rua-mat) - fetching page 6/17
+[2026-06-12T08:03:09.065+0000] {subprocess.py:93} INFO - 2026-06-12 08:03:09,065 - common.tiki_product - INFO - Category 1583 (sua-rua-mat) - fetching page 7/17
+[2026-06-12T08:03:11.325+0000] {subprocess.py:93} INFO - 2026-06-12 08:03:11,325 - common.tiki_product - INFO - Category 1583 (sua-rua-mat) - fetching page 8/17
+[2026-06-12T08:03:13.614+0000] {subprocess.py:93} INFO - 2026-06-12 08:03:13,613 - common.tiki_product - INFO - Category 1583 (sua-rua-mat) - fetching page 9/17
+[2026-06-12T08:03:15.950+0000] {subprocess.py:93} INFO - 2026-06-12 08:03:15,950 - common.tiki_product - INFO - Category 1583 (sua-rua-mat) - fetching page 10/17
+[2026-06-12T08:03:18.384+0000] {subprocess.py:93} INFO - 2026-06-12 08:03:18,384 - common.tiki_product - INFO - Category 1583 (sua-rua-mat) - fetching page 11/17
+[2026-06-12T08:03:20.770+0000] {subprocess.py:93} INFO - 2026-06-12 08:03:20,768 - common.tiki_product - INFO - Category 1583 (sua-rua-mat) - fetching page 12/17
+[2026-06-12T08:03:23.039+0000] {subprocess.py:93} INFO - 2026-06-12 08:03:23,037 - common.tiki_product - INFO - Category 1583 (sua-rua-mat) - fetching page 13/17
+[2026-06-12T08:03:25.342+0000] {subprocess.py:93} INFO - 2026-06-12 08:03:25,341 - common.tiki_product - INFO - Category 1583 (sua-rua-mat) - fetching page 14/17
+[2026-06-12T08:03:27.671+0000] {subprocess.py:93} INFO - 2026-06-12 08:03:27,671 - common.tiki_product - INFO - Category 1583 (sua-rua-mat) - fetching page 15/17
+[2026-06-12T08:03:30.736+0000] {subprocess.py:93} INFO - 2026-06-12 08:03:30,736 - common.tiki_product - INFO - Category 1583 (sua-rua-mat) - fetching page 16/17
+[2026-06-12T08:03:33.008+0000] {subprocess.py:93} INFO - 2026-06-12 08:03:33,008 - common.tiki_product - INFO - Category 1583 (sua-rua-mat) - fetching page 17/17
+[2026-06-12T08:03:33.250+0000] {subprocess.py:93} INFO - 2026-06-12 08:03:33,250 - common.tiki_product - INFO - Reached last page (17). Finished category 1583.
+[2026-06-12T08:03:33.252+0000] {subprocess.py:93} INFO - 2026-06-12 08:03:33,250 - __main__ - INFO - [26/258] Processing: Tẩy tế bào chết vật lí
+[2026-06-12T08:03:33.254+0000] {subprocess.py:93} INFO - 2026-06-12 08:03:33,250 - common.tiki_product - INFO - Category 45732 (tay-te-bao-chet-vat-li) - fetching page 1/1
+[2026-06-12T08:03:35.627+0000] {subprocess.py:93} INFO - 2026-06-12 08:03:35,626 - common.tiki_product - INFO - Category 45732 (tay-te-bao-chet-vat-li) - fetching page 2/3
+[2026-06-12T08:03:38.019+0000] {subprocess.py:93} INFO - 2026-06-12 08:03:38,018 - common.tiki_product - INFO - Category 45732 (tay-te-bao-chet-vat-li) - fetching page 3/3
+[2026-06-12T08:03:38.219+0000] {subprocess.py:93} INFO - 2026-06-12 08:03:38,219 - common.tiki_product - INFO - Reached last page (3). Finished category 45732.
+[2026-06-12T08:03:38.223+0000] {subprocess.py:93} INFO - 2026-06-12 08:03:38,219 - __main__ - INFO - [27/258] Processing: Tẩy tế bào chết hóa học
+[2026-06-12T08:03:38.227+0000] {subprocess.py:93} INFO - 2026-06-12 08:03:38,220 - common.tiki_product - INFO - Category 45740 (tay-te-bao-chet-hoa-hoc) - fetching page 1/1
+[2026-06-12T08:03:38.572+0000] {subprocess.py:93} INFO - 2026-06-12 08:03:38,571 - common.tiki_product - INFO - Reached last page (1). Finished category 45740.
+[2026-06-12T08:03:38.574+0000] {subprocess.py:93} INFO - 2026-06-12 08:03:38,572 - __main__ - INFO - [28/258] Processing: Dung dịch tẩy trang
+[2026-06-12T08:03:38.576+0000] {subprocess.py:93} INFO - 2026-06-12 08:03:38,572 - common.tiki_product - INFO - Category 11605 (dung-dich-tay-trang) - fetching page 1/1
+[2026-06-12T08:03:40.959+0000] {subprocess.py:93} INFO - 2026-06-12 08:03:40,959 - common.tiki_product - INFO - Category 11605 (dung-dich-tay-trang) - fetching page 2/8
+[2026-06-12T08:03:43.270+0000] {subprocess.py:93} INFO - 2026-06-12 08:03:43,268 - common.tiki_product - INFO - Category 11605 (dung-dich-tay-trang) - fetching page 3/8
+[2026-06-12T08:03:45.636+0000] {subprocess.py:93} INFO - 2026-06-12 08:03:45,635 - common.tiki_product - INFO - Category 11605 (dung-dich-tay-trang) - fetching page 4/8
+[2026-06-12T08:03:47.939+0000] {subprocess.py:93} INFO - 2026-06-12 08:03:47,938 - common.tiki_product - INFO - Category 11605 (dung-dich-tay-trang) - fetching page 5/8
+[2026-06-12T08:03:50.325+0000] {subprocess.py:93} INFO - 2026-06-12 08:03:50,323 - common.tiki_product - INFO - Category 11605 (dung-dich-tay-trang) - fetching page 6/8
+[2026-06-12T08:03:52.746+0000] {subprocess.py:93} INFO - 2026-06-12 08:03:52,745 - common.tiki_product - INFO - Category 11605 (dung-dich-tay-trang) - fetching page 7/8
+[2026-06-12T08:03:55.095+0000] {subprocess.py:93} INFO - 2026-06-12 08:03:55,093 - common.tiki_product - INFO - Category 11605 (dung-dich-tay-trang) - fetching page 8/8
+[2026-06-12T08:03:55.413+0000] {subprocess.py:93} INFO - 2026-06-12 08:03:55,413 - common.tiki_product - INFO - Reached last page (8). Finished category 11605.
+[2026-06-12T08:03:55.416+0000] {subprocess.py:93} INFO - 2026-06-12 08:03:55,413 - __main__ - INFO - [29/258] Processing: Chống lão hóa da
+[2026-06-12T08:03:55.418+0000] {subprocess.py:93} INFO - 2026-06-12 08:03:55,413 - common.tiki_product - INFO - Category 5893 (chong-lao-hoa-da) - fetching page 1/1
+[2026-06-12T08:03:55.757+0000] {subprocess.py:93} INFO - 2026-06-12 08:03:55,757 - common.tiki_product - INFO - Reached last page (1). Finished category 5893.
+[2026-06-12T08:03:55.759+0000] {subprocess.py:93} INFO - 2026-06-12 08:03:55,757 - __main__ - INFO - [30/258] Processing: Bông tẩy trang
+[2026-06-12T08:03:55.760+0000] {subprocess.py:93} INFO - 2026-06-12 08:03:55,758 - common.tiki_product - INFO - Category 5865 (bong-tay-trang) - fetching page 1/1
+[2026-06-12T08:03:58.236+0000] {subprocess.py:93} INFO - 2026-06-12 08:03:58,236 - common.tiki_product - INFO - Category 5865 (bong-tay-trang) - fetching page 2/3
+[2026-06-12T08:04:00.573+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:00,573 - common.tiki_product - INFO - Category 5865 (bong-tay-trang) - fetching page 3/3
+[2026-06-12T08:04:00.928+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:00,928 - common.tiki_product - INFO - Reached last page (3). Finished category 5865.
+[2026-06-12T08:04:00.930+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:00,928 - __main__ - INFO - [31/258] Processing: Giấy thấm dầu
+[2026-06-12T08:04:00.934+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:00,928 - common.tiki_product - INFO - Category 70250 (giay-tham-dau) - fetching page 1/1
+[2026-06-12T08:04:01.276+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:01,274 - common.tiki_product - INFO - Reached last page (1). Finished category 70250.
+[2026-06-12T08:04:01.281+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:01,275 - __main__ - INFO - [32/258] Processing: Cọ, dụng cụ trang điểm
+[2026-06-12T08:04:01.286+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:01,275 - common.tiki_product - INFO - Category 8193 (co-dung-cu-trang-diem) - fetching page 1/1
+[2026-06-12T08:04:03.683+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:03,682 - common.tiki_product - INFO - Category 8193 (co-dung-cu-trang-diem) - fetching page 2/4
+[2026-06-12T08:04:06.060+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:06,059 - common.tiki_product - INFO - Category 8193 (co-dung-cu-trang-diem) - fetching page 3/4
+[2026-06-12T08:04:08.490+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:08,489 - common.tiki_product - INFO - Category 8193 (co-dung-cu-trang-diem) - fetching page 4/4
+[2026-06-12T08:04:08.768+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:08,767 - common.tiki_product - INFO - Reached last page (4). Finished category 8193.
+[2026-06-12T08:04:08.773+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:08,768 - __main__ - INFO - [33/258] Processing: Mút trang điểm
+[2026-06-12T08:04:08.777+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:08,768 - common.tiki_product - INFO - Category 8194 (mut-trang-diem) - fetching page 1/1
+[2026-06-12T08:04:11.220+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:11,219 - common.tiki_product - INFO - Category 8194 (mut-trang-diem) - fetching page 2/2
+[2026-06-12T08:04:11.445+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:11,445 - common.tiki_product - INFO - Reached last page (2). Finished category 8194.
+[2026-06-12T08:04:11.447+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:11,445 - __main__ - INFO - [34/258] Processing: Bấm mi
+[2026-06-12T08:04:11.449+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:11,446 - common.tiki_product - INFO - Category 8196 (bam-mi) - fetching page 1/1
+[2026-06-12T08:04:11.706+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:11,706 - common.tiki_product - INFO - Reached last page (1). Finished category 8196.
+[2026-06-12T08:04:11.713+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:11,707 - __main__ - INFO - [35/258] Processing: Nhíp, dao cạo
+[2026-06-12T08:04:11.716+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:11,707 - common.tiki_product - INFO - Category 8197 (nhip-dao-cao) - fetching page 1/1
+[2026-06-12T08:04:14.040+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:14,039 - common.tiki_product - INFO - Category 8197 (nhip-dao-cao) - fetching page 2/4
+[2026-06-12T08:04:16.316+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:16,315 - common.tiki_product - INFO - Category 8197 (nhip-dao-cao) - fetching page 3/4
+[2026-06-12T08:04:18.607+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:18,606 - common.tiki_product - INFO - Category 8197 (nhip-dao-cao) - fetching page 4/4
+[2026-06-12T08:04:18.868+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:18,867 - common.tiki_product - INFO - Reached last page (4). Finished category 8197.
+[2026-06-12T08:04:18.870+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:18,868 - __main__ - INFO - [36/258] Processing: Gương trang điểm
+[2026-06-12T08:04:18.873+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:18,868 - common.tiki_product - INFO - Category 8198 (guong-trang-diem) - fetching page 1/1
+[2026-06-12T08:04:21.243+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:21,243 - common.tiki_product - INFO - Category 8198 (guong-trang-diem) - fetching page 2/2
+[2026-06-12T08:04:21.484+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:21,482 - common.tiki_product - INFO - Reached last page (2). Finished category 8198.
+[2026-06-12T08:04:21.488+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:21,484 - __main__ - INFO - [37/258] Processing: Máy đánh kem, trang điểm
+[2026-06-12T08:04:21.493+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:21,484 - common.tiki_product - INFO - Category 5863 (may-danh-kem-trang-diem) - fetching page 1/1
+[2026-06-12T08:04:21.714+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:21,713 - common.tiki_product - INFO - No more products on page 1. Finished category 5863.
+[2026-06-12T08:04:21.717+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:21,714 - __main__ - INFO - [38/258] Processing: Lông mi giả
+[2026-06-12T08:04:21.720+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:21,714 - common.tiki_product - INFO - Category 8189 (long-mi-gia) - fetching page 1/1
+[2026-06-12T08:04:21.969+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:21,968 - common.tiki_product - INFO - Reached last page (1). Finished category 8189.
+[2026-06-12T08:04:21.975+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:21,969 - __main__ - INFO - [39/258] Processing: Miếng dán mi
+[2026-06-12T08:04:21.979+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:21,969 - common.tiki_product - INFO - Category 8190 (mieng-dan-mi) - fetching page 1/1
+[2026-06-12T08:04:22.317+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:22,316 - common.tiki_product - INFO - Reached last page (1). Finished category 8190.
+[2026-06-12T08:04:22.322+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:22,317 - __main__ - INFO - [40/258] Processing: Phấn má
+[2026-06-12T08:04:22.327+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:22,317 - common.tiki_product - INFO - Category 1640 (phan-ma) - fetching page 1/1
+[2026-06-12T08:04:22.673+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:22,672 - common.tiki_product - INFO - Reached last page (1). Finished category 1640.
+[2026-06-12T08:04:22.677+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:22,674 - __main__ - INFO - [41/258] Processing: BB cream
+[2026-06-12T08:04:22.681+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:22,674 - common.tiki_product - INFO - Category 11759 (bb-cream) - fetching page 1/1
+[2026-06-12T08:04:23.020+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:23,018 - common.tiki_product - INFO - Reached last page (1). Finished category 11759.
+[2026-06-12T08:04:23.025+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:23,019 - __main__ - INFO - [42/258] Processing: CC cream
+[2026-06-12T08:04:23.029+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:23,020 - common.tiki_product - INFO - Category 1600 (cc-cream) - fetching page 1/1
+[2026-06-12T08:04:23.286+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:23,286 - common.tiki_product - INFO - Reached last page (1). Finished category 1600.
+[2026-06-12T08:04:23.288+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:23,286 - __main__ - INFO - [43/258] Processing: Che khuyết điểm
+[2026-06-12T08:04:23.290+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:23,286 - common.tiki_product - INFO - Category 2346 (che-khuyet-diem) - fetching page 1/1
+[2026-06-12T08:04:23.558+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:23,557 - common.tiki_product - INFO - Reached last page (1). Finished category 2346.
+[2026-06-12T08:04:23.569+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:23,558 - __main__ - INFO - [44/258] Processing: Kem lót
+[2026-06-12T08:04:23.573+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:23,559 - common.tiki_product - INFO - Category 1604 (kem-lot) - fetching page 1/1
+[2026-06-12T08:04:23.767+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:23,766 - common.tiki_product - INFO - Reached last page (1). Finished category 1604.
+[2026-06-12T08:04:23.772+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:23,767 - __main__ - INFO - [45/258] Processing: Highligh, tạo khối
+[2026-06-12T08:04:23.777+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:23,767 - common.tiki_product - INFO - Category 8188 (highligh-tao-khoi) - fetching page 1/1
+[2026-06-12T08:04:23.971+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:23,970 - common.tiki_product - INFO - Reached last page (1). Finished category 8188.
+[2026-06-12T08:04:23.974+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:23,970 - __main__ - INFO - [46/258] Processing: Phấn nền, kem nền
+[2026-06-12T08:04:23.980+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:23,971 - common.tiki_product - INFO - Category 1596 (phan-nen-kem-nen) - fetching page 1/1
+[2026-06-12T08:04:26.295+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:26,293 - common.tiki_product - INFO - Category 1596 (phan-nen-kem-nen) - fetching page 2/2
+[2026-06-12T08:04:26.669+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:26,669 - common.tiki_product - INFO - Reached last page (2). Finished category 1596.
+[2026-06-12T08:04:26.676+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:26,669 - __main__ - INFO - [47/258] Processing: Phấn tạo khối
+[2026-06-12T08:04:26.679+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:26,669 - common.tiki_product - INFO - Category 11769 (phan-tao-khoi) - fetching page 1/1
+[2026-06-12T08:04:26.819+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:26,818 - common.tiki_product - INFO - No more products on page 1. Finished category 11769.
+[2026-06-12T08:04:26.822+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:26,819 - __main__ - INFO - [48/258] Processing: Phấn nước
+[2026-06-12T08:04:26.824+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:26,819 - common.tiki_product - INFO - Category 11767 (phan-nuoc) - fetching page 1/1
+[2026-06-12T08:04:27.080+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:27,080 - common.tiki_product - INFO - Reached last page (1). Finished category 11767.
+[2026-06-12T08:04:27.084+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:27,080 - __main__ - INFO - [49/258] Processing: Phấn phủ
+[2026-06-12T08:04:27.088+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:27,081 - common.tiki_product - INFO - Category 1597 (phan-phu) - fetching page 1/1
+[2026-06-12T08:04:29.393+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:29,392 - common.tiki_product - INFO - Category 1597 (phan-phu) - fetching page 2/2
+[2026-06-12T08:04:29.613+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:29,613 - common.tiki_product - INFO - Reached last page (2). Finished category 1597.
+[2026-06-12T08:04:29.617+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:29,613 - __main__ - INFO - [50/258] Processing: Phấn mắt
+[2026-06-12T08:04:29.619+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:29,613 - common.tiki_product - INFO - Category 1605 (phan-mat) - fetching page 1/1
+[2026-06-12T08:04:29.947+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:29,946 - common.tiki_product - INFO - Reached last page (1). Finished category 1605.
+[2026-06-12T08:04:29.953+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:29,947 - __main__ - INFO - [51/258] Processing: Kẻ mắt
+[2026-06-12T08:04:29.958+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:29,947 - common.tiki_product - INFO - Category 1607 (ke-mat) - fetching page 1/1
+[2026-06-12T08:04:32.290+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:32,289 - common.tiki_product - INFO - Category 1607 (ke-mat) - fetching page 2/3
+[2026-06-12T08:04:34.650+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:34,649 - common.tiki_product - INFO - Category 1607 (ke-mat) - fetching page 3/3
+[2026-06-12T08:04:34.868+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:34,868 - common.tiki_product - INFO - Reached last page (3). Finished category 1607.
+[2026-06-12T08:04:34.869+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:34,868 - __main__ - INFO - [52/258] Processing: Kẻ chân mày
+[2026-06-12T08:04:34.870+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:34,868 - common.tiki_product - INFO - Category 1608 (ke-chan-may) - fetching page 1/1
+[2026-06-12T08:04:37.191+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:37,190 - common.tiki_product - INFO - Category 1608 (ke-chan-may) - fetching page 2/2
+[2026-06-12T08:04:37.410+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:37,409 - common.tiki_product - INFO - Reached last page (2). Finished category 1608.
+[2026-06-12T08:04:37.413+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:37,410 - __main__ - INFO - [53/258] Processing: Mascara
+[2026-06-12T08:04:37.416+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:37,410 - common.tiki_product - INFO - Category 1641 (mascara) - fetching page 1/1
+[2026-06-12T08:04:39.678+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:39,677 - common.tiki_product - INFO - Category 1641 (mascara) - fetching page 2/3
+[2026-06-12T08:04:41.955+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:41,954 - common.tiki_product - INFO - Category 1641 (mascara) - fetching page 3/3
+[2026-06-12T08:04:42.255+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:42,254 - common.tiki_product - INFO - Reached last page (3). Finished category 1641.
+[2026-06-12T08:04:42.260+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:42,255 - __main__ - INFO - [54/258] Processing: Kem lót cho mắt
+[2026-06-12T08:04:42.264+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:42,256 - common.tiki_product - INFO - Category 8191 (kem-lot-cho-mat) - fetching page 1/1
+[2026-06-12T08:04:42.426+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:42,425 - common.tiki_product - INFO - Reached last page (1). Finished category 8191.
+[2026-06-12T08:04:42.437+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:42,426 - __main__ - INFO - [55/258] Processing: Sáp, bột nhũ mắt
+[2026-06-12T08:04:42.445+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:42,427 - common.tiki_product - INFO - Category 11779 (sap-bot-nhu-mat) - fetching page 1/1
+[2026-06-12T08:04:42.595+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:42,594 - common.tiki_product - INFO - No more products on page 1. Finished category 11779.
+[2026-06-12T08:04:42.604+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:42,595 - __main__ - INFO - [56/258] Processing: Chì kẻ viền môi
+[2026-06-12T08:04:42.608+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:42,595 - common.tiki_product - INFO - Category 1614 (chi-ke-vien-moi) - fetching page 1/1
+[2026-06-12T08:04:42.808+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:42,807 - common.tiki_product - INFO - Reached last page (1). Finished category 1614.
+[2026-06-12T08:04:42.817+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:42,808 - __main__ - INFO - [57/258] Processing: Son bóng
+[2026-06-12T08:04:42.822+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:42,808 - common.tiki_product - INFO - Category 1611 (son-bong) - fetching page 1/1
+[2026-06-12T08:04:43.001+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:43,001 - common.tiki_product - INFO - Reached last page (1). Finished category 1611.
+[2026-06-12T08:04:43.004+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:43,001 - __main__ - INFO - [58/258] Processing: Son bút
+[2026-06-12T08:04:43.005+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:43,001 - common.tiki_product - INFO - Category 11797 (son-but) - fetching page 1/1
+[2026-06-12T08:04:43.184+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:43,184 - common.tiki_product - INFO - Reached last page (1). Finished category 11797.
+[2026-06-12T08:04:43.186+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:43,184 - __main__ - INFO - [59/258] Processing: Son kem
+[2026-06-12T08:04:43.188+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:43,184 - common.tiki_product - INFO - Category 8192 (son-kem) - fetching page 1/1
+[2026-06-12T08:04:43.548+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:43,547 - common.tiki_product - INFO - Reached last page (1). Finished category 8192.
+[2026-06-12T08:04:43.552+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:43,548 - __main__ - INFO - [60/258] Processing: Son nền, che khuyết điểm môi
+[2026-06-12T08:04:43.556+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:43,548 - common.tiki_product - INFO - Category 11795 (son-nen-che-khuyet-diem-moi) - fetching page 1/1
+[2026-06-12T08:04:43.706+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:43,705 - common.tiki_product - INFO - No more products on page 1. Finished category 11795.
+[2026-06-12T08:04:43.716+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:43,706 - __main__ - INFO - [61/258] Processing: Son thỏi
+[2026-06-12T08:04:43.721+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:43,706 - common.tiki_product - INFO - Category 1609 (son-thoi) - fetching page 1/1
+[2026-06-12T08:04:44.013+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:44,012 - common.tiki_product - INFO - Reached last page (1). Finished category 1609.
+[2026-06-12T08:04:44.016+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:44,013 - __main__ - INFO - [62/258] Processing: Son tint
+[2026-06-12T08:04:44.021+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:44,013 - common.tiki_product - INFO - Category 11799 (son-tint) - fetching page 1/1
+[2026-06-12T08:04:44.190+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:44,189 - common.tiki_product - INFO - Reached last page (1). Finished category 11799.
+[2026-06-12T08:04:44.192+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:44,190 - __main__ - INFO - [63/258] Processing: Son dưỡng môi, trị thâm
+[2026-06-12T08:04:44.194+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:44,190 - common.tiki_product - INFO - Category 1612 (son-duong-moi-tri-tham) - fetching page 1/1
+[2026-06-12T08:04:44.413+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:44,412 - common.tiki_product - INFO - Reached last page (1). Finished category 1612.
+[2026-06-12T08:04:44.418+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:44,413 - __main__ - INFO - [64/258] Processing: Son dưỡng
+[2026-06-12T08:04:44.424+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:44,414 - common.tiki_product - INFO - Category 17184 (son-duong) - fetching page 1/1
+[2026-06-12T08:04:46.723+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:46,722 - common.tiki_product - INFO - Category 17184 (son-duong) - fetching page 2/3
+[2026-06-12T08:04:49.033+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:49,033 - common.tiki_product - INFO - Category 17184 (son-duong) - fetching page 3/3
+[2026-06-12T08:04:49.303+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:49,303 - common.tiki_product - INFO - Reached last page (3). Finished category 17184.
+[2026-06-12T08:04:49.304+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:49,303 - __main__ - INFO - [65/258] Processing: Son gió
+[2026-06-12T08:04:49.308+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:49,303 - common.tiki_product - INFO - Category 68186 (son-gio) - fetching page 1/1
+[2026-06-12T08:04:49.437+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:49,436 - common.tiki_product - INFO - No more products on page 1. Finished category 68186.
+[2026-06-12T08:04:49.440+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:49,436 - __main__ - INFO - [66/258] Processing: Son lì
+[2026-06-12T08:04:49.446+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:49,436 - common.tiki_product - INFO - Category 68187 (son-li) - fetching page 1/1
+[2026-06-12T08:04:49.766+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:49,765 - common.tiki_product - INFO - Reached last page (1). Finished category 68187.
+[2026-06-12T08:04:49.769+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:49,766 - __main__ - INFO - [67/258] Processing: Son nhũ
+[2026-06-12T08:04:49.772+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:49,766 - common.tiki_product - INFO - Category 68188 (son-nhu) - fetching page 1/1
+[2026-06-12T08:04:49.893+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:49,892 - common.tiki_product - INFO - No more products on page 1. Finished category 68188.
+[2026-06-12T08:04:49.901+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:49,892 - __main__ - INFO - [68/258] Processing: Trang điểm khác
+[2026-06-12T08:04:49.907+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:49,892 - common.tiki_product - INFO - Category 53354 (trang-diem-khac) - fetching page 1/1
+[2026-06-12T08:04:50.133+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:50,132 - common.tiki_product - INFO - Reached last page (1). Finished category 53354.
+[2026-06-12T08:04:50.139+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:50,133 - __main__ - INFO - [69/258] Processing: Bộ trang điểm
+[2026-06-12T08:04:50.144+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:50,133 - common.tiki_product - INFO - Category 8228 (bo-trang-diem) - fetching page 1/1
+[2026-06-12T08:04:50.372+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:50,371 - common.tiki_product - INFO - Reached last page (1). Finished category 8228.
+[2026-06-12T08:04:50.376+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:50,372 - __main__ - INFO - [70/258] Processing: Dung dịch vệ sinh nam
+[2026-06-12T08:04:50.381+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:50,372 - common.tiki_product - INFO - Category 68166 (dung-dich-ve-sinh-nam) - fetching page 1/1
+[2026-06-12T08:04:50.682+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:50,681 - common.tiki_product - INFO - Reached last page (1). Finished category 68166.
+[2026-06-12T08:04:50.685+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:50,682 - __main__ - INFO - [71/258] Processing: Dung dịch vệ sinh phụ nữ
+[2026-06-12T08:04:50.689+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:50,682 - common.tiki_product - INFO - Category 68167 (dung-dich-ve-sinh-phu-nu) - fetching page 1/1
+[2026-06-12T08:04:52.995+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:52,994 - common.tiki_product - INFO - Category 68167 (dung-dich-ve-sinh-phu-nu) - fetching page 2/3
+[2026-06-12T08:04:55.267+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:55,266 - common.tiki_product - INFO - Category 68167 (dung-dich-ve-sinh-phu-nu) - fetching page 3/3
+[2026-06-12T08:04:55.529+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:55,528 - common.tiki_product - INFO - Reached last page (3). Finished category 68167.
+[2026-06-12T08:04:55.531+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:55,529 - __main__ - INFO - [72/258] Processing: Sản phẩm chăm sóc cá nhân khác
+[2026-06-12T08:04:55.533+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:55,529 - common.tiki_product - INFO - Category 17186 (san-pham-cham-soc-ca-nhan-khac) - fetching page 1/1
+[2026-06-12T08:04:57.801+0000] {subprocess.py:93} INFO - 2026-06-12 08:04:57,801 - common.tiki_product - INFO - Category 17186 (san-pham-cham-soc-ca-nhan-khac) - fetching page 2/6
+[2026-06-12T08:05:00.108+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:00,108 - common.tiki_product - INFO - Category 17186 (san-pham-cham-soc-ca-nhan-khac) - fetching page 3/6
+[2026-06-12T08:05:02.393+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:02,393 - common.tiki_product - INFO - Category 17186 (san-pham-cham-soc-ca-nhan-khac) - fetching page 4/6
+[2026-06-12T08:05:04.669+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:04,669 - common.tiki_product - INFO - Category 17186 (san-pham-cham-soc-ca-nhan-khac) - fetching page 5/6
+[2026-06-12T08:05:06.882+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:06,880 - common.tiki_product - INFO - Category 17186 (san-pham-cham-soc-ca-nhan-khac) - fetching page 6/6
+[2026-06-12T08:05:07.112+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:07,112 - common.tiki_product - INFO - Reached last page (6). Finished category 17186.
+[2026-06-12T08:05:07.115+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:07,112 - __main__ - INFO - [73/258] Processing: Băng vệ sinh quần
+[2026-06-12T08:05:07.118+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:07,112 - common.tiki_product - INFO - Category 68608 (bang-ve-sinh-quan) - fetching page 1/1
+[2026-06-12T08:05:09.438+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:09,437 - common.tiki_product - INFO - Category 68608 (bang-ve-sinh-quan) - fetching page 2/2
+[2026-06-12T08:05:09.707+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:09,706 - common.tiki_product - INFO - Reached last page (2). Finished category 68608.
+[2026-06-12T08:05:09.711+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:09,707 - __main__ - INFO - [74/258] Processing: Cốc nguyệt san
+[2026-06-12T08:05:09.715+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:09,707 - common.tiki_product - INFO - Category 68610 (coc-nguyet-san) - fetching page 1/1
+[2026-06-12T08:05:10.020+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:10,019 - common.tiki_product - INFO - Reached last page (1). Finished category 68610.
+[2026-06-12T08:05:10.023+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:10,020 - __main__ - INFO - [75/258] Processing: Tampon
+[2026-06-12T08:05:10.027+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:10,021 - common.tiki_product - INFO - Category 68611 (tampon) - fetching page 1/1
+[2026-06-12T08:05:10.184+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:10,183 - common.tiki_product - INFO - Reached last page (1). Finished category 68611.
+[2026-06-12T08:05:10.190+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:10,184 - __main__ - INFO - [76/258] Processing: Khăn giấy ướt
+[2026-06-12T08:05:10.196+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:10,184 - common.tiki_product - INFO - Category 4408 (khan-giay-uot) - fetching page 1/1
+[2026-06-12T08:05:12.483+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:12,482 - common.tiki_product - INFO - Category 4408 (khan-giay-uot) - fetching page 2/2
+[2026-06-12T08:05:12.688+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:12,687 - common.tiki_product - INFO - Reached last page (2). Finished category 4408.
+[2026-06-12T08:05:12.691+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:12,688 - __main__ - INFO - [77/258] Processing: Tẩy lông chân, tay
+[2026-06-12T08:05:12.696+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:12,688 - common.tiki_product - INFO - Category 68540 (tay-long-chan-tay) - fetching page 1/1
+[2026-06-12T08:05:12.938+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:12,938 - common.tiki_product - INFO - Reached last page (1). Finished category 68540.
+[2026-06-12T08:05:12.942+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:12,938 - __main__ - INFO - [78/258] Processing: Tẩy lông mặt
+[2026-06-12T08:05:12.947+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:12,938 - common.tiki_product - INFO - Category 68541 (tay-long-mat) - fetching page 1/1
+[2026-06-12T08:05:13.149+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:13,147 - common.tiki_product - INFO - Reached last page (1). Finished category 68541.
+[2026-06-12T08:05:13.158+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:13,148 - __main__ - INFO - [79/258] Processing: Tẩy lông nách
+[2026-06-12T08:05:13.162+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:13,148 - common.tiki_product - INFO - Category 68542 (tay-long-nach) - fetching page 1/1
+[2026-06-12T08:05:13.360+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:13,359 - common.tiki_product - INFO - Reached last page (1). Finished category 68542.
+[2026-06-12T08:05:13.365+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:13,360 - __main__ - INFO - [80/258] Processing: Tẩy lông vùng kín
+[2026-06-12T08:05:13.369+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:13,361 - common.tiki_product - INFO - Category 68543 (tay-long-vung-kin) - fetching page 1/1
+[2026-06-12T08:05:13.507+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:13,506 - common.tiki_product - INFO - No more products on page 1. Finished category 68543.
+[2026-06-12T08:05:13.514+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:13,506 - __main__ - INFO - [81/258] Processing: Khử mùi cho cả nam, nữ
+[2026-06-12T08:05:13.519+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:13,507 - common.tiki_product - INFO - Category 11745 (khu-mui-cho-ca-nam-nu) - fetching page 1/1
+[2026-06-12T08:05:15.933+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:15,932 - common.tiki_product - INFO - Category 11745 (khu-mui-cho-ca-nam-nu) - fetching page 2/2
+[2026-06-12T08:05:16.103+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:16,102 - common.tiki_product - INFO - Reached last page (2). Finished category 11745.
+[2026-06-12T08:05:16.106+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:16,102 - __main__ - INFO - [82/258] Processing: Khử mùi cho nam
+[2026-06-12T08:05:16.108+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:16,103 - common.tiki_product - INFO - Category 68587 (khu-mui-cho-nam) - fetching page 1/1
+[2026-06-12T08:05:18.447+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:18,445 - common.tiki_product - INFO - Category 68587 (khu-mui-cho-nam) - fetching page 2/2
+[2026-06-12T08:05:18.704+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:18,703 - common.tiki_product - INFO - Reached last page (2). Finished category 68587.
+[2026-06-12T08:05:18.708+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:18,705 - __main__ - INFO - [83/258] Processing: Khử mùi cho nữ
+[2026-06-12T08:05:18.711+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:18,707 - common.tiki_product - INFO - Category 68588 (khu-mui-cho-nu) - fetching page 1/1
+[2026-06-12T08:05:21.014+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:21,013 - common.tiki_product - INFO - Category 68588 (khu-mui-cho-nu) - fetching page 2/3
+[2026-06-12T08:05:23.261+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:23,260 - common.tiki_product - INFO - Category 68588 (khu-mui-cho-nu) - fetching page 3/3
+[2026-06-12T08:05:23.489+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:23,488 - common.tiki_product - INFO - Reached last page (3). Finished category 68588.
+[2026-06-12T08:05:23.494+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:23,489 - __main__ - INFO - [84/258] Processing: Chăm sóc mắt
+[2026-06-12T08:05:23.498+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:23,489 - common.tiki_product - INFO - Category 2162 (cham-soc-mat) - fetching page 1/1
+[2026-06-12T08:05:23.706+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:23,706 - common.tiki_product - INFO - Reached last page (1). Finished category 2162.
+[2026-06-12T08:05:23.707+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:23,706 - __main__ - INFO - [85/258] Processing: Bộ chăm sóc tóc và cơ thể
+[2026-06-12T08:05:23.708+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:23,706 - common.tiki_product - INFO - Category 10225 (bo-cham-soc-toc-va-co-the) - fetching page 1/1
+[2026-06-12T08:05:23.913+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:23,912 - common.tiki_product - INFO - Reached last page (1). Finished category 10225.
+[2026-06-12T08:05:23.918+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:23,913 - __main__ - INFO - [86/258] Processing: Bộ sản phẩm chăm sóc cơ thể
+[2026-06-12T08:05:23.926+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:23,913 - common.tiki_product - INFO - Category 17460 (bo-san-pham-cham-soc-co-the) - fetching page 1/1
+[2026-06-12T08:05:24.137+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:24,136 - common.tiki_product - INFO - Reached last page (1). Finished category 17460.
+[2026-06-12T08:05:24.142+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:24,137 - __main__ - INFO - [87/258] Processing: Bộ sản phẩm tiêu dùng cho nữ
+[2026-06-12T08:05:24.146+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:24,138 - common.tiki_product - INFO - Category 10218 (bo-san-pham-tieu-dung-cho-nu) - fetching page 1/1
+[2026-06-12T08:05:24.275+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:24,275 - common.tiki_product - INFO - No more products on page 1. Finished category 10218.
+[2026-06-12T08:05:24.279+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:24,276 - __main__ - INFO - [88/258] Processing: Bộ chăm sóc toàn thân khác
+[2026-06-12T08:05:24.283+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:24,277 - common.tiki_product - INFO - Category 10220 (bo-cham-soc-toan-than-khac) - fetching page 1/1
+[2026-06-12T08:05:24.502+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:24,501 - common.tiki_product - INFO - Reached last page (1). Finished category 10220.
+[2026-06-12T08:05:24.505+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:24,502 - __main__ - INFO - [89/258] Processing: Sản phẩm làm hồng nhũ hoa
+[2026-06-12T08:05:24.506+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:24,503 - common.tiki_product - INFO - Category 11749 (san-pham-lam-hong-nhu-hoa) - fetching page 1/1
+[2026-06-12T08:05:24.657+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:24,657 - common.tiki_product - INFO - No more products on page 1. Finished category 11749.
+[2026-06-12T08:05:24.659+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:24,657 - __main__ - INFO - [90/258] Processing: Kem nở và săn chắc ngực
+[2026-06-12T08:05:24.660+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:24,657 - common.tiki_product - INFO - Category 11751 (kem-no-va-san-chac-nguc) - fetching page 1/1
+[2026-06-12T08:05:24.908+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:24,907 - common.tiki_product - INFO - Reached last page (1). Finished category 11751.
+[2026-06-12T08:05:24.910+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:24,907 - __main__ - INFO - [91/258] Processing: Dưỡng ẩm
+[2026-06-12T08:05:24.914+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:24,907 - common.tiki_product - INFO - Category 8216 (duong-am) - fetching page 1/1
+[2026-06-12T08:05:27.150+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:27,149 - common.tiki_product - INFO - Category 8216 (duong-am) - fetching page 2/2
+[2026-06-12T08:05:27.344+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:27,343 - common.tiki_product - INFO - Reached last page (2). Finished category 8216.
+[2026-06-12T08:05:27.347+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:27,344 - __main__ - INFO - [92/258] Processing: Dưỡng trắng
+[2026-06-12T08:05:27.350+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:27,344 - common.tiki_product - INFO - Category 8217 (duong-trang) - fetching page 1/1
+[2026-06-12T08:05:27.719+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:27,718 - common.tiki_product - INFO - Reached last page (1). Finished category 8217.
+[2026-06-12T08:05:27.722+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:27,719 - __main__ - INFO - [93/258] Processing: Săn chắc da
+[2026-06-12T08:05:27.725+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:27,719 - common.tiki_product - INFO - Category 11731 (san-chac-da) - fetching page 1/1
+[2026-06-12T08:05:27.919+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:27,918 - common.tiki_product - INFO - Reached last page (1). Finished category 11731.
+[2026-06-12T08:05:27.922+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:27,919 - __main__ - INFO - [94/258] Processing: Sữa dưỡng thể
+[2026-06-12T08:05:27.927+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:27,919 - common.tiki_product - INFO - Category 4413 (sua-duong-the) - fetching page 1/1
+[2026-06-12T08:05:30.221+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:30,220 - common.tiki_product - INFO - Category 4413 (sua-duong-the) - fetching page 2/4
+[2026-06-12T08:05:32.443+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:32,442 - common.tiki_product - INFO - Category 4413 (sua-duong-the) - fetching page 3/4
+[2026-06-12T08:05:34.747+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:34,747 - common.tiki_product - INFO - Category 4413 (sua-duong-the) - fetching page 4/4
+[2026-06-12T08:05:34.989+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:34,989 - common.tiki_product - INFO - Reached last page (4). Finished category 4413.
+[2026-06-12T08:05:34.990+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:34,989 - __main__ - INFO - [95/258] Processing: Dầu dưỡng thể
+[2026-06-12T08:05:34.998+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:34,989 - common.tiki_product - INFO - Category 68539 (dau-duong-the) - fetching page 1/1
+[2026-06-12T08:05:35.257+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:35,256 - common.tiki_product - INFO - Reached last page (1). Finished category 68539.
+[2026-06-12T08:05:35.260+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:35,256 - __main__ - INFO - [96/258] Processing: Kem tan mỡ
+[2026-06-12T08:05:35.263+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:35,257 - common.tiki_product - INFO - Category 11755 (kem-tan-mo) - fetching page 1/1
+[2026-06-12T08:05:35.573+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:35,573 - common.tiki_product - INFO - Reached last page (1). Finished category 11755.
+[2026-06-12T08:05:35.575+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:35,573 - __main__ - INFO - [97/258] Processing: Tinh dầu massage
+[2026-06-12T08:05:35.579+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:35,573 - common.tiki_product - INFO - Category 11735 (tinh-dau-massage) - fetching page 1/1
+[2026-06-12T08:05:36.029+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:36,029 - common.tiki_product - INFO - Reached last page (1). Finished category 11735.
+[2026-06-12T08:05:36.031+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:36,029 - __main__ - INFO - [98/258] Processing: Kem massage
+[2026-06-12T08:05:36.033+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:36,030 - common.tiki_product - INFO - Category 11737 (kem-massage) - fetching page 1/1
+[2026-06-12T08:05:36.320+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:36,320 - common.tiki_product - INFO - Reached last page (1). Finished category 11737.
+[2026-06-12T08:05:36.322+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:36,320 - __main__ - INFO - [99/258] Processing: Dụng cụ tắm
+[2026-06-12T08:05:36.324+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:36,321 - common.tiki_product - INFO - Category 13878 (dung-cu-tam) - fetching page 1/1
+[2026-06-12T08:05:38.753+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:38,752 - common.tiki_product - INFO - Category 13878 (dung-cu-tam) - fetching page 2/4
+[2026-06-12T08:05:41.131+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:41,131 - common.tiki_product - INFO - Category 13878 (dung-cu-tam) - fetching page 3/4
+[2026-06-12T08:05:43.490+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:43,490 - common.tiki_product - INFO - Category 13878 (dung-cu-tam) - fetching page 4/4
+[2026-06-12T08:05:43.727+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:43,726 - common.tiki_product - INFO - Reached last page (4). Finished category 13878.
+[2026-06-12T08:05:43.731+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:43,727 - __main__ - INFO - [100/258] Processing: Muối tắm
+[2026-06-12T08:05:43.734+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:43,727 - common.tiki_product - INFO - Category 2348 (muoi-tam) - fetching page 1/1
+[2026-06-12T08:05:44.074+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:44,073 - common.tiki_product - INFO - Reached last page (1). Finished category 2348.
+[2026-06-12T08:05:44.077+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:44,074 - __main__ - INFO - [101/258] Processing: Tinh dầu tắm
+[2026-06-12T08:05:44.081+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:44,074 - common.tiki_product - INFO - Category 11729 (tinh-dau-tam) - fetching page 1/1
+[2026-06-12T08:05:44.343+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:44,342 - common.tiki_product - INFO - Reached last page (1). Finished category 11729.
+[2026-06-12T08:05:44.346+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:44,343 - __main__ - INFO - [102/258] Processing: Sữa tắm
+[2026-06-12T08:05:44.352+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:44,343 - common.tiki_product - INFO - Category 1598 (sua-tam) - fetching page 1/1
+[2026-06-12T08:05:46.730+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:46,729 - common.tiki_product - INFO - Category 1598 (sua-tam) - fetching page 2/7
+[2026-06-12T08:05:49.061+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:49,061 - common.tiki_product - INFO - Category 1598 (sua-tam) - fetching page 3/7
+[2026-06-12T08:05:51.413+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:51,412 - common.tiki_product - INFO - Category 1598 (sua-tam) - fetching page 4/7
+[2026-06-12T08:05:53.800+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:53,800 - common.tiki_product - INFO - Category 1598 (sua-tam) - fetching page 5/7
+[2026-06-12T08:05:56.152+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:56,151 - common.tiki_product - INFO - Category 1598 (sua-tam) - fetching page 6/7
+[2026-06-12T08:05:58.566+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:58,565 - common.tiki_product - INFO - Category 1598 (sua-tam) - fetching page 7/7
+[2026-06-12T08:05:58.827+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:58,826 - common.tiki_product - INFO - Reached last page (7). Finished category 1598.
+[2026-06-12T08:05:58.828+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:58,827 - __main__ - INFO - [103/258] Processing: Xà phòng tắm
+[2026-06-12T08:05:58.829+0000] {subprocess.py:93} INFO - 2026-06-12 08:05:58,827 - common.tiki_product - INFO - Category 1602 (xa-phong-tam) - fetching page 1/1
+[2026-06-12T08:06:01.195+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:01,194 - common.tiki_product - INFO - Category 1602 (xa-phong-tam) - fetching page 2/2
+[2026-06-12T08:06:01.476+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:01,475 - common.tiki_product - INFO - Reached last page (2). Finished category 1602.
+[2026-06-12T08:06:01.477+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:01,476 - __main__ - INFO - [104/258] Processing: Chống nắng dạng xịt
+[2026-06-12T08:06:01.479+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:01,476 - common.tiki_product - INFO - Category 11739 (chong-nang-dang-xit) - fetching page 1/1
+[2026-06-12T08:06:01.767+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:01,766 - common.tiki_product - INFO - Reached last page (1). Finished category 11739.
+[2026-06-12T08:06:01.771+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:01,766 - __main__ - INFO - [105/258] Processing: Chống nắng dạng kem
+[2026-06-12T08:06:01.776+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:01,767 - common.tiki_product - INFO - Category 11741 (chong-nang-dang-kem) - fetching page 1/1
+[2026-06-12T08:06:02.082+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:02,082 - common.tiki_product - INFO - Reached last page (1). Finished category 11741.
+[2026-06-12T08:06:02.085+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:02,082 - __main__ - INFO - [106/258] Processing: Chống nắng dạng lotion
+[2026-06-12T08:06:02.089+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:02,082 - common.tiki_product - INFO - Category 11743 (chong-nang-dang-lotion) - fetching page 1/1
+[2026-06-12T08:06:02.285+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:02,285 - common.tiki_product - INFO - No more products on page 1. Finished category 11743.
+[2026-06-12T08:06:02.287+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:02,285 - __main__ - INFO - [107/258] Processing: Sản phẩm chống nắng khác
+[2026-06-12T08:06:02.289+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:02,285 - common.tiki_product - INFO - Category 17160 (san-pham-chong-nang-khac) - fetching page 1/1
+[2026-06-12T08:06:02.518+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:02,517 - common.tiki_product - INFO - Reached last page (1). Finished category 17160.
+[2026-06-12T08:06:02.530+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:02,518 - __main__ - INFO - [108/258] Processing: Massage
+[2026-06-12T08:06:02.537+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:02,518 - common.tiki_product - INFO - Category 8221 (massage) - fetching page 1/1
+[2026-06-12T08:06:02.806+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:02,806 - common.tiki_product - INFO - Reached last page (1). Finished category 8221.
+[2026-06-12T08:06:02.810+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:02,806 - __main__ - INFO - [109/258] Processing: Trị rạn nứt da
+[2026-06-12T08:06:02.812+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:02,806 - common.tiki_product - INFO - Category 11753 (tri-ran-nut-da) - fetching page 1/1
+[2026-06-12T08:06:03.226+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:03,225 - common.tiki_product - INFO - Reached last page (1). Finished category 11753.
+[2026-06-12T08:06:03.231+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:03,226 - __main__ - INFO - [110/258] Processing: Sản phẩm sạch khuẩn
+[2026-06-12T08:06:03.234+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:03,227 - common.tiki_product - INFO - Category 8308 (san-pham-sach-khuan) - fetching page 1/1
+[2026-06-12T08:06:03.589+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:03,589 - common.tiki_product - INFO - Reached last page (1). Finished category 8308.
+[2026-06-12T08:06:03.593+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:03,590 - __main__ - INFO - [111/258] Processing: Sản phẩm chăm sóc cơ thể khác
+[2026-06-12T08:06:03.597+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:03,590 - common.tiki_product - INFO - Category 8309 (san-pham-cham-soc-co-the-khac) - fetching page 1/1
+[2026-06-12T08:06:06.015+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:06,015 - common.tiki_product - INFO - Category 8309 (san-pham-cham-soc-co-the-khac) - fetching page 2/2
+[2026-06-12T08:06:06.342+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:06,341 - common.tiki_product - INFO - Reached last page (2). Finished category 8309.
+[2026-06-12T08:06:06.344+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:06,343 - __main__ - INFO - [112/258] Processing: Bộ chăm sóc cơ thể
+[2026-06-12T08:06:06.348+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:06,343 - common.tiki_product - INFO - Category 8226 (bo-cham-soc-co-the) - fetching page 1/1
+[2026-06-12T08:06:06.707+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:06,706 - common.tiki_product - INFO - Reached last page (1). Finished category 8226.
+[2026-06-12T08:06:06.712+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:06,707 - __main__ - INFO - [113/258] Processing: Tẩy tế bào chết cơ thể
+[2026-06-12T08:06:06.716+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:06,707 - common.tiki_product - INFO - Category 8220 (tay-te-bao-chet-co-the) - fetching page 1/1
+[2026-06-12T08:06:09.163+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:09,162 - common.tiki_product - INFO - Category 8220 (tay-te-bao-chet-co-the) - fetching page 2/3
+[2026-06-12T08:06:11.540+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:11,539 - common.tiki_product - INFO - Category 8220 (tay-te-bao-chet-co-the) - fetching page 3/3
+[2026-06-12T08:06:11.870+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:11,870 - common.tiki_product - INFO - Reached last page (3). Finished category 8220.
+[2026-06-12T08:06:11.874+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:11,870 - __main__ - INFO - [114/258] Processing: Tinh dầu
+[2026-06-12T08:06:11.876+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:11,870 - common.tiki_product - INFO - Category 8602 (tinh-dau) - fetching page 1/1
+[2026-06-12T08:06:14.396+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:14,395 - common.tiki_product - INFO - Category 8602 (tinh-dau) - fetching page 2/26
+[2026-06-12T08:06:16.783+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:16,782 - common.tiki_product - INFO - Category 8602 (tinh-dau) - fetching page 3/26
+[2026-06-12T08:06:19.177+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:19,176 - common.tiki_product - INFO - Category 8602 (tinh-dau) - fetching page 4/26
+[2026-06-12T08:06:21.651+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:21,650 - common.tiki_product - INFO - Category 8602 (tinh-dau) - fetching page 5/26
+[2026-06-12T08:06:24.188+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:24,188 - common.tiki_product - INFO - Category 8602 (tinh-dau) - fetching page 6/26
+[2026-06-12T08:06:26.635+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:26,634 - common.tiki_product - INFO - Category 8602 (tinh-dau) - fetching page 7/26
+[2026-06-12T08:06:29.026+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:29,024 - common.tiki_product - INFO - Category 8602 (tinh-dau) - fetching page 8/26
+[2026-06-12T08:06:31.420+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:31,419 - common.tiki_product - INFO - Category 8602 (tinh-dau) - fetching page 9/26
+[2026-06-12T08:06:33.787+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:33,786 - common.tiki_product - INFO - Category 8602 (tinh-dau) - fetching page 10/26
+[2026-06-12T08:06:36.205+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:36,204 - common.tiki_product - INFO - Category 8602 (tinh-dau) - fetching page 11/26
+[2026-06-12T08:06:38.581+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:38,580 - common.tiki_product - INFO - Category 8602 (tinh-dau) - fetching page 12/26
+[2026-06-12T08:06:40.982+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:40,981 - common.tiki_product - INFO - Category 8602 (tinh-dau) - fetching page 13/26
+[2026-06-12T08:06:43.361+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:43,360 - common.tiki_product - INFO - Category 8602 (tinh-dau) - fetching page 14/26
+[2026-06-12T08:06:45.721+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:45,720 - common.tiki_product - INFO - Category 8602 (tinh-dau) - fetching page 15/26
+[2026-06-12T08:06:48.091+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:48,090 - common.tiki_product - INFO - Category 8602 (tinh-dau) - fetching page 16/26
+[2026-06-12T08:06:50.483+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:50,482 - common.tiki_product - INFO - Category 8602 (tinh-dau) - fetching page 17/26
+[2026-06-12T08:06:52.896+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:52,896 - common.tiki_product - INFO - Category 8602 (tinh-dau) - fetching page 18/26
+[2026-06-12T08:06:55.249+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:55,249 - common.tiki_product - INFO - Category 8602 (tinh-dau) - fetching page 19/26
+[2026-06-12T08:06:57.580+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:57,579 - common.tiki_product - INFO - Category 8602 (tinh-dau) - fetching page 20/26
+[2026-06-12T08:06:59.954+0000] {subprocess.py:93} INFO - 2026-06-12 08:06:59,953 - common.tiki_product - INFO - Category 8602 (tinh-dau) - fetching page 21/26
+[2026-06-12T08:07:02.355+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:02,353 - common.tiki_product - INFO - Category 8602 (tinh-dau) - fetching page 22/26
+[2026-06-12T08:07:04.778+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:04,778 - common.tiki_product - INFO - Category 8602 (tinh-dau) - fetching page 23/26
+[2026-06-12T08:07:07.117+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:07,117 - common.tiki_product - INFO - Category 8602 (tinh-dau) - fetching page 24/26
+[2026-06-12T08:07:09.463+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:09,462 - common.tiki_product - INFO - Category 8602 (tinh-dau) - fetching page 25/26
+[2026-06-12T08:07:11.851+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:11,850 - common.tiki_product - INFO - Category 8602 (tinh-dau) - fetching page 26/26
+[2026-06-12T08:07:12.308+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:12,308 - common.tiki_product - INFO - Reached last page (26). Finished category 8602.
+[2026-06-12T08:07:12.312+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:12,308 - __main__ - INFO - [115/258] Processing: Nến thơm
+[2026-06-12T08:07:12.316+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:12,309 - common.tiki_product - INFO - Category 8224 (nen-thom) - fetching page 1/1
+[2026-06-12T08:07:14.809+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:14,809 - common.tiki_product - INFO - Category 8224 (nen-thom) - fetching page 2/2
+[2026-06-12T08:07:15.037+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:15,036 - common.tiki_product - INFO - Reached last page (2). Finished category 8224.
+[2026-06-12T08:07:15.042+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:15,037 - __main__ - INFO - [116/258] Processing: Sản phẩm thiên nhiên làm đẹp
+[2026-06-12T08:07:15.048+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:15,037 - common.tiki_product - INFO - Category 11868 (san-pham-thien-nhien-lam-dep) - fetching page 1/1
+[2026-06-12T08:07:15.413+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:15,412 - common.tiki_product - INFO - Reached last page (1). Finished category 11868.
+[2026-06-12T08:07:15.414+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:15,413 - __main__ - INFO - [117/258] Processing: Đèn xông
+[2026-06-12T08:07:15.421+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:15,413 - common.tiki_product - INFO - Category 8225 (den-xong) - fetching page 1/1
+[2026-06-12T08:07:17.801+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:17,801 - common.tiki_product - INFO - Category 8225 (den-xong) - fetching page 2/3
+[2026-06-12T08:07:20.140+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:20,138 - common.tiki_product - INFO - Category 8225 (den-xong) - fetching page 3/3
+[2026-06-12T08:07:20.435+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:20,434 - common.tiki_product - INFO - Reached last page (3). Finished category 8225.
+[2026-06-12T08:07:20.437+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:20,435 - __main__ - INFO - [118/258] Processing: Dầu Gội
+[2026-06-12T08:07:20.441+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:20,435 - common.tiki_product - INFO - Category 1613 (dau-goi) - fetching page 1/1
+[2026-06-12T08:07:22.742+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:22,741 - common.tiki_product - INFO - Category 1613 (dau-goi) - fetching page 2/9
+[2026-06-12T08:07:25.122+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:25,121 - common.tiki_product - INFO - Category 1613 (dau-goi) - fetching page 3/9
+[2026-06-12T08:07:27.407+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:27,406 - common.tiki_product - INFO - Category 1613 (dau-goi) - fetching page 4/9
+[2026-06-12T08:07:29.725+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:29,723 - common.tiki_product - INFO - Category 1613 (dau-goi) - fetching page 5/9
+[2026-06-12T08:07:32.015+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:32,014 - common.tiki_product - INFO - Category 1613 (dau-goi) - fetching page 6/9
+[2026-06-12T08:07:34.381+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:34,380 - common.tiki_product - INFO - Category 1613 (dau-goi) - fetching page 7/9
+[2026-06-12T08:07:36.662+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:36,661 - common.tiki_product - INFO - Category 1613 (dau-goi) - fetching page 8/9
+[2026-06-12T08:07:38.984+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:38,982 - common.tiki_product - INFO - Category 1613 (dau-goi) - fetching page 9/9
+[2026-06-12T08:07:39.293+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:39,293 - common.tiki_product - INFO - Reached last page (9). Finished category 1613.
+[2026-06-12T08:07:39.296+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:39,293 - __main__ - INFO - [119/258] Processing: Dầu Xả
+[2026-06-12T08:07:39.300+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:39,294 - common.tiki_product - INFO - Category 1616 (dau-xa) - fetching page 1/1
+[2026-06-12T08:07:41.652+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:41,652 - common.tiki_product - INFO - Category 1616 (dau-xa) - fetching page 2/4
+[2026-06-12T08:07:43.968+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:43,967 - common.tiki_product - INFO - Category 1616 (dau-xa) - fetching page 3/4
+[2026-06-12T08:07:46.276+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:46,275 - common.tiki_product - INFO - Category 1616 (dau-xa) - fetching page 4/4
+[2026-06-12T08:07:46.571+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:46,570 - common.tiki_product - INFO - Reached last page (4). Finished category 1616.
+[2026-06-12T08:07:46.576+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:46,571 - __main__ - INFO - [120/258] Processing: Bộ dầu gội, xả
+[2026-06-12T08:07:46.582+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:46,572 - common.tiki_product - INFO - Category 8223 (bo-dau-goi-xa) - fetching page 1/1
+[2026-06-12T08:07:48.938+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:48,937 - common.tiki_product - INFO - Category 8223 (bo-dau-goi-xa) - fetching page 2/3
+[2026-06-12T08:07:51.265+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:51,265 - common.tiki_product - INFO - Category 8223 (bo-dau-goi-xa) - fetching page 3/3
+[2026-06-12T08:07:51.612+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:51,612 - common.tiki_product - INFO - Reached last page (3). Finished category 8223.
+[2026-06-12T08:07:51.613+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:51,612 - __main__ - INFO - [121/258] Processing: Gội xả 2in1
+[2026-06-12T08:07:51.617+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:51,612 - common.tiki_product - INFO - Category 5884 (goi-xa-2in1) - fetching page 1/1
+[2026-06-12T08:07:51.812+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:51,811 - common.tiki_product - INFO - Reached last page (1). Finished category 5884.
+[2026-06-12T08:07:51.813+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:51,812 - __main__ - INFO - [122/258] Processing: Dầu gội khô
+[2026-06-12T08:07:51.814+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:51,812 - common.tiki_product - INFO - Category 68296 (dau-goi-kho) - fetching page 1/1
+[2026-06-12T08:07:51.949+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:51,948 - common.tiki_product - INFO - Reached last page (1). Finished category 68296.
+[2026-06-12T08:07:51.951+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:51,949 - __main__ - INFO - [123/258] Processing: Gel, sáp vuốt tóc
+[2026-06-12T08:07:51.956+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:51,949 - common.tiki_product - INFO - Category 11827 (gel-sap-vuot-toc) - fetching page 1/1
+[2026-06-12T08:07:52.259+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:52,258 - common.tiki_product - INFO - Reached last page (1). Finished category 11827.
+[2026-06-12T08:07:52.262+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:52,259 - __main__ - INFO - [124/258] Processing: Keo xịt tóc
+[2026-06-12T08:07:52.266+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:52,259 - common.tiki_product - INFO - Category 11829 (keo-xit-toc) - fetching page 1/1
+[2026-06-12T08:07:52.530+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:52,530 - common.tiki_product - INFO - Reached last page (1). Finished category 11829.
+[2026-06-12T08:07:52.533+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:52,530 - __main__ - INFO - [125/258] Processing: Tạo kiểu tóc khác
+[2026-06-12T08:07:52.536+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:52,530 - common.tiki_product - INFO - Category 17180 (tao-kieu-toc-khac) - fetching page 1/1
+[2026-06-12T08:07:52.711+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:52,710 - common.tiki_product - INFO - Reached last page (1). Finished category 17180.
+[2026-06-12T08:07:52.717+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:52,710 - __main__ - INFO - [126/258] Processing: Thuốc duỗi, uốn
+[2026-06-12T08:07:52.722+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:52,711 - common.tiki_product - INFO - Category 11815 (thuoc-duoi-uon) - fetching page 1/1
+[2026-06-12T08:07:52.911+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:52,910 - common.tiki_product - INFO - Reached last page (1). Finished category 11815.
+[2026-06-12T08:07:52.917+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:52,911 - __main__ - INFO - [127/258] Processing: Nhuộm tóc lâu dài
+[2026-06-12T08:07:52.924+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:52,911 - common.tiki_product - INFO - Category 68286 (nhuom-toc-lau-dai) - fetching page 1/1
+[2026-06-12T08:07:55.230+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:55,229 - common.tiki_product - INFO - Category 68286 (nhuom-toc-lau-dai) - fetching page 2/2
+[2026-06-12T08:07:55.505+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:55,505 - common.tiki_product - INFO - Reached last page (2). Finished category 68286.
+[2026-06-12T08:07:55.507+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:55,505 - __main__ - INFO - [128/258] Processing: Nhuộm tóc tạm thời
+[2026-06-12T08:07:55.509+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:55,506 - common.tiki_product - INFO - Category 68287 (nhuom-toc-tam-thoi) - fetching page 1/1
+[2026-06-12T08:07:55.811+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:55,810 - common.tiki_product - INFO - Reached last page (1). Finished category 68287.
+[2026-06-12T08:07:55.812+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:55,811 - __main__ - INFO - [129/258] Processing: Rửa màu tóc nhuộm
+[2026-06-12T08:07:55.816+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:55,811 - common.tiki_product - INFO - Category 68288 (rua-mau-toc-nhuom) - fetching page 1/1
+[2026-06-12T08:07:55.989+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:55,988 - common.tiki_product - INFO - Reached last page (1). Finished category 68288.
+[2026-06-12T08:07:55.993+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:55,989 - __main__ - INFO - [130/258] Processing: Kem ủ tóc
+[2026-06-12T08:07:55.994+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:55,989 - common.tiki_product - INFO - Category 11817 (kem-u-toc) - fetching page 1/1
+[2026-06-12T08:07:58.390+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:58,389 - common.tiki_product - INFO - Category 11817 (kem-u-toc) - fetching page 2/2
+[2026-06-12T08:07:58.739+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:58,738 - common.tiki_product - INFO - Reached last page (2). Finished category 11817.
+[2026-06-12T08:07:58.742+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:58,739 - __main__ - INFO - [131/258] Processing: Mặt nạ tóc
+[2026-06-12T08:07:58.747+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:58,739 - common.tiki_product - INFO - Category 11819 (mat-na-toc) - fetching page 1/1
+[2026-06-12T08:07:58.987+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:58,986 - common.tiki_product - INFO - Reached last page (1). Finished category 11819.
+[2026-06-12T08:07:58.993+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:58,987 - __main__ - INFO - [132/258] Processing: Serum, dầu dưỡng tóc
+[2026-06-12T08:07:58.997+0000] {subprocess.py:93} INFO - 2026-06-12 08:07:58,987 - common.tiki_product - INFO - Category 11821 (serum-dau-duong-toc) - fetching page 1/1
+[2026-06-12T08:08:01.975+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:01,974 - common.tiki_product - INFO - Category 11821 (serum-dau-duong-toc) - fetching page 2/3
+[2026-06-12T08:08:04.269+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:04,268 - common.tiki_product - INFO - Category 11821 (serum-dau-duong-toc) - fetching page 3/3
+[2026-06-12T08:08:04.480+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:04,479 - common.tiki_product - INFO - Reached last page (3). Finished category 11821.
+[2026-06-12T08:08:04.481+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:04,480 - __main__ - INFO - [133/258] Processing: Dầu bóng tóc
+[2026-06-12T08:08:04.483+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:04,480 - common.tiki_product - INFO - Category 11823 (dau-bong-toc) - fetching page 1/1
+[2026-06-12T08:08:04.690+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:04,688 - common.tiki_product - INFO - Reached last page (1). Finished category 11823.
+[2026-06-12T08:08:04.697+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:04,689 - __main__ - INFO - [134/258] Processing: Xịt dưỡng tóc
+[2026-06-12T08:08:04.703+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:04,691 - common.tiki_product - INFO - Category 11825 (xit-duong-toc) - fetching page 1/1
+[2026-06-12T08:08:05.035+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:05,034 - common.tiki_product - INFO - Reached last page (1). Finished category 11825.
+[2026-06-12T08:08:05.039+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:05,035 - __main__ - INFO - [135/258] Processing: Dưỡng tóc khác
+[2026-06-12T08:08:05.041+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:05,036 - common.tiki_product - INFO - Category 17176 (duong-toc-khac) - fetching page 1/1
+[2026-06-12T08:08:05.245+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:05,244 - common.tiki_product - INFO - Reached last page (1). Finished category 17176.
+[2026-06-12T08:08:05.249+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:05,246 - __main__ - INFO - [136/258] Processing: Kem ủ, dưỡng tóc khác
+[2026-06-12T08:08:05.255+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:05,246 - common.tiki_product - INFO - Category 17178 (kem-u-duong-toc-khac) - fetching page 1/1
+[2026-06-12T08:08:05.453+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:05,452 - common.tiki_product - INFO - Reached last page (1). Finished category 17178.
+[2026-06-12T08:08:05.457+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:05,452 - __main__ - INFO - [137/258] Processing: Thuốc nhuộm, duỗi, uốn khác
+[2026-06-12T08:08:05.462+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:05,453 - common.tiki_product - INFO - Category 17182 (thuoc-nhuom-duoi-uon-khac) - fetching page 1/1
+[2026-06-12T08:08:05.657+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:05,656 - common.tiki_product - INFO - Reached last page (1). Finished category 17182.
+[2026-06-12T08:08:05.662+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:05,657 - __main__ - INFO - [138/258] Processing: Bộ chăm sóc tóc
+[2026-06-12T08:08:05.666+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:05,659 - common.tiki_product - INFO - Category 7061 (bo-cham-soc-toc) - fetching page 1/1
+[2026-06-12T08:08:05.994+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:05,994 - common.tiki_product - INFO - Reached last page (1). Finished category 7061.
+[2026-06-12T08:08:05.997+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:05,994 - __main__ - INFO - [139/258] Processing: Nước hoa nữ
+[2026-06-12T08:08:05.998+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:05,994 - common.tiki_product - INFO - Category 1636 (nuoc-hoa-nu) - fetching page 1/1
+[2026-06-12T08:08:08.310+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:08,309 - common.tiki_product - INFO - Category 1636 (nuoc-hoa-nu) - fetching page 2/13
+[2026-06-12T08:08:10.597+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:10,596 - common.tiki_product - INFO - Category 1636 (nuoc-hoa-nu) - fetching page 3/13
+[2026-06-12T08:08:12.931+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:12,930 - common.tiki_product - INFO - Category 1636 (nuoc-hoa-nu) - fetching page 4/13
+[2026-06-12T08:08:15.232+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:15,231 - common.tiki_product - INFO - Category 1636 (nuoc-hoa-nu) - fetching page 5/13
+[2026-06-12T08:08:17.493+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:17,493 - common.tiki_product - INFO - Category 1636 (nuoc-hoa-nu) - fetching page 6/13
+[2026-06-12T08:08:19.774+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:19,773 - common.tiki_product - INFO - Category 1636 (nuoc-hoa-nu) - fetching page 7/13
+[2026-06-12T08:08:22.052+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:22,050 - common.tiki_product - INFO - Category 1636 (nuoc-hoa-nu) - fetching page 8/13
+[2026-06-12T08:08:24.336+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:24,335 - common.tiki_product - INFO - Category 1636 (nuoc-hoa-nu) - fetching page 9/13
+[2026-06-12T08:08:26.595+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:26,594 - common.tiki_product - INFO - Category 1636 (nuoc-hoa-nu) - fetching page 10/13
+[2026-06-12T08:08:29.005+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:29,004 - common.tiki_product - INFO - Category 1636 (nuoc-hoa-nu) - fetching page 11/13
+[2026-06-12T08:08:31.264+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:31,263 - common.tiki_product - INFO - Category 1636 (nuoc-hoa-nu) - fetching page 12/13
+[2026-06-12T08:08:33.599+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:33,598 - common.tiki_product - INFO - Category 1636 (nuoc-hoa-nu) - fetching page 13/13
+[2026-06-12T08:08:33.891+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:33,891 - common.tiki_product - INFO - Reached last page (13). Finished category 1636.
+[2026-06-12T08:08:33.894+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:33,891 - __main__ - INFO - [140/258] Processing: Nước hoa nam
+[2026-06-12T08:08:33.898+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:33,891 - common.tiki_product - INFO - Category 1637 (nuoc-hoa-nam) - fetching page 1/1
+[2026-06-12T08:08:36.212+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:36,212 - common.tiki_product - INFO - Category 1637 (nuoc-hoa-nam) - fetching page 2/7
+[2026-06-12T08:08:38.552+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:38,551 - common.tiki_product - INFO - Category 1637 (nuoc-hoa-nam) - fetching page 3/7
+[2026-06-12T08:08:40.891+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:40,890 - common.tiki_product - INFO - Category 1637 (nuoc-hoa-nam) - fetching page 4/7
+[2026-06-12T08:08:43.238+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:43,238 - common.tiki_product - INFO - Category 1637 (nuoc-hoa-nam) - fetching page 5/7
+[2026-06-12T08:08:45.867+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:45,866 - common.tiki_product - INFO - Category 1637 (nuoc-hoa-nam) - fetching page 6/7
+[2026-06-12T08:08:48.115+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:48,114 - common.tiki_product - INFO - Category 1637 (nuoc-hoa-nam) - fetching page 7/7
+[2026-06-12T08:08:48.324+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:48,323 - common.tiki_product - INFO - Reached last page (7). Finished category 1637.
+[2026-06-12T08:08:48.328+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:48,324 - __main__ - INFO - [141/258] Processing: Nước hoa vùng kín
+[2026-06-12T08:08:48.332+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:48,324 - common.tiki_product - INFO - Category 68189 (nuoc-hoa-vung-kin) - fetching page 1/1
+[2026-06-12T08:08:48.556+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:48,555 - common.tiki_product - INFO - Reached last page (1). Finished category 68189.
+[2026-06-12T08:08:48.558+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:48,555 - __main__ - INFO - [142/258] Processing: Xịt thơm cơ thể
+[2026-06-12T08:08:48.564+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:48,555 - common.tiki_product - INFO - Category 68190 (xit-thom-co-the) - fetching page 1/1
+[2026-06-12T08:08:48.963+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:48,963 - common.tiki_product - INFO - Reached last page (1). Finished category 68190.
+[2026-06-12T08:08:48.968+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:48,963 - __main__ - INFO - [143/258] Processing: Dụng cụ làm đẹp khác
+[2026-06-12T08:08:48.971+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:48,963 - common.tiki_product - INFO - Category 8167 (dung-cu-lam-dep-khac) - fetching page 1/1
+[2026-06-12T08:08:51.372+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:51,371 - common.tiki_product - INFO - Category 8167 (dung-cu-lam-dep-khac) - fetching page 2/3
+[2026-06-12T08:08:53.712+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:53,711 - common.tiki_product - INFO - Category 8167 (dung-cu-lam-dep-khac) - fetching page 3/3
+[2026-06-12T08:08:54.017+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:54,016 - common.tiki_product - INFO - Reached last page (3). Finished category 8167.
+[2026-06-12T08:08:54.021+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:54,018 - __main__ - INFO - [144/258] Processing: Lô quấn tóc
+[2026-06-12T08:08:54.026+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:54,019 - common.tiki_product - INFO - Category 11831 (lo-quan-toc) - fetching page 1/1
+[2026-06-12T08:08:54.243+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:54,242 - common.tiki_product - INFO - Reached last page (1). Finished category 11831.
+[2026-06-12T08:08:54.247+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:54,243 - __main__ - INFO - [145/258] Processing: Lược, băng đô
+[2026-06-12T08:08:54.251+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:54,243 - common.tiki_product - INFO - Category 7064 (luoc-bang-do) - fetching page 1/1
+[2026-06-12T08:08:56.542+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:56,540 - common.tiki_product - INFO - Category 7064 (luoc-bang-do) - fetching page 2/7
+[2026-06-12T08:08:58.823+0000] {subprocess.py:93} INFO - 2026-06-12 08:08:58,822 - common.tiki_product - INFO - Category 7064 (luoc-bang-do) - fetching page 3/7
+[2026-06-12T08:09:01.131+0000] {subprocess.py:93} INFO - 2026-06-12 08:09:01,130 - common.tiki_product - INFO - Category 7064 (luoc-bang-do) - fetching page 4/7
+[2026-06-12T08:09:03.426+0000] {subprocess.py:93} INFO - 2026-06-12 08:09:03,425 - common.tiki_product - INFO - Category 7064 (luoc-bang-do) - fetching page 5/7
+[2026-06-12T08:09:05.754+0000] {subprocess.py:93} INFO - 2026-06-12 08:09:05,753 - common.tiki_product - INFO - Category 7064 (luoc-bang-do) - fetching page 6/7
+[2026-06-12T08:09:08.064+0000] {subprocess.py:93} INFO - 2026-06-12 08:09:08,063 - common.tiki_product - INFO - Category 7064 (luoc-bang-do) - fetching page 7/7
+[2026-06-12T08:09:08.396+0000] {subprocess.py:93} INFO - 2026-06-12 08:09:08,395 - common.tiki_product - INFO - Reached last page (7). Finished category 7064.
+[2026-06-12T08:09:08.399+0000] {subprocess.py:93} INFO - 2026-06-12 08:09:08,396 - __main__ - INFO - [146/258] Processing: Dụng cụ tẩy lông
+[2026-06-12T08:09:08.404+0000] {subprocess.py:93} INFO - 2026-06-12 08:09:08,396 - common.tiki_product - INFO - Category 8165 (dung-cu-tay-long) - fetching page 1/1
+[2026-06-12T08:09:10.722+0000] {subprocess.py:93} INFO - 2026-06-12 08:09:10,721 - common.tiki_product - INFO - Category 8165 (dung-cu-tay-long) - fetching page 2/3
+[2026-06-12T08:09:13.038+0000] {subprocess.py:93} INFO - 2026-06-12 08:09:13,037 - common.tiki_product - INFO - Category 8165 (dung-cu-tay-long) - fetching page 3/3
+[2026-06-12T08:09:13.277+0000] {subprocess.py:93} INFO - 2026-06-12 08:09:13,276 - common.tiki_product - INFO - Reached last page (3). Finished category 8165.
+[2026-06-12T08:09:13.283+0000] {subprocess.py:93} INFO - 2026-06-12 08:09:13,277 - __main__ - INFO - [147/258] Processing: Làm thon gọn cơ thể
+[2026-06-12T08:09:13.286+0000] {subprocess.py:93} INFO - 2026-06-12 08:09:13,277 - common.tiki_product - INFO - Category 11933 (lam-thon-gon-co-the) - fetching page 1/1
+[2026-06-12T08:09:15.638+0000] {subprocess.py:93} INFO - 2026-06-12 08:09:15,637 - common.tiki_product - INFO - Category 11933 (lam-thon-gon-co-the) - fetching page 2/5
+[2026-06-12T08:09:17.966+0000] {subprocess.py:93} INFO - 2026-06-12 08:09:17,965 - common.tiki_product - INFO - Category 11933 (lam-thon-gon-co-the) - fetching page 3/5
+[2026-06-12T08:09:20.236+0000] {subprocess.py:93} INFO - 2026-06-12 08:09:20,235 - common.tiki_product - INFO - Category 11933 (lam-thon-gon-co-the) - fetching page 4/5
+[2026-06-12T08:09:22.501+0000] {subprocess.py:93} INFO - 2026-06-12 08:09:22,500 - common.tiki_product - INFO - Category 11933 (lam-thon-gon-co-the) - fetching page 5/5
+[2026-06-12T08:09:22.820+0000] {subprocess.py:93} INFO - 2026-06-12 08:09:22,820 - common.tiki_product - INFO - Reached last page (5). Finished category 11933.
+[2026-06-12T08:09:22.824+0000] {subprocess.py:93} INFO - 2026-06-12 08:09:22,821 - __main__ - INFO - [148/258] Processing: Massage mặt
+[2026-06-12T08:09:22.828+0000] {subprocess.py:93} INFO - 2026-06-12 08:09:22,821 - common.tiki_product - INFO - Category 11935 (massage-mat) - fetching page 1/1
+[2026-06-12T08:09:25.206+0000] {subprocess.py:93} INFO - 2026-06-12 08:09:25,206 - common.tiki_product - INFO - Category 11935 (massage-mat) - fetching page 2/21
+[2026-06-12T08:09:27.523+0000] {subprocess.py:93} INFO - 2026-06-12 08:09:27,522 - common.tiki_product - INFO - Category 11935 (massage-mat) - fetching page 3/21
+[2026-06-12T08:09:29.827+0000] {subprocess.py:93} INFO - 2026-06-12 08:09:29,826 - common.tiki_product - INFO - Category 11935 (massage-mat) - fetching page 4/21
+[2026-06-12T08:09:32.133+0000] {subprocess.py:93} INFO - 2026-06-12 08:09:32,132 - common.tiki_product - INFO - Category 11935 (massage-mat) - fetching page 5/21
+[2026-06-12T08:09:34.443+0000] {subprocess.py:93} INFO - 2026-06-12 08:09:34,442 - common.tiki_product - INFO - Category 11935 (massage-mat) - fetching page 6/21
+[2026-06-12T08:09:36.720+0000] {subprocess.py:93} INFO - 2026-06-12 08:09:36,720 - common.tiki_product - INFO - Category 11935 (massage-mat) - fetching page 7/21
+[2026-06-12T08:09:38.988+0000] {subprocess.py:93} INFO - 2026-06-12 08:09:38,988 - common.tiki_product - INFO - Category 11935 (massage-mat) - fetching page 8/21
+[2026-06-12T08:09:41.262+0000] {subprocess.py:93} INFO - 2026-06-12 08:09:41,261 - common.tiki_product - INFO - Category 11935 (massage-mat) - fetching page 9/21
+[2026-06-12T08:09:43.577+0000] {subprocess.py:93} INFO - 2026-06-12 08:09:43,576 - common.tiki_product - INFO - Category 11935 (massage-mat) - fetching page 10/21
+[2026-06-12T08:09:45.832+0000] {subprocess.py:93} INFO - 2026-06-12 08:09:45,831 - common.tiki_product - INFO - Category 11935 (massage-mat) - fetching page 11/21
+[2026-06-12T08:09:48.104+0000] {subprocess.py:93} INFO - 2026-06-12 08:09:48,103 - common.tiki_product - INFO - Category 11935 (massage-mat) - fetching page 12/21
+[2026-06-12T08:09:50.388+0000] {subprocess.py:93} INFO - 2026-06-12 08:09:50,387 - common.tiki_product - INFO - Category 11935 (massage-mat) - fetching page 13/21
+[2026-06-12T08:09:52.712+0000] {subprocess.py:93} INFO - 2026-06-12 08:09:52,710 - common.tiki_product - INFO - Category 11935 (massage-mat) - fetching page 14/21
+[2026-06-12T08:09:55.006+0000] {subprocess.py:93} INFO - 2026-06-12 08:09:55,006 - common.tiki_product - INFO - Category 11935 (massage-mat) - fetching page 15/21
+[2026-06-12T08:09:57.183+0000] {subprocess.py:93} INFO - 2026-06-12 08:09:57,182 - common.tiki_product - INFO - Category 11935 (massage-mat) - fetching page 16/21
+[2026-06-12T08:09:59.481+0000] {subprocess.py:93} INFO - 2026-06-12 08:09:59,480 - common.tiki_product - INFO - Category 11935 (massage-mat) - fetching page 17/21
+[2026-06-12T08:10:01.863+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:01,862 - common.tiki_product - INFO - Category 11935 (massage-mat) - fetching page 18/21
+[2026-06-12T08:10:04.212+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:04,211 - common.tiki_product - INFO - Category 11935 (massage-mat) - fetching page 19/21
+[2026-06-12T08:10:06.526+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:06,525 - common.tiki_product - INFO - Category 11935 (massage-mat) - fetching page 20/21
+[2026-06-12T08:10:08.886+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:08,885 - common.tiki_product - INFO - Category 11935 (massage-mat) - fetching page 21/21
+[2026-06-12T08:10:09.212+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:09,212 - common.tiki_product - INFO - Reached last page (21). Finished category 11935.
+[2026-06-12T08:10:09.214+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:09,212 - __main__ - INFO - [149/258] Processing: Máy xông da mặt
+[2026-06-12T08:10:09.219+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:09,212 - common.tiki_product - INFO - Category 11937 (may-xong-da-mat) - fetching page 1/1
+[2026-06-12T08:10:09.717+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:09,716 - common.tiki_product - INFO - Reached last page (1). Finished category 11937.
+[2026-06-12T08:10:09.722+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:09,717 - __main__ - INFO - [150/258] Processing: Dụng cụ cắt tóc
+[2026-06-12T08:10:09.727+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:09,717 - common.tiki_product - INFO - Category 1634 (dung-cu-cat-toc) - fetching page 1/1
+[2026-06-12T08:10:12.386+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:12,385 - common.tiki_product - INFO - Category 1634 (dung-cu-cat-toc) - fetching page 2/6
+[2026-06-12T08:10:14.690+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:14,689 - common.tiki_product - INFO - Category 1634 (dung-cu-cat-toc) - fetching page 3/6
+[2026-06-12T08:10:16.982+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:16,981 - common.tiki_product - INFO - Category 1634 (dung-cu-cat-toc) - fetching page 4/6
+[2026-06-12T08:10:19.358+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:19,357 - common.tiki_product - INFO - Category 1634 (dung-cu-cat-toc) - fetching page 5/6
+[2026-06-12T08:10:21.661+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:21,660 - common.tiki_product - INFO - Category 1634 (dung-cu-cat-toc) - fetching page 6/6
+[2026-06-12T08:10:21.853+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:21,853 - common.tiki_product - INFO - Reached last page (6). Finished category 1634.
+[2026-06-12T08:10:21.854+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:21,853 - __main__ - INFO - [151/258] Processing: Máy rửa mặt
+[2026-06-12T08:10:21.856+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:21,853 - common.tiki_product - INFO - Category 11639 (may-rua-mat) - fetching page 1/1
+[2026-06-12T08:10:22.206+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:22,205 - common.tiki_product - INFO - Reached last page (1). Finished category 11639.
+[2026-06-12T08:10:22.209+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:22,206 - __main__ - INFO - [152/258] Processing: Dụng cụ rửa mặt khác
+[2026-06-12T08:10:22.215+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:22,206 - common.tiki_product - INFO - Category 11641 (dung-cu-rua-mat-khac) - fetching page 1/1
+[2026-06-12T08:10:22.451+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:22,450 - common.tiki_product - INFO - Reached last page (1). Finished category 11641.
+[2026-06-12T08:10:22.452+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:22,450 - __main__ - INFO - [153/258] Processing: Bông rửa mặt
+[2026-06-12T08:10:22.456+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:22,450 - common.tiki_product - INFO - Category 68261 (bong-rua-mat) - fetching page 1/1
+[2026-06-12T08:10:22.814+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:22,813 - common.tiki_product - INFO - Reached last page (1). Finished category 68261.
+[2026-06-12T08:10:22.816+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:22,813 - __main__ - INFO - [154/258] Processing: Cọ rửa mặt
+[2026-06-12T08:10:22.819+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:22,814 - common.tiki_product - INFO - Category 68262 (co-rua-mat) - fetching page 1/1
+[2026-06-12T08:10:23.029+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:23,029 - common.tiki_product - INFO - Reached last page (1). Finished category 68262.
+[2026-06-12T08:10:23.031+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:23,029 - __main__ - INFO - [155/258] Processing: Máy đẩy tinh chất
+[2026-06-12T08:10:23.032+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:23,029 - common.tiki_product - INFO - Category 68264 (may-day-tinh-chat) - fetching page 1/1
+[2026-06-12T08:10:23.210+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:23,209 - common.tiki_product - INFO - Reached last page (1). Finished category 68264.
+[2026-06-12T08:10:23.216+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:23,211 - __main__ - INFO - [156/258] Processing: Máy hút mụn
+[2026-06-12T08:10:23.224+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:23,211 - common.tiki_product - INFO - Category 11689 (may-hut-mun) - fetching page 1/1
+[2026-06-12T08:10:23.493+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:23,492 - common.tiki_product - INFO - Reached last page (1). Finished category 11689.
+[2026-06-12T08:10:23.501+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:23,493 - __main__ - INFO - [157/258] Processing: Bộ chăm sóc móng
+[2026-06-12T08:10:23.504+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:23,493 - common.tiki_product - INFO - Category 11803 (bo-cham-soc-mong) - fetching page 1/1
+[2026-06-12T08:10:25.838+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:25,837 - common.tiki_product - INFO - Category 11803 (bo-cham-soc-mong) - fetching page 2/6
+[2026-06-12T08:10:28.119+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:28,118 - common.tiki_product - INFO - Category 11803 (bo-cham-soc-mong) - fetching page 3/6
+[2026-06-12T08:10:30.409+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:30,408 - common.tiki_product - INFO - Category 11803 (bo-cham-soc-mong) - fetching page 4/6
+[2026-06-12T08:10:32.790+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:32,789 - common.tiki_product - INFO - Category 11803 (bo-cham-soc-mong) - fetching page 5/6
+[2026-06-12T08:10:35.121+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:35,120 - common.tiki_product - INFO - Category 11803 (bo-cham-soc-mong) - fetching page 6/6
+[2026-06-12T08:10:35.406+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:35,404 - common.tiki_product - INFO - Reached last page (6). Finished category 11803.
+[2026-06-12T08:10:35.411+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:35,406 - __main__ - INFO - [158/258] Processing: Bộ dụng cụ, phụ kiện làm móng
+[2026-06-12T08:10:35.414+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:35,407 - common.tiki_product - INFO - Category 8205 (bo-dung-cu-phu-kien-lam-mong) - fetching page 1/1
+[2026-06-12T08:10:37.652+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:37,651 - common.tiki_product - INFO - Category 8205 (bo-dung-cu-phu-kien-lam-mong) - fetching page 2/2
+[2026-06-12T08:10:37.912+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:37,912 - common.tiki_product - INFO - Reached last page (2). Finished category 8205.
+[2026-06-12T08:10:37.916+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:37,912 - __main__ - INFO - [159/258] Processing: Bộ màu sơn móng
+[2026-06-12T08:10:37.918+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:37,912 - common.tiki_product - INFO - Category 8204 (bo-mau-son-mong) - fetching page 1/1
+[2026-06-12T08:10:38.044+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:38,044 - common.tiki_product - INFO - No more products on page 1. Finished category 8204.
+[2026-06-12T08:10:38.045+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:38,044 - __main__ - INFO - [160/258] Processing: Dụng cụ làm móng
+[2026-06-12T08:10:38.046+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:38,044 - common.tiki_product - INFO - Category 1622 (dung-cu-lam-mong) - fetching page 1/1
+[2026-06-12T08:10:40.447+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:40,446 - common.tiki_product - INFO - Category 1622 (dung-cu-lam-mong) - fetching page 2/11
+[2026-06-12T08:10:42.729+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:42,727 - common.tiki_product - INFO - Category 1622 (dung-cu-lam-mong) - fetching page 3/11
+[2026-06-12T08:10:45.039+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:45,039 - common.tiki_product - INFO - Category 1622 (dung-cu-lam-mong) - fetching page 4/11
+[2026-06-12T08:10:48.003+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:48,002 - common.tiki_product - INFO - Category 1622 (dung-cu-lam-mong) - fetching page 5/11
+[2026-06-12T08:10:50.277+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:50,276 - common.tiki_product - INFO - Category 1622 (dung-cu-lam-mong) - fetching page 6/11
+[2026-06-12T08:10:52.537+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:52,537 - common.tiki_product - INFO - Category 1622 (dung-cu-lam-mong) - fetching page 7/11
+[2026-06-12T08:10:54.798+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:54,797 - common.tiki_product - INFO - Category 1622 (dung-cu-lam-mong) - fetching page 8/11
+[2026-06-12T08:10:57.087+0000] {subprocess.py:93} INFO - 2026-06-12 08:10:57,087 - common.tiki_product - INFO - Category 1622 (dung-cu-lam-mong) - fetching page 9/11
+[2026-06-12T08:11:00.335+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:00,334 - common.tiki_product - INFO - Category 1622 (dung-cu-lam-mong) - fetching page 10/11
+[2026-06-12T08:11:02.590+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:02,590 - common.tiki_product - INFO - Category 1622 (dung-cu-lam-mong) - fetching page 11/11
+[2026-06-12T08:11:02.811+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:02,810 - common.tiki_product - INFO - Reached last page (11). Finished category 1622.
+[2026-06-12T08:11:02.814+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:02,811 - __main__ - INFO - [161/258] Processing: Miếng dán trang trí móng
+[2026-06-12T08:11:02.816+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:02,811 - common.tiki_product - INFO - Category 8202 (mieng-dan-trang-tri-mong) - fetching page 1/1
+[2026-06-12T08:11:03.123+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:03,122 - common.tiki_product - INFO - Reached last page (1). Finished category 8202.
+[2026-06-12T08:11:03.128+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:03,123 - __main__ - INFO - [162/258] Processing: Sơn móng
+[2026-06-12T08:11:03.134+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:03,123 - common.tiki_product - INFO - Category 8199 (son-mong) - fetching page 1/1
+[2026-06-12T08:11:03.316+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:03,315 - common.tiki_product - INFO - Reached last page (1). Finished category 8199.
+[2026-06-12T08:11:03.321+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:03,317 - __main__ - INFO - [163/258] Processing: Nước tẩy sơn móng, dưỡng móng
+[2026-06-12T08:11:03.326+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:03,317 - common.tiki_product - INFO - Category 8200 (nuoc-tay-son-mong-duong-mong) - fetching page 1/1
+[2026-06-12T08:11:03.459+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:03,458 - common.tiki_product - INFO - No more products on page 1. Finished category 8200.
+[2026-06-12T08:11:03.463+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:03,459 - __main__ - INFO - [164/258] Processing: Móng giả
+[2026-06-12T08:11:03.468+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:03,460 - common.tiki_product - INFO - Category 8201 (mong-gia) - fetching page 1/1
+[2026-06-12T08:11:03.731+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:03,730 - common.tiki_product - INFO - Reached last page (1). Finished category 8201.
+[2026-06-12T08:11:03.739+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:03,731 - __main__ - INFO - [165/258] Processing: Dụng cụ tỉa lông mũi
+[2026-06-12T08:11:03.744+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:03,731 - common.tiki_product - INFO - Category 68283 (dung-cu-tia-long-mui) - fetching page 1/1
+[2026-06-12T08:11:03.981+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:03,980 - common.tiki_product - INFO - Reached last page (1). Finished category 68283.
+[2026-06-12T08:11:03.985+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:03,981 - __main__ - INFO - [166/258] Processing: Đai, nịt làm đẹp
+[2026-06-12T08:11:03.990+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:03,981 - common.tiki_product - INFO - Category 68285 (dai-nit-lam-dep) - fetching page 1/1
+[2026-06-12T08:11:04.350+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:04,349 - common.tiki_product - INFO - Reached last page (1). Finished category 68285.
+[2026-06-12T08:11:04.354+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:04,350 - __main__ - INFO - [167/258] Processing: Máy đo huyết áp
+[2026-06-12T08:11:04.357+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:04,351 - common.tiki_product - INFO - Category 8168 (may-do-huyet-ap) - fetching page 1/1
+[2026-06-12T08:11:06.617+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:06,616 - common.tiki_product - INFO - Category 8168 (may-do-huyet-ap) - fetching page 2/6
+[2026-06-12T08:11:08.968+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:08,966 - common.tiki_product - INFO - Category 8168 (may-do-huyet-ap) - fetching page 3/6
+[2026-06-12T08:11:11.226+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:11,224 - common.tiki_product - INFO - Category 8168 (may-do-huyet-ap) - fetching page 4/6
+[2026-06-12T08:11:13.581+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:13,580 - common.tiki_product - INFO - Category 8168 (may-do-huyet-ap) - fetching page 5/6
+[2026-06-12T08:11:15.941+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:15,940 - common.tiki_product - INFO - Category 8168 (may-do-huyet-ap) - fetching page 6/6
+[2026-06-12T08:11:16.183+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:16,183 - common.tiki_product - INFO - Reached last page (6). Finished category 8168.
+[2026-06-12T08:11:16.185+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:16,183 - __main__ - INFO - [168/258] Processing: Máy, que thử đường huyết
+[2026-06-12T08:11:16.187+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:16,183 - common.tiki_product - INFO - Category 11905 (may-que-thu-duong-huyet) - fetching page 1/1
+[2026-06-12T08:11:18.490+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:18,490 - common.tiki_product - INFO - Category 11905 (may-que-thu-duong-huyet) - fetching page 2/5
+[2026-06-12T08:11:20.745+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:20,745 - common.tiki_product - INFO - Category 11905 (may-que-thu-duong-huyet) - fetching page 3/5
+[2026-06-12T08:11:22.988+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:22,987 - common.tiki_product - INFO - Category 11905 (may-que-thu-duong-huyet) - fetching page 4/5
+[2026-06-12T08:11:25.255+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:25,254 - common.tiki_product - INFO - Category 11905 (may-que-thu-duong-huyet) - fetching page 5/5
+[2026-06-12T08:11:25.454+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:25,454 - common.tiki_product - INFO - Reached last page (5). Finished category 11905.
+[2026-06-12T08:11:25.455+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:25,454 - __main__ - INFO - [169/258] Processing: Máy đo nồng độ oxy máu
+[2026-06-12T08:11:25.456+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:25,455 - common.tiki_product - INFO - Category 11907 (may-do-nong-do-oxy-mau) - fetching page 1/1
+[2026-06-12T08:11:25.733+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:25,733 - common.tiki_product - INFO - Reached last page (1). Finished category 11907.
+[2026-06-12T08:11:25.735+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:25,734 - __main__ - INFO - [170/258] Processing: Máy đo cholesterol
+[2026-06-12T08:11:25.737+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:25,734 - common.tiki_product - INFO - Category 11909 (may-do-cholesterol) - fetching page 1/1
+[2026-06-12T08:11:25.850+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:25,849 - common.tiki_product - INFO - No more products on page 1. Finished category 11909.
+[2026-06-12T08:11:25.856+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:25,850 - __main__ - INFO - [171/258] Processing: Đai lưng
+[2026-06-12T08:11:25.858+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:25,850 - common.tiki_product - INFO - Category 11911 (dai-lung) - fetching page 1/1
+[2026-06-12T08:11:26.090+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:26,089 - common.tiki_product - INFO - Reached last page (1). Finished category 11911.
+[2026-06-12T08:11:26.095+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:26,090 - __main__ - INFO - [172/258] Processing: Máy soi ngực
+[2026-06-12T08:11:26.098+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:26,090 - common.tiki_product - INFO - Category 11913 (may-soi-nguc) - fetching page 1/1
+[2026-06-12T08:11:26.220+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:26,220 - common.tiki_product - INFO - No more products on page 1. Finished category 11913.
+[2026-06-12T08:11:26.225+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:26,220 - __main__ - INFO - [173/258] Processing: Ống tai nghe
+[2026-06-12T08:11:26.229+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:26,220 - common.tiki_product - INFO - Category 11915 (ong-tai-nghe) - fetching page 1/1
+[2026-06-12T08:11:26.567+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:26,566 - common.tiki_product - INFO - Reached last page (1). Finished category 11915.
+[2026-06-12T08:11:26.572+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:26,567 - __main__ - INFO - [174/258] Processing: Nhiệt kế
+[2026-06-12T08:11:26.576+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:26,568 - common.tiki_product - INFO - Category 8171 (nhiet-ke) - fetching page 1/1
+[2026-06-12T08:11:28.852+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:28,852 - common.tiki_product - INFO - Category 8171 (nhiet-ke) - fetching page 2/3
+[2026-06-12T08:11:31.059+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:31,058 - common.tiki_product - INFO - Category 8171 (nhiet-ke) - fetching page 3/3
+[2026-06-12T08:11:31.245+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:31,244 - common.tiki_product - INFO - Reached last page (3). Finished category 8171.
+[2026-06-12T08:11:31.247+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:31,245 - __main__ - INFO - [175/258] Processing: Máy đo nhịp tim
+[2026-06-12T08:11:31.252+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:31,245 - common.tiki_product - INFO - Category 68231 (may-do-nhip-tim) - fetching page 1/1
+[2026-06-12T08:11:31.458+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:31,457 - common.tiki_product - INFO - Reached last page (1). Finished category 68231.
+[2026-06-12T08:11:31.464+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:31,458 - __main__ - INFO - [176/258] Processing: Cân sức khỏe
+[2026-06-12T08:11:31.468+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:31,459 - common.tiki_product - INFO - Category 8170 (can-suc-khoe) - fetching page 1/1
+[2026-06-12T08:11:33.789+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:33,788 - common.tiki_product - INFO - Category 8170 (can-suc-khoe) - fetching page 2/5
+[2026-06-12T08:11:36.064+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:36,063 - common.tiki_product - INFO - Category 8170 (can-suc-khoe) - fetching page 3/5
+[2026-06-12T08:11:38.305+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:38,304 - common.tiki_product - INFO - Category 8170 (can-suc-khoe) - fetching page 4/5
+[2026-06-12T08:11:40.598+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:40,598 - common.tiki_product - INFO - Category 8170 (can-suc-khoe) - fetching page 5/5
+[2026-06-12T08:11:40.800+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:40,800 - common.tiki_product - INFO - Reached last page (5). Finished category 8170.
+[2026-06-12T08:11:40.804+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:40,802 - __main__ - INFO - [177/258] Processing: Máy xông mũi họng
+[2026-06-12T08:11:40.807+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:40,802 - common.tiki_product - INFO - Category 11925 (may-xong-mui-hong) - fetching page 1/1
+[2026-06-12T08:11:43.133+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:43,133 - common.tiki_product - INFO - Category 11925 (may-xong-mui-hong) - fetching page 2/3
+[2026-06-12T08:11:45.448+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:45,448 - common.tiki_product - INFO - Category 11925 (may-xong-mui-hong) - fetching page 3/3
+[2026-06-12T08:11:45.578+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:45,577 - common.tiki_product - INFO - Reached last page (3). Finished category 11925.
+[2026-06-12T08:11:45.582+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:45,578 - __main__ - INFO - [178/258] Processing: Que thử thai, rụng trứng
+[2026-06-12T08:11:45.588+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:45,580 - common.tiki_product - INFO - Category 11921 (que-thu-thai-rung-trung) - fetching page 1/1
+[2026-06-12T08:11:46.015+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:46,014 - common.tiki_product - INFO - Reached last page (1). Finished category 11921.
+[2026-06-12T08:11:46.020+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:46,015 - __main__ - INFO - [179/258] Processing: Thiết bị y tế chuyên dụng
+[2026-06-12T08:11:46.024+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:46,015 - common.tiki_product - INFO - Category 2342 (thiet-bi-y-te-chuyen-dung) - fetching page 1/1
+[2026-06-12T08:11:48.360+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:48,359 - common.tiki_product - INFO - Category 2342 (thiet-bi-y-te-chuyen-dung) - fetching page 2/8
+[2026-06-12T08:11:50.660+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:50,660 - common.tiki_product - INFO - Category 2342 (thiet-bi-y-te-chuyen-dung) - fetching page 3/8
+[2026-06-12T08:11:52.988+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:52,986 - common.tiki_product - INFO - Category 2342 (thiet-bi-y-te-chuyen-dung) - fetching page 4/8
+[2026-06-12T08:11:55.261+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:55,260 - common.tiki_product - INFO - Category 2342 (thiet-bi-y-te-chuyen-dung) - fetching page 5/8
+[2026-06-12T08:11:57.524+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:57,522 - common.tiki_product - INFO - Category 2342 (thiet-bi-y-te-chuyen-dung) - fetching page 6/8
+[2026-06-12T08:11:59.909+0000] {subprocess.py:93} INFO - 2026-06-12 08:11:59,908 - common.tiki_product - INFO - Category 2342 (thiet-bi-y-te-chuyen-dung) - fetching page 7/8
+[2026-06-12T08:12:02.204+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:02,204 - common.tiki_product - INFO - Category 2342 (thiet-bi-y-te-chuyen-dung) - fetching page 8/8
+[2026-06-12T08:12:02.438+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:02,432 - common.tiki_product - INFO - Reached last page (8). Finished category 2342.
+[2026-06-12T08:12:02.441+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:02,436 - __main__ - INFO - [180/258] Processing: Thiết bị khác
+[2026-06-12T08:12:02.450+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:02,436 - common.tiki_product - INFO - Category 8172 (thiet-bi-khac) - fetching page 1/1
+[2026-06-12T08:12:04.831+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:04,829 - common.tiki_product - INFO - Category 8172 (thiet-bi-khac) - fetching page 2/9
+[2026-06-12T08:12:07.081+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:07,081 - common.tiki_product - INFO - Category 8172 (thiet-bi-khac) - fetching page 3/9
+[2026-06-12T08:12:09.328+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:09,327 - common.tiki_product - INFO - Category 8172 (thiet-bi-khac) - fetching page 4/9
+[2026-06-12T08:12:11.580+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:11,579 - common.tiki_product - INFO - Category 8172 (thiet-bi-khac) - fetching page 5/9
+[2026-06-12T08:12:13.914+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:13,913 - common.tiki_product - INFO - Category 8172 (thiet-bi-khac) - fetching page 6/9
+[2026-06-12T08:12:16.230+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:16,229 - common.tiki_product - INFO - Category 8172 (thiet-bi-khac) - fetching page 7/9
+[2026-06-12T08:12:18.482+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:18,481 - common.tiki_product - INFO - Category 8172 (thiet-bi-khac) - fetching page 8/9
+[2026-06-12T08:12:20.775+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:20,775 - common.tiki_product - INFO - Category 8172 (thiet-bi-khac) - fetching page 9/9
+[2026-06-12T08:12:21.019+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:21,018 - common.tiki_product - INFO - Reached last page (9). Finished category 8172.
+[2026-06-12T08:12:21.032+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:21,019 - __main__ - INFO - [181/258] Processing: Chườm lạnh
+[2026-06-12T08:12:21.047+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:21,019 - common.tiki_product - INFO - Category 68191 (chuom-lanh) - fetching page 1/1
+[2026-06-12T08:12:21.527+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:21,526 - common.tiki_product - INFO - Reached last page (1). Finished category 68191.
+[2026-06-12T08:12:21.535+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:21,527 - __main__ - INFO - [182/258] Processing: Chườm nóng
+[2026-06-12T08:12:21.546+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:21,527 - common.tiki_product - INFO - Category 68192 (chuom-nong) - fetching page 1/1
+[2026-06-12T08:12:23.839+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:23,838 - common.tiki_product - INFO - Category 68192 (chuom-nong) - fetching page 2/3
+[2026-06-12T08:12:26.137+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:26,136 - common.tiki_product - INFO - Category 68192 (chuom-nong) - fetching page 3/3
+[2026-06-12T08:12:26.448+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:26,448 - common.tiki_product - INFO - Reached last page (3). Finished category 68192.
+[2026-06-12T08:12:26.450+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:26,448 - __main__ - INFO - [183/258] Processing: Bộ sơ cứu thương
+[2026-06-12T08:12:26.452+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:26,449 - common.tiki_product - INFO - Category 68233 (bo-so-cuu-thuong) - fetching page 1/1
+[2026-06-12T08:12:26.686+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:26,686 - common.tiki_product - INFO - Reached last page (1). Finished category 68233.
+[2026-06-12T08:12:26.692+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:26,686 - __main__ - INFO - [184/258] Processing: Dụng cụ sơ cứu khác
+[2026-06-12T08:12:26.699+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:26,686 - common.tiki_product - INFO - Category 68235 (dung-cu-so-cuu-khac) - fetching page 1/1
+[2026-06-12T08:12:26.939+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:26,938 - common.tiki_product - INFO - Reached last page (1). Finished category 68235.
+[2026-06-12T08:12:26.946+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:26,939 - __main__ - INFO - [185/258] Processing: Găng tay y tế
+[2026-06-12T08:12:26.954+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:26,939 - common.tiki_product - INFO - Category 68236 (gang-tay-y-te) - fetching page 1/1
+[2026-06-12T08:12:27.205+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:27,204 - common.tiki_product - INFO - Reached last page (1). Finished category 68236.
+[2026-06-12T08:12:27.209+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:27,205 - __main__ - INFO - [186/258] Processing: Vớ y khoa
+[2026-06-12T08:12:27.213+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:27,205 - common.tiki_product - INFO - Category 11931 (vo-y-khoa) - fetching page 1/1
+[2026-06-12T08:12:29.613+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:29,613 - common.tiki_product - INFO - Category 11931 (vo-y-khoa) - fetching page 2/2
+[2026-06-12T08:12:29.802+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:29,802 - common.tiki_product - INFO - Reached last page (2). Finished category 11931.
+[2026-06-12T08:12:29.804+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:29,802 - __main__ - INFO - [187/258] Processing: Băng keo cá nhân
+[2026-06-12T08:12:29.806+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:29,802 - common.tiki_product - INFO - Category 1633 (bang-keo-ca-nhan) - fetching page 1/1
+[2026-06-12T08:12:30.026+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:30,025 - common.tiki_product - INFO - Reached last page (1). Finished category 1633.
+[2026-06-12T08:12:30.031+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:30,026 - __main__ - INFO - [188/258] Processing: Khẩu trang y tế
+[2026-06-12T08:12:30.035+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:30,026 - common.tiki_product - INFO - Category 8305 (khau-trang-y-te) - fetching page 1/1
+[2026-06-12T08:12:32.403+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:32,402 - common.tiki_product - INFO - Category 8305 (khau-trang-y-te) - fetching page 2/7
+[2026-06-12T08:12:34.753+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:34,753 - common.tiki_product - INFO - Category 8305 (khau-trang-y-te) - fetching page 3/7
+[2026-06-12T08:12:37.086+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:37,085 - common.tiki_product - INFO - Category 8305 (khau-trang-y-te) - fetching page 4/7
+[2026-06-12T08:12:39.359+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:39,358 - common.tiki_product - INFO - Category 8305 (khau-trang-y-te) - fetching page 5/7
+[2026-06-12T08:12:41.667+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:41,666 - common.tiki_product - INFO - Category 8305 (khau-trang-y-te) - fetching page 6/7
+[2026-06-12T08:12:43.981+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:43,980 - common.tiki_product - INFO - Category 8305 (khau-trang-y-te) - fetching page 7/7
+[2026-06-12T08:12:44.264+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:44,264 - common.tiki_product - INFO - Reached last page (7). Finished category 8305.
+[2026-06-12T08:12:44.267+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:44,265 - __main__ - INFO - [189/258] Processing: Hỗ trợ giấc ngủ, giảm ngáy
+[2026-06-12T08:12:44.268+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:44,265 - common.tiki_product - INFO - Category 68211 (ho-tro-giac-ngu-giam-ngay) - fetching page 1/1
+[2026-06-12T08:12:44.479+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:44,478 - common.tiki_product - INFO - Reached last page (1). Finished category 68211.
+[2026-06-12T08:12:44.481+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:44,479 - __main__ - INFO - [190/258] Processing: Định hình cánh tay, bàn tay, ngón tay
+[2026-06-12T08:12:44.483+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:44,479 - common.tiki_product - INFO - Category 68251 (dinh-hinh-canh-tay-ban-tay-ngon-tay) - fetching page 1/1
+[2026-06-12T08:12:44.882+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:44,881 - common.tiki_product - INFO - Reached last page (1). Finished category 68251.
+[2026-06-12T08:12:44.892+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:44,882 - __main__ - INFO - [191/258] Processing: Định hình đầu gối, chân, bàn chân
+[2026-06-12T08:12:44.900+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:44,883 - common.tiki_product - INFO - Category 68252 (dinh-hinh-dau-goi-chan-ban-chan) - fetching page 1/1
+[2026-06-12T08:12:47.262+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:47,261 - common.tiki_product - INFO - Category 68252 (dinh-hinh-dau-goi-chan-ban-chan) - fetching page 2/2
+[2026-06-12T08:12:47.443+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:47,443 - common.tiki_product - INFO - Reached last page (2). Finished category 68252.
+[2026-06-12T08:12:47.444+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:47,443 - __main__ - INFO - [192/258] Processing: Định hình hông, eo
+[2026-06-12T08:12:47.445+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:47,443 - common.tiki_product - INFO - Category 68253 (dinh-hinh-hong-eo) - fetching page 1/1
+[2026-06-12T08:12:47.670+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:47,669 - common.tiki_product - INFO - Reached last page (1). Finished category 68253.
+[2026-06-12T08:12:47.681+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:47,669 - __main__ - INFO - [193/258] Processing: Định hình lưng, vai, cổ
+[2026-06-12T08:12:47.689+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:47,669 - common.tiki_product - INFO - Category 68254 (dinh-hinh-lung-vai-co) - fetching page 1/1
+[2026-06-12T08:12:50.040+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:50,040 - common.tiki_product - INFO - Category 68254 (dinh-hinh-lung-vai-co) - fetching page 2/2
+[2026-06-12T08:12:50.313+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:50,313 - common.tiki_product - INFO - Reached last page (2). Finished category 68254.
+[2026-06-12T08:12:50.316+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:50,313 - __main__ - INFO - [194/258] Processing: Hỗ trợ ngực
+[2026-06-12T08:12:50.319+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:50,313 - common.tiki_product - INFO - Category 68255 (ho-tro-nguc) - fetching page 1/1
+[2026-06-12T08:12:50.576+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:50,575 - common.tiki_product - INFO - No more products on page 1. Finished category 68255.
+[2026-06-12T08:12:50.584+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:50,576 - __main__ - INFO - [195/258] Processing: Chăm sóc tóc và móng
+[2026-06-12T08:12:50.593+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:50,577 - common.tiki_product - INFO - Category 11851 (cham-soc-toc-va-mong) - fetching page 1/1
+[2026-06-12T08:12:50.954+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:50,952 - common.tiki_product - INFO - Reached last page (1). Finished category 11851.
+[2026-06-12T08:12:50.957+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:50,954 - __main__ - INFO - [196/258] Processing: Tăng kích cỡ ngực
+[2026-06-12T08:12:50.962+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:50,954 - common.tiki_product - INFO - Category 11855 (tang-kich-co-nguc) - fetching page 1/1
+[2026-06-12T08:12:51.212+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:51,212 - common.tiki_product - INFO - Reached last page (1). Finished category 11855.
+[2026-06-12T08:12:51.215+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:51,212 - __main__ - INFO - [197/258] Processing: Collagen
+[2026-06-12T08:12:51.220+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:51,212 - common.tiki_product - INFO - Category 56036 (collagen) - fetching page 1/1
+[2026-06-12T08:12:53.523+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:53,520 - common.tiki_product - INFO - Category 56036 (collagen) - fetching page 2/3
+[2026-06-12T08:12:55.835+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:55,834 - common.tiki_product - INFO - Category 56036 (collagen) - fetching page 3/3
+[2026-06-12T08:12:56.121+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:56,120 - common.tiki_product - INFO - Reached last page (3). Finished category 56036.
+[2026-06-12T08:12:56.137+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:56,121 - __main__ - INFO - [198/258] Processing: Hỗ trợ chăm sóc da
+[2026-06-12T08:12:56.144+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:56,122 - common.tiki_product - INFO - Category 56037 (ho-tro-cham-soc-da) - fetching page 1/1
+[2026-06-12T08:12:58.563+0000] {subprocess.py:93} INFO - 2026-06-12 08:12:58,562 - common.tiki_product - INFO - Category 56037 (ho-tro-cham-soc-da) - fetching page 2/5
+[2026-06-12T08:13:00.807+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:00,806 - common.tiki_product - INFO - Category 56037 (ho-tro-cham-soc-da) - fetching page 3/5
+[2026-06-12T08:13:03.034+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:03,033 - common.tiki_product - INFO - Category 56037 (ho-tro-cham-soc-da) - fetching page 4/5
+[2026-06-12T08:13:05.299+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:05,298 - common.tiki_product - INFO - Category 56037 (ho-tro-cham-soc-da) - fetching page 5/5
+[2026-06-12T08:13:05.452+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:05,451 - common.tiki_product - INFO - Reached last page (5). Finished category 56037.
+[2026-06-12T08:13:05.458+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:05,453 - __main__ - INFO - [199/258] Processing: Thơm cơ thể
+[2026-06-12T08:13:05.462+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:05,453 - common.tiki_product - INFO - Category 56038 (thom-co-the) - fetching page 1/1
+[2026-06-12T08:13:05.649+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:05,648 - common.tiki_product - INFO - Reached last page (1). Finished category 56038.
+[2026-06-12T08:13:05.657+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:05,648 - __main__ - INFO - [200/258] Processing: Kiểm soát cân nặng
+[2026-06-12T08:13:05.663+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:05,649 - common.tiki_product - INFO - Category 11891 (kiem-soat-can-nang) - fetching page 1/1
+[2026-06-12T08:13:07.956+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:07,956 - common.tiki_product - INFO - Category 11891 (kiem-soat-can-nang) - fetching page 2/2
+[2026-06-12T08:13:08.167+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:08,167 - common.tiki_product - INFO - Reached last page (2). Finished category 11891.
+[2026-06-12T08:13:08.169+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:08,168 - __main__ - INFO - [201/258] Processing: Nhân Sâm, Hồng Sâm
+[2026-06-12T08:13:08.170+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:08,168 - common.tiki_product - INFO - Category 11885 (nhan-sam-hong-sam) - fetching page 1/1
+[2026-06-12T08:13:10.550+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:10,549 - common.tiki_product - INFO - Category 11885 (nhan-sam-hong-sam) - fetching page 2/8
+[2026-06-12T08:13:12.940+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:12,939 - common.tiki_product - INFO - Category 11885 (nhan-sam-hong-sam) - fetching page 3/8
+[2026-06-12T08:13:15.333+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:15,331 - common.tiki_product - INFO - Category 11885 (nhan-sam-hong-sam) - fetching page 4/8
+[2026-06-12T08:13:17.698+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:17,697 - common.tiki_product - INFO - Category 11885 (nhan-sam-hong-sam) - fetching page 5/8
+[2026-06-12T08:13:20.069+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:20,068 - common.tiki_product - INFO - Category 11885 (nhan-sam-hong-sam) - fetching page 6/8
+[2026-06-12T08:13:22.361+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:22,361 - common.tiki_product - INFO - Category 11885 (nhan-sam-hong-sam) - fetching page 7/8
+[2026-06-12T08:13:24.665+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:24,664 - common.tiki_product - INFO - Category 11885 (nhan-sam-hong-sam) - fetching page 8/8
+[2026-06-12T08:13:24.890+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:24,889 - common.tiki_product - INFO - Reached last page (8). Finished category 11885.
+[2026-06-12T08:13:24.891+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:24,890 - __main__ - INFO - [202/258] Processing: Tỏi đen
+[2026-06-12T08:13:24.894+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:24,890 - common.tiki_product - INFO - Category 11887 (toi-den) - fetching page 1/1
+[2026-06-12T08:13:25.154+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:25,154 - common.tiki_product - INFO - Reached last page (1). Finished category 11887.
+[2026-06-12T08:13:25.159+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:25,154 - __main__ - INFO - [203/258] Processing: Nghệ
+[2026-06-12T08:13:25.161+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:25,154 - common.tiki_product - INFO - Category 11889 (nghe) - fetching page 1/1
+[2026-06-12T08:13:27.436+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:27,435 - common.tiki_product - INFO - Category 11889 (nghe) - fetching page 2/2
+[2026-06-12T08:13:28.398+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:28,397 - common.tiki_product - INFO - Reached last page (2). Finished category 11889.
+[2026-06-12T08:13:28.403+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:28,399 - __main__ - INFO - [204/258] Processing: Tảo
+[2026-06-12T08:13:28.407+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:28,399 - common.tiki_product - INFO - Category 56040 (tao) - fetching page 1/1
+[2026-06-12T08:13:28.738+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:28,737 - common.tiki_product - INFO - Reached last page (1). Finished category 56040.
+[2026-06-12T08:13:28.744+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:28,738 - __main__ - INFO - [205/258] Processing: Sản phẩm từ ong
+[2026-06-12T08:13:28.749+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:28,739 - common.tiki_product - INFO - Category 56041 (san-pham-tu-ong) - fetching page 1/1
+[2026-06-12T08:13:31.050+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:31,050 - common.tiki_product - INFO - Category 56041 (san-pham-tu-ong) - fetching page 2/5
+[2026-06-12T08:13:33.212+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:33,211 - common.tiki_product - INFO - Category 56041 (san-pham-tu-ong) - fetching page 3/5
+[2026-06-12T08:13:35.557+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:35,556 - common.tiki_product - INFO - Category 56041 (san-pham-tu-ong) - fetching page 4/5
+[2026-06-12T08:13:37.828+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:37,827 - common.tiki_product - INFO - Category 56041 (san-pham-tu-ong) - fetching page 5/5
+[2026-06-12T08:13:38.025+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:38,024 - common.tiki_product - INFO - Reached last page (5). Finished category 56041.
+[2026-06-12T08:13:38.033+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:38,026 - __main__ - INFO - [206/258] Processing: Canxi
+[2026-06-12T08:13:38.040+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:38,027 - common.tiki_product - INFO - Category 55951 (canxi) - fetching page 1/1
+[2026-06-12T08:13:38.296+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:38,296 - common.tiki_product - INFO - Reached last page (1). Finished category 55951.
+[2026-06-12T08:13:38.298+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:38,296 - __main__ - INFO - [207/258] Processing: Kẽm
+[2026-06-12T08:13:38.301+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:38,297 - common.tiki_product - INFO - Category 55952 (kem) - fetching page 1/1
+[2026-06-12T08:13:38.444+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:38,443 - common.tiki_product - INFO - Reached last page (1). Finished category 55952.
+[2026-06-12T08:13:38.447+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:38,444 - __main__ - INFO - [208/258] Processing: Magie
+[2026-06-12T08:13:38.450+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:38,444 - common.tiki_product - INFO - Category 55953 (magie) - fetching page 1/1
+[2026-06-12T08:13:38.581+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:38,581 - common.tiki_product - INFO - Reached last page (1). Finished category 55953.
+[2026-06-12T08:13:38.584+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:38,581 - __main__ - INFO - [209/258] Processing: Sắt
+[2026-06-12T08:13:38.586+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:38,581 - common.tiki_product - INFO - Category 55954 (sat) - fetching page 1/1
+[2026-06-12T08:13:38.803+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:38,802 - common.tiki_product - INFO - Reached last page (1). Finished category 55954.
+[2026-06-12T08:13:38.808+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:38,803 - __main__ - INFO - [210/258] Processing: Vitamin A
+[2026-06-12T08:13:38.813+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:38,804 - common.tiki_product - INFO - Category 55955 (vitamin-a) - fetching page 1/1
+[2026-06-12T08:13:38.942+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:38,941 - common.tiki_product - INFO - No more products on page 1. Finished category 55955.
+[2026-06-12T08:13:38.944+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:38,942 - __main__ - INFO - [211/258] Processing: Vitamin B
+[2026-06-12T08:13:38.946+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:38,942 - common.tiki_product - INFO - Category 55956 (vitamin-b) - fetching page 1/1
+[2026-06-12T08:13:39.222+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:39,222 - common.tiki_product - INFO - Reached last page (1). Finished category 55956.
+[2026-06-12T08:13:39.223+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:39,222 - __main__ - INFO - [212/258] Processing: Vitamin C
+[2026-06-12T08:13:39.224+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:39,222 - common.tiki_product - INFO - Category 55957 (vitamin-c) - fetching page 1/1
+[2026-06-12T08:13:39.579+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:39,579 - common.tiki_product - INFO - Reached last page (1). Finished category 55957.
+[2026-06-12T08:13:39.580+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:39,579 - __main__ - INFO - [213/258] Processing: Vitamin D
+[2026-06-12T08:13:39.582+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:39,579 - common.tiki_product - INFO - Category 55958 (vitamin-d) - fetching page 1/1
+[2026-06-12T08:13:39.861+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:39,860 - common.tiki_product - INFO - Reached last page (1). Finished category 55958.
+[2026-06-12T08:13:39.865+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:39,861 - __main__ - INFO - [214/258] Processing: Vitamin E
+[2026-06-12T08:13:39.870+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:39,862 - common.tiki_product - INFO - Category 55959 (vitamin-e) - fetching page 1/1
+[2026-06-12T08:13:40.142+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:40,142 - common.tiki_product - INFO - Reached last page (1). Finished category 55959.
+[2026-06-12T08:13:40.144+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:40,142 - __main__ - INFO - [215/258] Processing: Vitamin tổng hợp
+[2026-06-12T08:13:40.146+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:40,142 - common.tiki_product - INFO - Category 11857 (vitamin-tong-hop) - fetching page 1/1
+[2026-06-12T08:13:42.441+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:42,441 - common.tiki_product - INFO - Category 11857 (vitamin-tong-hop) - fetching page 2/2
+[2026-06-12T08:13:42.718+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:42,717 - common.tiki_product - INFO - Reached last page (2). Finished category 11857.
+[2026-06-12T08:13:42.724+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:42,718 - __main__ - INFO - [216/258] Processing: Dầu xoa bóp
+[2026-06-12T08:13:42.729+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:42,718 - common.tiki_product - INFO - Category 56015 (dau-xoa-bop) - fetching page 1/1
+[2026-06-12T08:13:42.952+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:42,950 - common.tiki_product - INFO - Reached last page (1). Finished category 56015.
+[2026-06-12T08:13:42.955+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:42,952 - __main__ - INFO - [217/258] Processing: Tăng chiều cao
+[2026-06-12T08:13:42.957+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:42,953 - common.tiki_product - INFO - Category 56016 (tang-chieu-cao) - fetching page 1/1
+[2026-06-12T08:13:43.193+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:43,193 - common.tiki_product - INFO - Reached last page (1). Finished category 56016.
+[2026-06-12T08:13:43.197+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:43,193 - __main__ - INFO - [218/258] Processing: Hỗ trợ xương khớp
+[2026-06-12T08:13:43.201+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:43,193 - common.tiki_product - INFO - Category 11859 (ho-tro-xuong-khop) - fetching page 1/1
+[2026-06-12T08:13:45.545+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:45,544 - common.tiki_product - INFO - Category 11859 (ho-tro-xuong-khop) - fetching page 2/6
+[2026-06-12T08:13:47.864+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:47,863 - common.tiki_product - INFO - Category 11859 (ho-tro-xuong-khop) - fetching page 3/6
+[2026-06-12T08:13:50.146+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:50,145 - common.tiki_product - INFO - Category 11859 (ho-tro-xuong-khop) - fetching page 4/6
+[2026-06-12T08:13:52.433+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:52,431 - common.tiki_product - INFO - Category 11859 (ho-tro-xuong-khop) - fetching page 5/6
+[2026-06-12T08:13:54.742+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:54,741 - common.tiki_product - INFO - Category 11859 (ho-tro-xuong-khop) - fetching page 6/6
+[2026-06-12T08:13:55.073+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:55,072 - common.tiki_product - INFO - Reached last page (6). Finished category 11859.
+[2026-06-12T08:13:55.077+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:55,074 - __main__ - INFO - [219/258] Processing: Cải thiện trí nhớ
+[2026-06-12T08:13:55.080+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:55,074 - common.tiki_product - INFO - Category 56017 (cai-thien-tri-nho) - fetching page 1/1
+[2026-06-12T08:13:57.397+0000] {subprocess.py:93} INFO - 2026-06-12 08:13:57,396 - common.tiki_product - INFO - Category 56017 (cai-thien-tri-nho) - fetching page 2/3
+[2026-06-12T08:14:00.661+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:00,661 - common.tiki_product - INFO - Category 56017 (cai-thien-tri-nho) - fetching page 3/3
+[2026-06-12T08:14:01.005+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:01,004 - common.tiki_product - INFO - Reached last page (3). Finished category 56017.
+[2026-06-12T08:14:01.008+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:01,005 - __main__ - INFO - [220/258] Processing: Hỗ trợ giấc ngủ
+[2026-06-12T08:14:01.013+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:01,005 - common.tiki_product - INFO - Category 56018 (ho-tro-giac-ngu) - fetching page 1/1
+[2026-06-12T08:14:03.516+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:03,515 - common.tiki_product - INFO - Category 56018 (ho-tro-giac-ngu) - fetching page 2/2
+[2026-06-12T08:14:03.687+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:03,685 - common.tiki_product - INFO - Reached last page (2). Finished category 56018.
+[2026-06-12T08:14:03.691+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:03,687 - __main__ - INFO - [221/258] Processing: Men vi sinh
+[2026-06-12T08:14:03.695+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:03,687 - common.tiki_product - INFO - Category 56019 (men-vi-sinh) - fetching page 1/1
+[2026-06-12T08:14:03.966+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:03,965 - common.tiki_product - INFO - Reached last page (1). Finished category 56019.
+[2026-06-12T08:14:03.971+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:03,966 - __main__ - INFO - [222/258] Processing: Hỗ trợ dạ dày
+[2026-06-12T08:14:03.975+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:03,967 - common.tiki_product - INFO - Category 56021 (ho-tro-da-day) - fetching page 1/1
+[2026-06-12T08:14:06.338+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:06,336 - common.tiki_product - INFO - Category 56021 (ho-tro-da-day) - fetching page 2/2
+[2026-06-12T08:14:06.533+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:06,532 - common.tiki_product - INFO - Reached last page (2). Finished category 56021.
+[2026-06-12T08:14:06.536+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:06,532 - __main__ - INFO - [223/258] Processing: Hỗ trợ bệnh trĩ
+[2026-06-12T08:14:06.540+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:06,533 - common.tiki_product - INFO - Category 56022 (ho-tro-benh-tri) - fetching page 1/1
+[2026-06-12T08:14:06.807+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:06,807 - common.tiki_product - INFO - Reached last page (1). Finished category 56022.
+[2026-06-12T08:14:06.819+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:06,807 - __main__ - INFO - [224/258] Processing: Bổ sung chất xơ
+[2026-06-12T08:14:06.826+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:06,807 - common.tiki_product - INFO - Category 56024 (bo-sung-chat-xo) - fetching page 1/1
+[2026-06-12T08:14:07.104+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:07,103 - common.tiki_product - INFO - Reached last page (1). Finished category 56024.
+[2026-06-12T08:14:07.108+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:07,104 - __main__ - INFO - [225/258] Processing: Hỗ trợ tiêu hóa khác
+[2026-06-12T08:14:07.113+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:07,104 - common.tiki_product - INFO - Category 56025 (ho-tro-tieu-hoa-khac) - fetching page 1/1
+[2026-06-12T08:14:07.393+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:07,392 - common.tiki_product - INFO - Reached last page (1). Finished category 56025.
+[2026-06-12T08:14:07.395+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:07,392 - __main__ - INFO - [226/258] Processing: Bổ mắt
+[2026-06-12T08:14:07.397+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:07,393 - common.tiki_product - INFO - Category 56020 (bo-mat) - fetching page 1/1
+[2026-06-12T08:14:09.694+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:09,693 - common.tiki_product - INFO - Category 56020 (bo-mat) - fetching page 2/2
+[2026-06-12T08:14:10.032+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:10,031 - common.tiki_product - INFO - Reached last page (2). Finished category 56020.
+[2026-06-12T08:14:10.034+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:10,032 - __main__ - INFO - [227/258] Processing: Dung dịch nhỏ mắt
+[2026-06-12T08:14:10.037+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:10,032 - common.tiki_product - INFO - Category 56023 (dung-dich-nho-mat) - fetching page 1/1
+[2026-06-12T08:14:10.194+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:10,192 - common.tiki_product - INFO - No more products on page 1. Finished category 56023.
+[2026-06-12T08:14:10.199+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:10,195 - __main__ - INFO - [228/258] Processing: Giảm Cholesterol
+[2026-06-12T08:14:10.204+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:10,196 - common.tiki_product - INFO - Category 56026 (giam-cholesterol) - fetching page 1/1
+[2026-06-12T08:14:10.487+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:10,486 - common.tiki_product - INFO - Reached last page (1). Finished category 56026.
+[2026-06-12T08:14:10.488+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:10,487 - __main__ - INFO - [229/258] Processing: Ổn định huyết áp
+[2026-06-12T08:14:10.489+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:10,487 - common.tiki_product - INFO - Category 56027 (on-dinh-huyet-ap) - fetching page 1/1
+[2026-06-12T08:14:10.772+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:10,772 - common.tiki_product - INFO - Reached last page (1). Finished category 56027.
+[2026-06-12T08:14:10.776+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:10,772 - __main__ - INFO - [230/258] Processing: Hỗ trợ tai biến
+[2026-06-12T08:14:10.780+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:10,773 - common.tiki_product - INFO - Category 56028 (ho-tro-tai-bien) - fetching page 1/1
+[2026-06-12T08:14:11.057+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:11,055 - common.tiki_product - INFO - Reached last page (1). Finished category 56028.
+[2026-06-12T08:14:11.062+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:11,057 - __main__ - INFO - [231/258] Processing: Hỗ trợ tim mạch khác
+[2026-06-12T08:14:11.067+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:11,058 - common.tiki_product - INFO - Category 56029 (ho-tro-tim-mach-khac) - fetching page 1/1
+[2026-06-12T08:14:11.373+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:11,372 - common.tiki_product - INFO - Reached last page (1). Finished category 56029.
+[2026-06-12T08:14:11.375+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:11,373 - __main__ - INFO - [232/258] Processing: Tăng cường hệ miễn dịch
+[2026-06-12T08:14:11.377+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:11,373 - common.tiki_product - INFO - Category 11873 (tang-cuong-he-mien-dich) - fetching page 1/1
+[2026-06-12T08:14:13.803+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:13,802 - common.tiki_product - INFO - Category 11873 (tang-cuong-he-mien-dich) - fetching page 2/9
+[2026-06-12T08:14:16.127+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:16,125 - common.tiki_product - INFO - Category 11873 (tang-cuong-he-mien-dich) - fetching page 3/9
+[2026-06-12T08:14:18.527+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:18,526 - common.tiki_product - INFO - Category 11873 (tang-cuong-he-mien-dich) - fetching page 4/9
+[2026-06-12T08:14:20.862+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:20,861 - common.tiki_product - INFO - Category 11873 (tang-cuong-he-mien-dich) - fetching page 5/9
+[2026-06-12T08:14:23.212+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:23,211 - common.tiki_product - INFO - Category 11873 (tang-cuong-he-mien-dich) - fetching page 6/9
+[2026-06-12T08:14:25.515+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:25,515 - common.tiki_product - INFO - Category 11873 (tang-cuong-he-mien-dich) - fetching page 7/9
+[2026-06-12T08:14:27.831+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:27,830 - common.tiki_product - INFO - Category 11873 (tang-cuong-he-mien-dich) - fetching page 8/9
+[2026-06-12T08:14:30.148+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:30,148 - common.tiki_product - INFO - Category 11873 (tang-cuong-he-mien-dich) - fetching page 9/9
+[2026-06-12T08:14:30.489+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:30,488 - common.tiki_product - INFO - Reached last page (9). Finished category 11873.
+[2026-06-12T08:14:30.496+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:30,490 - __main__ - INFO - [233/258] Processing: Hỗ trợ tiểu đường
+[2026-06-12T08:14:30.501+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:30,491 - common.tiki_product - INFO - Category 11863 (ho-tro-tieu-duong) - fetching page 1/1
+[2026-06-12T08:14:32.809+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:32,808 - common.tiki_product - INFO - Category 11863 (ho-tro-tieu-duong) - fetching page 2/2
+[2026-06-12T08:14:33.047+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:33,046 - common.tiki_product - INFO - Reached last page (2). Finished category 11863.
+[2026-06-12T08:14:33.049+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:33,047 - __main__ - INFO - [234/258] Processing: Giải rượu
+[2026-06-12T08:14:33.050+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:33,047 - common.tiki_product - INFO - Category 56031 (giai-ruou) - fetching page 1/1
+[2026-06-12T08:14:33.165+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:33,164 - common.tiki_product - INFO - No more products on page 1. Finished category 56031.
+[2026-06-12T08:14:33.173+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:33,165 - __main__ - INFO - [235/258] Processing: Thải độc gan
+[2026-06-12T08:14:33.178+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:33,165 - common.tiki_product - INFO - Category 56032 (thai-doc-gan) - fetching page 1/1
+[2026-06-12T08:14:35.520+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:35,520 - common.tiki_product - INFO - Category 56032 (thai-doc-gan) - fetching page 2/3
+[2026-06-12T08:14:37.881+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:37,880 - common.tiki_product - INFO - Category 56032 (thai-doc-gan) - fetching page 3/3
+[2026-06-12T08:14:38.126+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:38,125 - common.tiki_product - INFO - Reached last page (3). Finished category 56032.
+[2026-06-12T08:14:38.127+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:38,126 - __main__ - INFO - [236/258] Processing: Thải độc cơ thể khác
+[2026-06-12T08:14:38.130+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:38,127 - common.tiki_product - INFO - Category 56033 (thai-doc-co-the-khac) - fetching page 1/1
+[2026-06-12T08:14:38.412+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:38,411 - common.tiki_product - INFO - Reached last page (1). Finished category 56033.
+[2026-06-12T08:14:38.414+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:38,412 - __main__ - INFO - [237/258] Processing: Tăng cường sinh lý
+[2026-06-12T08:14:38.415+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:38,412 - common.tiki_product - INFO - Category 56034 (tang-cuong-sinh-ly) - fetching page 1/1
+[2026-06-12T08:14:38.681+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:38,681 - common.tiki_product - INFO - Reached last page (1). Finished category 56034.
+[2026-06-12T08:14:38.688+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:38,681 - __main__ - INFO - [238/258] Processing: Sinh lý nam
+[2026-06-12T08:14:38.691+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:38,681 - common.tiki_product - INFO - Category 11879 (sinh-ly-nam) - fetching page 1/1
+[2026-06-12T08:14:40.979+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:40,978 - common.tiki_product - INFO - Category 11879 (sinh-ly-nam) - fetching page 2/3
+[2026-06-12T08:14:43.236+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:43,235 - common.tiki_product - INFO - Category 11879 (sinh-ly-nam) - fetching page 3/3
+[2026-06-12T08:14:43.532+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:43,532 - common.tiki_product - INFO - Reached last page (3). Finished category 11879.
+[2026-06-12T08:14:43.535+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:43,533 - __main__ - INFO - [239/258] Processing: Sinh lý nữ
+[2026-06-12T08:14:43.540+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:43,533 - common.tiki_product - INFO - Category 11881 (sinh-ly-nu) - fetching page 1/1
+[2026-06-12T08:14:45.909+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:45,909 - common.tiki_product - INFO - Category 11881 (sinh-ly-nu) - fetching page 2/2
+[2026-06-12T08:14:46.107+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:46,107 - common.tiki_product - INFO - Reached last page (2). Finished category 11881.
+[2026-06-12T08:14:46.109+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:46,107 - __main__ - INFO - [240/258] Processing: Cân bằng nội tiết tố
+[2026-06-12T08:14:46.111+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:46,107 - common.tiki_product - INFO - Category 56035 (can-bang-noi-tiet-to) - fetching page 1/1
+[2026-06-12T08:14:48.474+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:48,473 - common.tiki_product - INFO - Category 56035 (can-bang-noi-tiet-to) - fetching page 2/2
+[2026-06-12T08:14:48.752+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:48,751 - common.tiki_product - INFO - Reached last page (2). Finished category 56035.
+[2026-06-12T08:14:48.756+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:48,752 - __main__ - INFO - [241/258] Processing: Bao cao su
+[2026-06-12T08:14:48.758+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:48,752 - common.tiki_product - INFO - Category 1630 (bao-cao-su) - fetching page 1/1
+[2026-06-12T08:14:51.121+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:51,120 - common.tiki_product - INFO - Category 1630 (bao-cao-su) - fetching page 2/14
+[2026-06-12T08:14:53.388+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:53,387 - common.tiki_product - INFO - Category 1630 (bao-cao-su) - fetching page 3/14
+[2026-06-12T08:14:55.687+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:55,686 - common.tiki_product - INFO - Category 1630 (bao-cao-su) - fetching page 4/14
+[2026-06-12T08:14:57.948+0000] {subprocess.py:93} INFO - 2026-06-12 08:14:57,946 - common.tiki_product - INFO - Category 1630 (bao-cao-su) - fetching page 5/14
+[2026-06-12T08:15:00.226+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:00,225 - common.tiki_product - INFO - Category 1630 (bao-cao-su) - fetching page 6/14
+[2026-06-12T08:15:02.567+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:02,565 - common.tiki_product - INFO - Category 1630 (bao-cao-su) - fetching page 7/14
+[2026-06-12T08:15:04.887+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:04,886 - common.tiki_product - INFO - Category 1630 (bao-cao-su) - fetching page 8/14
+[2026-06-12T08:15:07.194+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:07,193 - common.tiki_product - INFO - Category 1630 (bao-cao-su) - fetching page 9/14
+[2026-06-12T08:15:09.528+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:09,527 - common.tiki_product - INFO - Category 1630 (bao-cao-su) - fetching page 10/14
+[2026-06-12T08:15:11.849+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:11,848 - common.tiki_product - INFO - Category 1630 (bao-cao-su) - fetching page 11/14
+[2026-06-12T08:15:14.109+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:14,108 - common.tiki_product - INFO - Category 1630 (bao-cao-su) - fetching page 12/14
+[2026-06-12T08:15:16.484+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:16,483 - common.tiki_product - INFO - Category 1630 (bao-cao-su) - fetching page 13/14
+[2026-06-12T08:15:19.058+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:19,057 - common.tiki_product - INFO - Category 1630 (bao-cao-su) - fetching page 14/14
+[2026-06-12T08:15:19.357+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:19,357 - common.tiki_product - INFO - Reached last page (14). Finished category 1630.
+[2026-06-12T08:15:19.359+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:19,357 - __main__ - INFO - [242/258] Processing: Gel bôi trơn
+[2026-06-12T08:15:19.360+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:19,358 - common.tiki_product - INFO - Category 1631 (gel-boi-tron) - fetching page 1/1
+[2026-06-12T08:15:21.742+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:21,741 - common.tiki_product - INFO - Category 1631 (gel-boi-tron) - fetching page 2/3
+[2026-06-12T08:15:24.181+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:24,180 - common.tiki_product - INFO - Category 1631 (gel-boi-tron) - fetching page 3/3
+[2026-06-12T08:15:24.633+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:24,632 - common.tiki_product - INFO - Reached last page (3). Finished category 1631.
+[2026-06-12T08:15:24.636+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:24,634 - __main__ - INFO - [243/258] Processing: Nước súc miệng
+[2026-06-12T08:15:24.638+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:24,634 - common.tiki_product - INFO - Category 1627 (nuoc-suc-mieng) - fetching page 1/1
+[2026-06-12T08:15:27.087+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:27,086 - common.tiki_product - INFO - Category 1627 (nuoc-suc-mieng) - fetching page 2/2
+[2026-06-12T08:15:27.461+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:27,460 - common.tiki_product - INFO - Reached last page (2). Finished category 1627.
+[2026-06-12T08:15:27.464+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:27,461 - __main__ - INFO - [244/258] Processing: Bàn chải thường
+[2026-06-12T08:15:27.471+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:27,461 - common.tiki_product - INFO - Category 68301 (ban-chai-thuong) - fetching page 1/1
+[2026-06-12T08:15:29.926+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:29,925 - common.tiki_product - INFO - Category 68301 (ban-chai-thuong) - fetching page 2/2
+[2026-06-12T08:15:30.220+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:30,219 - common.tiki_product - INFO - Reached last page (2). Finished category 68301.
+[2026-06-12T08:15:30.225+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:30,220 - __main__ - INFO - [245/258] Processing: Bàn chải điện
+[2026-06-12T08:15:30.229+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:30,220 - common.tiki_product - INFO - Category 53348 (ban-chai-dien) - fetching page 1/1
+[2026-06-12T08:15:32.672+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:32,670 - common.tiki_product - INFO - Category 53348 (ban-chai-dien) - fetching page 2/4
+[2026-06-12T08:15:35.082+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:35,082 - common.tiki_product - INFO - Category 53348 (ban-chai-dien) - fetching page 3/4
+[2026-06-12T08:15:37.444+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:37,443 - common.tiki_product - INFO - Category 53348 (ban-chai-dien) - fetching page 4/4
+[2026-06-12T08:15:37.774+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:37,773 - common.tiki_product - INFO - Reached last page (4). Finished category 53348.
+[2026-06-12T08:15:37.778+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:37,773 - __main__ - INFO - [246/258] Processing: Kem đánh răng cho răng nhạy cảm
+[2026-06-12T08:15:37.781+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:37,773 - common.tiki_product - INFO - Category 68321 (kem-danh-rang-cho-rang-nhay-cam) - fetching page 1/1
+[2026-06-12T08:15:38.182+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:38,182 - common.tiki_product - INFO - Reached last page (1). Finished category 68321.
+[2026-06-12T08:15:38.186+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:38,182 - __main__ - INFO - [247/258] Processing: Kem đánh răng ngừa sâu răng
+[2026-06-12T08:15:38.189+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:38,183 - common.tiki_product - INFO - Category 68322 (kem-danh-rang-ngua-sau-rang) - fetching page 1/1
+[2026-06-12T08:15:40.618+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:40,617 - common.tiki_product - INFO - Category 68322 (kem-danh-rang-ngua-sau-rang) - fetching page 2/2
+[2026-06-12T08:15:40.942+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:40,941 - common.tiki_product - INFO - Reached last page (2). Finished category 68322.
+[2026-06-12T08:15:40.944+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:40,942 - __main__ - INFO - [248/258] Processing: Kem đánh răng trắng răng
+[2026-06-12T08:15:40.946+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:40,942 - common.tiki_product - INFO - Category 68323 (kem-danh-rang-trang-rang) - fetching page 1/1
+[2026-06-12T08:15:43.308+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:43,308 - common.tiki_product - INFO - Category 68323 (kem-danh-rang-trang-rang) - fetching page 2/2
+[2026-06-12T08:15:43.522+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:43,521 - common.tiki_product - INFO - Reached last page (2). Finished category 68323.
+[2026-06-12T08:15:43.523+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:43,521 - __main__ - INFO - [249/258] Processing: Tẩy trắng răng
+[2026-06-12T08:15:43.524+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:43,522 - common.tiki_product - INFO - Category 11837 (tay-trang-rang) - fetching page 1/1
+[2026-06-12T08:15:43.816+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:43,816 - common.tiki_product - INFO - Reached last page (1). Finished category 11837.
+[2026-06-12T08:15:43.817+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:43,816 - __main__ - INFO - [250/258] Processing: Bộ sản phẩm chăm sóc răng miệng
+[2026-06-12T08:15:43.818+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:43,816 - common.tiki_product - INFO - Category 10228 (bo-san-pham-cham-soc-rang-mieng) - fetching page 1/1
+[2026-06-12T08:15:44.155+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:44,155 - common.tiki_product - INFO - Reached last page (1). Finished category 10228.
+[2026-06-12T08:15:44.158+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:44,156 - __main__ - INFO - [251/258] Processing: Thiết bị chăm sóc răng
+[2026-06-12T08:15:44.159+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:44,156 - common.tiki_product - INFO - Category 1626 (thiet-bi-cham-soc-rang) - fetching page 1/1
+[2026-06-12T08:15:44.400+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:44,400 - common.tiki_product - INFO - Reached last page (1). Finished category 1626.
+[2026-06-12T08:15:44.404+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:44,400 - __main__ - INFO - [252/258] Processing: Chỉ nha khoa
+[2026-06-12T08:15:44.410+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:44,401 - common.tiki_product - INFO - Category 1628 (chi-nha-khoa) - fetching page 1/1
+[2026-06-12T08:15:44.707+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:44,706 - common.tiki_product - INFO - Reached last page (1). Finished category 1628.
+[2026-06-12T08:15:44.712+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:44,707 - __main__ - INFO - [253/258] Processing: Tăm nha khoa
+[2026-06-12T08:15:44.718+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:44,708 - common.tiki_product - INFO - Category 68320 (tam-nha-khoa) - fetching page 1/1
+[2026-06-12T08:15:45.039+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:45,038 - common.tiki_product - INFO - Reached last page (1). Finished category 68320.
+[2026-06-12T08:15:45.041+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:45,039 - __main__ - INFO - [254/258] Processing: Đầu tăm thay thế
+[2026-06-12T08:15:45.045+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:45,039 - common.tiki_product - INFO - Category 68326 (dau-tam-thay-the) - fetching page 1/1
+[2026-06-12T08:15:45.355+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:45,354 - common.tiki_product - INFO - Reached last page (1). Finished category 68326.
+[2026-06-12T08:15:45.357+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:45,355 - __main__ - INFO - [255/258] Processing: Máy tăm nước cầm tay
+[2026-06-12T08:15:45.358+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:45,355 - common.tiki_product - INFO - Category 68327 (may-tam-nuoc-cam-tay) - fetching page 1/1
+[2026-06-12T08:15:47.745+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:47,744 - common.tiki_product - INFO - Category 68327 (may-tam-nuoc-cam-tay) - fetching page 2/2
+[2026-06-12T08:15:48.153+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:48,152 - common.tiki_product - INFO - Reached last page (2). Finished category 68327.
+[2026-06-12T08:15:48.156+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:48,153 - __main__ - INFO - [256/258] Processing: Máy tăm nước gia đình
+[2026-06-12T08:15:48.162+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:48,153 - common.tiki_product - INFO - Category 68328 (may-tam-nuoc-gia-dinh) - fetching page 1/1
+[2026-06-12T08:15:48.514+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:48,514 - common.tiki_product - INFO - Reached last page (1). Finished category 68328.
+[2026-06-12T08:15:48.517+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:48,514 - __main__ - INFO - [257/258] Processing: Sản phẩm làm sạch lưỡi
+[2026-06-12T08:15:48.520+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:48,515 - common.tiki_product - INFO - Category 68329 (san-pham-lam-sach-luoi) - fetching page 1/1
+[2026-06-12T08:15:48.762+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:48,761 - common.tiki_product - INFO - Reached last page (1). Finished category 68329.
+[2026-06-12T08:15:48.766+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:48,762 - __main__ - INFO - [258/258] Processing: Xịt, miếng ngậm thơm miệng
+[2026-06-12T08:15:48.770+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:48,762 - common.tiki_product - INFO - Category 68330 (xit-mieng-ngam-thom-mieng) - fetching page 1/1
+[2026-06-12T08:15:49.066+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:49,066 - common.tiki_product - INFO - Reached last page (1). Finished category 68330.
+[2026-06-12T08:15:52.351+0000] {subprocess.py:93} INFO - 2026-06-12 08:15:52,351 - __main__ - INFO - Finished crawling 18792 products. Saved to /opt/airflow/data/tiki_beauty_health_raw_2026-06-12.json
+[2026-06-12T08:15:52.372+0000] {subprocess.py:93} INFO - /opt/airflow/data/tiki_beauty_health_raw_2026-06-12.json
+[2026-06-12T08:15:52.410+0000] {subprocess.py:97} INFO - Command exited with return code 0
+[2026-06-12T08:15:52.484+0000] {taskinstance.py:1138} INFO - Marking task as SUCCESS. dag_id=tiki_beauty_lakehouse_pipeline, task_id=extract_tiki_data, execution_date=20260611T080000, start_date=20260612T080001, end_date=20260612T081552
+[2026-06-12T08:15:52.535+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 0
+[2026-06-12T08:15:52.673+0000] {taskinstance.py:3280} INFO - 1 downstream tasks scheduled from follow-on schedule check
