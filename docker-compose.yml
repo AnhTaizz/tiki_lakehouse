@@ -15,6 +15,7 @@ services:
     environment:
       JUPYTER_ENABLE_LAB: "yes"
       GRANT_SUDO: "yes"
+      JUPYTER_TOKEN: ""          # empty = no token required (local dev only)
       PYTHONPATH: /home/jovyan/work/src:/usr/local/spark/python:/usr/local/spark/python/lib/py4j-0.10.9.7-src.zip
     user: root
     depends_on:
@@ -175,12 +176,15 @@ services:
         condition: service_healthy
       airflow-init:
         condition: service_completed_successfully
+      kafka:
+        condition: service_healthy
     environment:
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://${AIRFLOW_DB_USER}:${AIRFLOW_DB_PASSWORD}@airflow-postgres:5432/${AIRFLOW_DB_NAME}
       AIRFLOW__CORE__LOAD_EXAMPLES: "false"
       AIRFLOW__WEBSERVER__SECRET_KEY: ${AIRFLOW_SECRET_KEY}
       PYTHONPATH: /opt/airflow/src
+      KAFKA_BROKER: kafka:9092
     volumes:
       - ./dags:/opt/airflow/dags
       - ./src:/opt/airflow/src
@@ -293,6 +297,58 @@ services:
     networks:
       - lakehouse
 
+
+  # ---------------------------------------------------------------------------
+  # Kafka Stack — Message broker cho real-time ingestion pipeline
+  # ---------------------------------------------------------------------------
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.6.1
+    container_name: tiki_zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      - lakehouse
+
+  kafka:
+    image: confluentinc/cp-kafka:7.6.1
+    container_name: tiki_kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      # PLAINTEXT://kafka:9092  — dùng trong nội bộ Docker network
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+    networks:
+      - lakehouse
+    healthcheck:
+      test: ["CMD", "kafka-broker-api-versions", "--bootstrap-server", "localhost:9092"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+
+  # ---------------------------------------------------------------------------
+  # Kafka UI — Web UI to browse topics, messages, consumer groups
+  # Access: http://localhost:8090
+  # ---------------------------------------------------------------------------
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: tiki_kafka_ui
+    depends_on:
+      kafka:
+        condition: service_healthy
+    ports:
+      - "8090:8080"
+    environment:
+      KAFKA_CLUSTERS_0_NAME: tiki-local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+    networks:
+      - lakehouse
 
 volumes:
   minio_data:

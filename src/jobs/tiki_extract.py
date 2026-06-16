@@ -1,7 +1,10 @@
+import json
 import os
 import sys
 from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor, as_completed
+
+from kafka import KafkaProducer
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 src_dir = os.path.abspath(os.path.join(current_dir, ".."))
@@ -12,10 +15,33 @@ if src_dir not in sys.path:
 
 from common.tiki_category import load_categories_from_api, load_categories_from_file, get_leaf_categories
 from common.tiki_product import fetch_products_by_category
-from common.utils import save_to_json, setup_logger
+from common.utils import setup_logger
 
 
 logger = setup_logger(__name__)
+
+KAFKA_BROKER = os.getenv("KAFKA_BROKER", "kafka:9092")
+KAFKA_TOPIC  = "tiki.raw.products"
+
+
+def publish_to_kafka(products: list, crawl_date: str) -> None:
+    """Publish each product as a message to the Kafka topic tiki.raw.products."""
+    producer = KafkaProducer(
+        bootstrap_servers=KAFKA_BROKER,
+        value_serializer=lambda v: json.dumps(v, ensure_ascii=False).encode("utf-8"),
+        acks="all",   # wait for broker acknowledgment before returning
+        retries=3,
+    )
+
+    sent = 0
+    for product in products:
+        product["crawl_date"] = crawl_date   # inject crawl metadata into each message
+        producer.send(KAFKA_TOPIC, value=product)
+        sent += 1
+
+    producer.flush()   # ensure all messages are delivered before closing
+    producer.close()
+    logger.info("Published %d products to Kafka topic '%s'", sent, KAFKA_TOPIC)
 
 
 def crawl_tiki_data(target_category_id=1520):
@@ -43,7 +69,7 @@ def crawl_tiki_data(target_category_id=1520):
             logger.error("Error fetching category %s: %s", category["name"], e)
             return []
 
-    # Dùng ThreadPoolExecutor để cào song song 10 ngành hàng cùng lúc
+    # Use ThreadPoolExecutor to crawl 10 categories concurrently
     logger.info("Starting concurrent extraction with 10 workers...")
     with ThreadPoolExecutor(max_workers=10) as executor:
         futures = [
@@ -54,15 +80,14 @@ def crawl_tiki_data(target_category_id=1520):
         for future in as_completed(futures):
             all_products.extend(future.result())
 
-    today = datetime.now().strftime("%Y-%m-%d")
-    raw_filename = f"tiki_beauty_health_raw_{today}.json"
-    raw_filepath = os.path.join(project_dir, "data", raw_filename)
+    crawl_date = datetime.now().strftime("%Y-%m-%d")
+    logger.info("Finished crawling %d products. Publishing to Kafka...", len(all_products))
 
-    save_to_json(all_products, raw_filepath)
-    logger.info("Finished crawling %s products. Saved to %s", len(all_products), raw_filepath)
+    publish_to_kafka(all_products, crawl_date)
 
-    print(raw_filepath)
-    return raw_filepath
+    # Print crawl_date so Airflow XCom captures it — Task 2 (consumer) will use it
+    print(crawl_date)
+    return crawl_date
 
 
 if __name__ == "__main__":

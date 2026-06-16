@@ -1,36 +1,37 @@
 # Tiki Beauty & Health Data Lakehouse
 
-A local data lakehouse project that crawls **Tiki Beauty & Health** product data daily,
-processes it through a **Medallion architecture** (Bronze → Silver → Gold),
+A local data lakehouse project that crawls **Tiki Beauty & Health** product data every 4 hours,
+streams it through **Apache Kafka**, processes it via a **Medallion architecture** (Bronze → Silver → Gold),
 and presents business insights via a **Superset dashboard**.
 
 ## Architecture
 
 ```
-┌────────────────────────────────────────────────────────────────────┐
-│  Airflow (daily 15:00 ICT + hourly Gold refresh)                   │
-│  ┌─────────────┐    ┌──────────────────┐    ┌───────────────────┐  │
-│  │   Extract   │──> │  Bronze + Silver │──> │   Gold Layer      │  │
-│  │ Tiki API    │    │ Iceberg (MinIO)  │    │ Iceberg + Postgres│  │
-│  └─────────────┘    └──────────────────┘    └────────┬──────────┘  │
-└─────────────────────────────────────────────────────┼──────────────┘
-                                                      │
-                                                      ▼
-                                             ┌──────────────────┐
-                                             │    Superset      │
-                                             │  localhost:8088  │
-                                             │  Business Charts │
-                                             └──────────────────┘
+┌──────────────────────────────────────────────────────────────────────────────┐
+│  Airflow (every 4h + hourly Gold refresh)                                    │
+│  ┌─────────────┐  ┌───────────┐  ┌─────────────┐  ┌────────────────┐         │
+│  │   Extract   │→ │   Kafka   │→ │Bronze+Silver│→ │  Gold Layer    │         │
+│  │ Tiki API    │  │  Producer │  │  Iceberg    │  │Iceberg+Postgres│         │
+│  └─────────────┘  └───────────┘  └─────────────┘  └────────┴───────┘         │
+└──────────────────────────────────────────────────────────────────────────────┘
+                                                              │
+                                                              ▼
+                                                     ┌──────────────────┐
+                                                     │    Superset      │
+                                                     │  localhost:8088  │
+                                                     │  Business Charts │
+                                                     └──────────────────┘
 ```
 
 ### Stack
 
 | Component | Service | Role |
 |---|---|---|
-| **Compute** | Spark 3.5.0 (Jupyter/PySpark) | Data processing |
+| **Ingestion** | Python + Apache Kafka | Crawl Tiki API → stream vào Kafka topic |
+| **Compute** | Spark 3.5.0 (Jupyter/PySpark) | Data processing (Bronze/Silver/Gold) |
 | **Storage** | MinIO (S3-compatible) | Iceberg warehouse |
 | **Catalog** | Hive Metastore + PostgreSQL | Iceberg table metadata |
-| **Orchestration** | Apache Airflow 2.8.1 | DAG scheduling |
+| **Orchestration** | Apache Airflow 2.8.1 | DAG scheduling (mỗi 4h + hourly Gold) |
 | **Dashboard** | Apache Superset | Business BI |
 | **Reporting DB** | PostgreSQL (reporting_db) | Gold tables for Superset |
 | **Superset DB** | PostgreSQL (superset_db) | Superset internal metadata |
@@ -40,20 +41,20 @@ and presents business insights via a **Superset dashboard**.
 ### Bronze — `local_catalog.tiki_bronze.products_raw`
 Raw append-only table. Schema khớp với Tiki API response. Partition by `crawl_date`.
 
-| Column | Type | Description |
-|---|---|---|
-| id | LONG | Product ID |
-| sku | STRING | SKU code |
-| name | STRING | Product name |
-| price | LONG | Current price (VND) |
-| original_price | LONG | Original price before discount |
-| discount_rate | INT | Discount percentage (%) |
-| brand_name | STRING | Brand |
-| rating_average | DOUBLE | Average star rating |
-| review_count | INT | Number of reviews |
-| quantity_sold | INT | Units sold |
-| category_id | INT | Leaf category ID |
-| crawl_date | DATE | Date crawled |
+| Column         | Type   | Description                     |
+|----------------|--------|---------------------------------|
+| id             | LONG   | Product ID                      |
+| sku            | STRING | SKU code                        |
+| name           | STRING | Product name                    |
+| price          | LONG   | Current price (VND)             |
+| original_price | LONG   | Original price before discount  |
+| discount_rate  | INT    | Discount percentage (%)         |
+| brand_name     | STRING | Brand                           |
+| rating_average | DOUBLE | Average star rating             |
+| review_count   | INT    | Number of reviews               |
+| quantity_sold  | INT    | Units sold                      |
+| category_id    | INT    | Leaf category ID                |
+| crawl_date     | DATE   | Date crawled                    |
 
 ### Silver — `local_catalog.tiki.products` (SCD Type 1)
 Active product state — always the latest snapshot via `MERGE INTO`.
@@ -63,13 +64,13 @@ Append-only price change history — only rows where price/discount changed.
 
 ### Gold — `local_catalog.tiki_gold.*` (Business Aggregates)
 
-| Table | Business Question |
-|---|---|
-| `brand_performance` | Brand nào đang bán chạy nhất? |
-| `price_trend` | Giá thay đổi thế nào theo thời gian? |
-| `discount_analysis` | Category nào đang giảm giá sâu nhất? |
-| `top_products` | Top 100 sản phẩm đáng mua nhất? |
-| `daily_summary` | Tổng quan KPI hàng ngày |
+| Table                  | Business Question                        |
+|------------------------|------------------------------------------|
+| `brand_performance`    | Brand nào đang bán chạy nhất?            |
+| `price_trend`          | Giá thay đổi thế nào theo thời gian?     |
+| `discount_analysis`    | Category nào đang giảm giá sâu nhất?     |
+| `top_products`         | Top 100 sản phẩm đáng mua nhất?          |
+| `daily_summary`        | Tổng quan KPI hàng ngày                  |
 
 ## Quick Start
 
@@ -77,7 +78,6 @@ Append-only price change history — only rows where price/discount changed.
 
 ```bash
 cp .env.example .env
-# Chỉnh sửa credentials nếu cần (mặc định có thể dùng ngay cho dev)
 ```
 
 ### 2. Start the stack
@@ -88,12 +88,13 @@ docker compose up -d --build
 
 ### 3. Access services
 
-| Service | URL | Login |
-|---|---|---|
-| Airflow UI | http://localhost:8081 | admin / password123 |
-| Jupyter Notebook | http://localhost:8888 | *(no auth)* |
-| MinIO Console | http://localhost:9001 | Xem `.env` |
-| **Superset Dashboard** | **http://localhost:8088** | **admin / admin123** |
+| Service         | URL                      | Login                   |
+|-----------------|--------------------------|-------------------------|
+| Airflow UI      | http://localhost:8081    | admin / password123     |
+| Jupyter Notebook| http://localhost:8888    | *(no auth)*             |
+| MinIO Console   | http://localhost:9001    | Xem `.env`              |
+| Superset        | http://localhost:8088    | admin / admin123        |
+| **Kafka UI**    | **http://localhost:8090**| *(no auth)*             |
 
 ### 4. Setup Superset — kết nối data source (lần đầu)
 
@@ -114,9 +115,9 @@ docker compose up -d --build
 
 ## Pipeline DAGs
 
-| DAG | Schedule | Mô tả |
+| DAG  | Schedule | Mô tả |
 |---|---|---|
-| `tiki_beauty_lakehouse_pipeline` | Hàng ngày 15:00 ICT | Full pipeline: crawl → Bronze → Silver → Gold |
+| `tiki_beauty_lakehouse_pipeline` | Mỗi 4 tiếng (8h,12h,16h,20h,0h,4h ICT) | Full pipeline: crawl → Kafka → Bronze → Silver → Gold |
 | `tiki_gold_hourly_refresh` | Mỗi giờ | Chỉ refresh Gold + Superset |
 
 ### Quy trình thêm job mới
@@ -131,14 +132,17 @@ tiki_lakehouse/
 ├── src/
 │   ├── common/           # Shared: HTTP client, category/product crawlers
 │   └── jobs/
-│       ├── tiki_extract.py      # Crawl Tiki API → raw JSON
-│       ├── tiki_load_iceberg.py # Load Bronze + Silver Iceberg tables
-│       └── tiki_gold.py         # Compute Gold aggregates → Iceberg + Postgres
+│       ├── tiki_extract.py      # Kafka Producer: Crawl Tiki API → publish to Kafka topic
+│       ├── kafka_consumer.py    # Kafka Consumer: consume topic → save JSON file
+│       ├── tiki_load_iceberg.py # Spark: Load Bronze + Silver Iceberg tables
+│       └── tiki_gold.py         # Spark: Compute Gold aggregates → Iceberg + Postgres
 ├── dags/
-│   ├── tiki_pipeline_dag.py     # Daily DAG (3 tasks)
+│   ├── tiki_pipeline_dag.py     # Near-real-time DAG (4 tasks, mỗi 4h)
 │   └── tiki_gold_hourly_dag.py  # Hourly Gold refresh DAG
 ├── docs/
-│   └── airflow_workflow.md      # Airflow workflow documentation
+│   ├── airflow_workflow.md      # Airflow workflow documentation
+│   ├── kafka_integration.md     # Kafka integration documentation
+│   └── superset_guide.md        # Superset setup guide
 ├── docker/
 │   ├── airflow/                 # Dockerfile cho Airflow custom image
 │   ├── hive/                    # Dockerfile cho Hive Metastore
@@ -152,13 +156,25 @@ tiki_lakehouse/
 ## Manual Commands
 
 ```bash
-# Run extract locally
-PYTHONPATH=src python src/jobs/tiki_extract.py
+# Rebuild Airflow image sau khi thêm thư viện mới (ví dụ: kafka-python)
+docker compose build --no-cache airflow-init airflow-webserver airflow-scheduler
 
-# Run Bronze/Silver load in Spark container
+# Chạy Producer thủ công (trong Airflow container)
+KAFKA_BROKER=kafka:9092 PYTHONPATH=src python src/jobs/tiki_extract.py
+
+# Chạy Consumer thủ công
+KAFKA_BROKER=kafka:9092 PYTHONPATH=src python src/jobs/kafka_consumer.py --crawl_date 2026-06-16
+
+# Kiểm tra Kafka topic có data chưa
+docker exec tiki_kafka kafka-console-consumer.sh \
+  --bootstrap-server localhost:9092 \
+  --topic tiki.raw.products \
+  --from-beginning --max-messages 3
+
+# Chạy Bronze/Silver load trong Spark container
 docker exec tiki_spark_crawler python /home/jovyan/work/src/jobs/tiki_load_iceberg.py \
   --raw_file /home/jovyan/work/data/<filename>.json
 
-# Run Gold transform in Spark container
+# Chạy Gold transform trong Spark container
 docker exec tiki_spark_crawler python /home/jovyan/work/src/jobs/tiki_gold.py
 ```
