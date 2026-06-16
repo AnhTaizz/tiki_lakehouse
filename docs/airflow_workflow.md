@@ -36,7 +36,7 @@ cho đến khi có một Airflow DAG chạy tự động hàng ngày/hàng giờ
 │                   DEFINE AIRFLOW TASK                           │
 │  dags/tiki_pipeline_dag.py                                      │
 │  → BashOperator(task_id="transform_gold", bash_command=...)     │
-│  → load_bronze_silver_task >> transform_gold_task                  │
+│  → load_bronze_silver_task >> transform_gold_task               │
 └────────────────────────────┬────────────────────────────────────┘
                              │
                              ▼
@@ -50,7 +50,8 @@ cho đến khi có một Airflow DAG chạy tự động hàng ngày/hàng giờ
                              ▼
 ┌──────────────────────────────────────────────────────────────────┐
 │                  JOB CHẠY THEO SCHEDULE                          │
-│  - Daily 15:00 ICT: extract → load_bronze_silver → transform_gold│
+│  - Mỗi 4 tiếng (8h,12h,16h,20h,0h,4h ICT):                       │
+│      crawl → Kafka → consume → Bronze/Silver → Gold              │
 │  - Hourly (mỗi giờ): transform_gold (refresh Gold only)          │
 └────────────────────────────┬─────────────────────────────────────┘
                              │
@@ -77,12 +78,13 @@ tiki_lakehouse/
 │   │   ├── tiki_product.py      # Crawl products theo category, có dedup
 │   │   └── utils.py             # Logger, JSON saver
 │   └── jobs/                    # Executable Spark/Python jobs — mỗi file = 1 nhiệm vụ
-│       ├── tiki_extract.py      # [Extract] Crawl toàn bộ Beauty products → raw JSON
-│       ├── tiki_load_iceberg.py # [Load]    Bronze + Silver Iceberg tables
-│       └── tiki_gold.py         # [Transform] Gold aggregates → Iceberg + Postgres
+│       ├── tiki_extract.py      # [Producer] Crawl Beauty products → publish lên Kafka topic
+│       ├── kafka_consumer.py    # [Consumer] Consume Kafka topic → save JSON file
+│       ├── tiki_load_iceberg.py # [Load]     Bronze + Silver Iceberg tables (Spark)
+│       └── tiki_gold.py         # [Transform] Gold aggregates → Iceberg + Postgres (Spark)
 │
 ├── dags/
-│   ├── tiki_pipeline_dag.py     # DAG hàng ngày: extract → Bronze/Silver → Gold
+│   ├── tiki_pipeline_dag.py     # DAG mỗi 4h: Producer → Consumer → Bronze/Silver → Gold
 │   └── tiki_gold_hourly_dag.py  # DAG mỗi giờ: refresh Gold tables (không crawl lại)
 │
 ├── docs/
@@ -251,8 +253,11 @@ RAW JSON Files (local data/)
 
 | DAG | Schedule | Mục đích |
 |---|---|---|
-| `tiki_beauty_lakehouse_pipeline` | `0 15 * * *` (15:00 ICT) | Full pipeline: crawl → Bronze → Silver → Gold |
+| `tiki_beauty_lakehouse_pipeline` | `0 1,5,9,13,17,21 * * *` (mỗi 4h ICT) | Full pipeline: crawl → Kafka → Bronze → Silver → Gold |
 | `tiki_gold_hourly_refresh` | `0 * * * *` (mỗi giờ) | Refresh Gold tables từ Silver đang có |
 
-> **Lý do tách 2 DAG**: Crawl tốn 30-45 phút và có risk bị rate-limit.
+> **Lý do tách 2 DAG**: Crawl + Kafka ingestion tốn 30-45 phút và có risk bị rate-limit.
 > Gold refresh chỉ tốn 2-5 phút. Tách ra giúp dashboard luôn fresh mà không phải crawl lại.
+
+> **Lý do chọn 4h thay vì daily**: Giá sản phẩm e-commerce thay đổi nhiều lần trong ngày.
+> Crawl mỗi 4h giúp price_history bắt được nhiều biến động hơn, làm dữ liệu phân tích giá chính xác hơn.
