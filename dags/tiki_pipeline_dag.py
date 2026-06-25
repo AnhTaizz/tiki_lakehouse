@@ -31,26 +31,34 @@ default_args = {
 
 SPARK_EXEC      = "/opt/conda/bin/python"
 SPARK_CONTAINER = "tiki_spark_crawler"
+import json
+
 WORK_DIR        = "/home/jovyan/work"
 AIRFLOW_SRC     = "/opt/airflow/src"
 
+# Danh sách 5 ngành hàng cốt lõi để demo an toàn trên máy tính cá nhân
+# Giải pháp scale toàn sàn (26 ngành hàng) đã được thiết kế sẵn, 
+# chỉ cần thay mảng này bằng mảng đọc từ file tiki_category.json khi đưa lên Server
+CATEGORY_IDS = [1520, 1789, 8322, 1882, 4384]
+
 with DAG(
-    "tiki_beauty_lakehouse_pipeline",
+    "tiki_full_lakehouse_pipeline",
     default_args=default_args,
     description=(
-        "Near-real-time pipeline: crawl Tiki Beauty every 4h → Kafka → Bronze → Silver → Gold → Superset"
+        "Batch pipeline: crawl ALL Tiki categories every 4h → Kafka → Bronze → Silver → Gold → Superset"
     ),
     schedule_interval="0 1,5,9,13,17,21 * * *",
     # every 4h: 08:00, 12:00, 16:00, 20:00, 00:00, 04:00 ICT (UTC+7)
     catchup=False,
-    tags=["tiki", "lakehouse", "beauty", "kafka", "near-realtime"],
+    max_active_runs=1,
+    tags=["tiki", "lakehouse", "beauty", "kafka", "batch"],
     doc_md="""
-## Tiki Beauty Lakehouse — Near-Real-Time Pipeline
+## Tiki Beauty Lakehouse — Batch Pipeline
 
 ### Flow
 ```
 [Every 4h ICT] Crawl Tiki API
-    → Kafka Topic: tiki.raw.products  (streaming ingestion)
+    → Kafka Topic: tiki.raw.products  (batch ingestion)
     → Consumer: collect products → raw JSON file
     → Bronze Iceberg (raw append)
     → Silver Iceberg (SCD Type 1 active + SCD Type 4 price history)
@@ -75,20 +83,20 @@ with DAG(
     # ------------------------------------------------------------------
     # Task 1: Extract & Publish — Crawl Tiki API → Kafka Producer
     # ------------------------------------------------------------------
-    extract_task = BashOperator(
+    extract_task = BashOperator.partial(
         task_id="extract_and_publish",
+        pool="tiki_api_pool",
         env={
             **os.environ,
             "PYTHONPATH": AIRFLOW_SRC,
         },
-        bash_command=f"python {AIRFLOW_SRC}/jobs/tiki_extract.py",
-        do_xcom_push=True,
         doc_md="""
 ### extract_and_publish
-Crawls all Beauty & Health categories from Tiki API (concurrent, 10 workers).
-Then publishes each product to Kafka topic `tiki.raw.products` as a Producer.
-XCom push: `crawl_date` in `YYYY-MM-DD` format for Task 2 (consumer) to use.
-""",
+Crawls categories from Tiki API using Dynamic Task Mapping (concurrent).
+Publishes each product to Kafka topic `tiki.raw.products` as a Producer.
+"""
+    ).expand(
+        bash_command=[f"python {AIRFLOW_SRC}/jobs/tiki_extract.py --category_id {cat}" for cat in CATEGORY_IDS]
     )
 
     # ------------------------------------------------------------------
@@ -102,7 +110,7 @@ XCom push: `crawl_date` in `YYYY-MM-DD` format for Task 2 (consumer) to use.
             "PYTHONPATH": AIRFLOW_SRC,
         },
         bash_command=f"""
-            CRAWL_DATE="{{{{ ti.xcom_pull(task_ids='extract_and_publish') }}}}"
+            CRAWL_DATE="{{{{ ds }}}}"
             echo "Consuming Kafka for crawl_date: $CRAWL_DATE"
             python {AIRFLOW_SRC}/jobs/kafka_consumer.py --crawl_date "$CRAWL_DATE"
         """,
@@ -110,7 +118,7 @@ XCom push: `crawl_date` in `YYYY-MM-DD` format for Task 2 (consumer) to use.
         doc_md="""
 ### consume_from_kafka
 Consumes all messages from Kafka topic `tiki.raw.products`.
-Collects them into file `data/tiki_beauty_health_raw_YYYY-MM-DD.json`.
+Collects them into file `data/tiki_products_raw_YYYY-MM-DD.json`.
 XCom push: absolute path of the raw file for Task 3 (Spark) to read.
 """,
     )

@@ -4,7 +4,7 @@ tiki_gold_hourly_dag.py
 DAG phụ: Refresh Gold tables mỗi giờ (không crawl lại, chỉ tính lại aggregates).
 
 Mục đích:
-- Superset dashboard luôn hiển thị số liệu gần real-time
+- Superset dashboard luôn hiển thị số liệu mới nhất (cập nhật hàng giờ)
 - Tần suất cao hơn giúp demo được sự thay đổi theo thời gian
 
 Flow:
