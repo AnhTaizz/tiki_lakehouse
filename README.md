@@ -137,7 +137,7 @@ tiki_lakehouse/
 │       ├── tiki_load_iceberg.py # Spark: Load Bronze + Silver Iceberg tables
 │       └── tiki_gold.py         # Spark: Compute Gold aggregates → Iceberg + Postgres
 ├── dags/
-│   ├── tiki_pipeline_dag.py     # Near-real-time DAG (4 tasks, mỗi 4h)
+│   ├── tiki_pipeline_dag.py     # Batch DAG (4 tasks, mỗi 4h)
 │   └── tiki_gold_hourly_dag.py  # Hourly Gold refresh DAG
 ├── docs/
 │   ├── airflow_workflow.md      # Airflow workflow documentation

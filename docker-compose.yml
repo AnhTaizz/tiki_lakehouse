@@ -131,7 +131,8 @@ services:
     command: >
       bash -c "
       airflow db migrate &&
-      airflow users create --username admin --password ${AIRFLOW_ADMIN_PASSWORD:-password123} --firstname Admin --lastname User --role Admin --email admin@example.com || true
+      airflow users create --username admin --password ${AIRFLOW_ADMIN_PASSWORD:-password123} --firstname Admin --lastname User --role Admin --email admin@example.com || true &&
+      airflow pools set tiki_api_pool 3 'Limit Tiki API rate to avoid overloading'
       "
     networks:
       - lakehouse
@@ -299,7 +300,7 @@ services:
 
 
   # ---------------------------------------------------------------------------
-  # Kafka Stack — Message broker cho real-time ingestion pipeline
+  # Kafka Stack — Message broker cho data ingestion pipeline
   # ---------------------------------------------------------------------------
   zookeeper:
     image: confluentinc/cp-zookeeper:7.6.1
@@ -324,6 +325,7 @@ services:
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      KAFKA_NUM_PARTITIONS: 6
     networks:
       - lakehouse
     healthcheck:

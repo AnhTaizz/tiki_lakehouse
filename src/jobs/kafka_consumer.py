@@ -65,7 +65,7 @@ def consume_and_save(crawl_date: str) -> str:
         logger.error("No products consumed! Kafka topic may be empty. Aborting.")
         sys.exit(1)
 
-    raw_filename = f"tiki_beauty_health_raw_{crawl_date}.json"
+    raw_filename = f"tiki_products_raw_{crawl_date}.json"
     raw_filepath = os.path.join(project_dir, "data", raw_filename)
     save_to_json(products, raw_filepath)
     logger.info("Saved %d products to %s", len(products), raw_filepath)

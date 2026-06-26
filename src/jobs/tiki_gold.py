@@ -54,6 +54,12 @@ def save_gold_table(spark, df, iceberg_table: str, pg_table: str, mode: str = "o
     # 1. Iceberg
     logger.info("Writing Iceberg Gold table: %s", iceberg_table)
     spark.sql("CREATE NAMESPACE IF NOT EXISTS local_catalog.tiki_gold")
+    
+    # Workaround cho lỗi Schema Mismatch của Iceberg khi có sự thay đổi kiểu dữ liệu
+    if mode == "overwrite":
+        logger.info("Dropping existing Iceberg table to avoid schema conflicts...")
+        spark.sql(f"DROP TABLE IF EXISTS {iceberg_table}")
+        
     df.write.format("iceberg").mode(mode).saveAsTable(iceberg_table)
     logger.info("Iceberg write complete: %s", iceberg_table)
 
@@ -70,12 +76,14 @@ def save_gold_table(spark, df, iceberg_table: str, pg_table: str, mode: str = "o
 
 # ---------------------------------------------------------------------------
 # Gold Table 1 — Brand Performance
-# Câu hỏi business: "Brand nào đang dẫn đầu thị trường Beauty & Health trên Tiki?"
+# Câu hỏi business: "Brand nào đang dẫn đầu trong từng ngành hàng trên Tiki?"
 # ---------------------------------------------------------------------------
 def compute_brand_performance(spark):
     logger.info("Computing gold.brand_performance ...")
     df = spark.sql("""
         SELECT
+            category_id,
+            category_name,
             brand_name,
             COUNT(DISTINCT id)              AS total_products,
             SUM(quantity_sold)              AS total_quantity_sold,
@@ -88,7 +96,7 @@ def compute_brand_performance(spark):
         WHERE brand_name IS NOT NULL
           AND brand_name != 'No Brand'
           AND quantity_sold > 0
-        GROUP BY brand_name
+        GROUP BY category_id, category_name, brand_name
         ORDER BY total_quantity_sold DESC
     """)
     save_gold_table(
@@ -161,7 +169,7 @@ def compute_discount_analysis(spark):
 
 # ---------------------------------------------------------------------------
 # Gold Table 4 — Top Products
-# Câu hỏi business: "Top 100 sản phẩm đáng mua nhất trên Tiki Beauty?"
+# Câu hỏi business: "Top 100 sản phẩm đáng mua nhất trong các ngành hàng cốt lõi của Tiki?"
 # ---------------------------------------------------------------------------
 def compute_top_products(spark):
     logger.info("Computing gold.top_products ...")
@@ -171,6 +179,7 @@ def compute_top_products(spark):
             name,
             brand_name,
             category_id,
+            category_name,
             ROUND(price / 1000, 1)          AS price_k,
             ROUND(original_price / 1000, 1) AS original_price_k,
             discount_rate,

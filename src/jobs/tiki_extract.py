@@ -1,3 +1,4 @@
+import argparse
 import json
 import os
 import sys
@@ -36,7 +37,7 @@ def publish_to_kafka(products: list, crawl_date: str) -> None:
     sent = 0
     for product in products:
         product["crawl_date"] = crawl_date   # inject crawl metadata into each message
-        producer.send(KAFKA_TOPIC, value=product)
+        producer.send(KAFKA_TOPIC, key=str(product["id"]).encode("utf-8"), value=product)
         sent += 1
 
     producer.flush()   # ensure all messages are delivered before closing
@@ -44,7 +45,7 @@ def publish_to_kafka(products: list, crawl_date: str) -> None:
     logger.info("Published %d products to Kafka topic '%s'", sent, KAFKA_TOPIC)
 
 
-def crawl_tiki_data(target_category_id=1520):
+def crawl_tiki_data(target_category_id):
     logger.info("Start crawling category id %s", target_category_id)
 
     raw_categories = load_categories_from_api(category_id=target_category_id)
@@ -85,10 +86,9 @@ def crawl_tiki_data(target_category_id=1520):
 
     publish_to_kafka(all_products, crawl_date)
 
-    # Print crawl_date so Airflow XCom captures it — Task 2 (consumer) will use it
-    print(crawl_date)
-    return crawl_date
-
 
 if __name__ == "__main__":
-    crawl_tiki_data()
+    parser = argparse.ArgumentParser(description="Tiki Data Crawler")
+    parser.add_argument("--category_id", type=int, required=True, help="Category ID to crawl")
+    args = parser.parse_args()
+    crawl_tiki_data(args.category_id)

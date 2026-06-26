@@ -21,7 +21,7 @@ Pattern này được gọi là **Hybrid Architecture** — rất phổ biến t
   Task 3: tiki_gold.py  →  Spark tính Gold → Superset
 ```
 
-### Sau (Near-Real-Time Pipeline với Kafka)
+### Sau (Batch Pipeline với Kafka - mỗi 4 tiếng)
 ```
 [Airflow - mỗi 4 tiếng]
   Task 1: tiki_extract.py (Producer)  →  crawl API → publish từng product lên Kafka topic
@@ -197,11 +197,11 @@ tiki_gold.py
 
 ## 7. Câu hỏi phỏng vấn thường gặp
 
-**Q: "Real-time streaming" nghĩa là gì trong dự án của bạn?**
-> *"Pipeline chạy mỗi 4 tiếng, dữ liệu được stream từng sản phẩm qua Kafka Producer/Consumer ngay khi crawl xong thay vì đợi toàn bộ batch. Đây là near-real-time phù hợp với tần suất thay đổi giá của sản phẩm e-commerce. Nếu Tiki cung cấp webhook, hệ thống có thể chuyển sang true real-time mà không cần thay đổi kiến trúc."*
+**Q: Dự án này có phải là Real-time streaming không?**
+> *"Không, dự án này xử lý theo mẻ (batch processing) với chu kỳ 4 tiếng một lần. Việc thêm Kafka đóng vai trò như một Message Broker để decouple (tách rời) việc thu thập dữ liệu (crawl) và xử lý (Spark). Dữ liệu sau khi crawl được đẩy vào Kafka và consumer sẽ gom mẻ lại (batch) để lưu trữ. Điều này giúp pipeline đáng tin cậy hơn, chịu lỗi tốt hơn, đồng thời là tiền đề cho kiến trúc near-real-time nếu sau này có webhook."*
 
 **Q: Tại sao không dùng Spark Structured Streaming đọc thẳng từ Kafka?**
-> *"Với quy mô dự án này, Spark Structured Streaming sẽ phức tạp hơn mà không mang lại lợi ích rõ ràng. Consumer Python đơn giản hơn, dễ debug hơn, và vẫn đảm bảo đúng pattern Producer/Consumer. Nếu scale lên hàng triệu events/giây, mình sẽ chuyển sang Spark Streaming."*
+> *"Vì hệ thống đang xử lý theo mẻ (batch). Với kiến trúc này, dùng Spark Structured Streaming là không cần thiết và làm phức tạp hóa hệ thống. Một Python Consumer đơn giản gom batch lại rồi ghi ra file cho Spark batch job đọc là cách tiếp cận thực tế, dễ debug và tối ưu tài nguyên hơn."*
 
 **Q: Consumer Group dùng để làm gì?**
 > *"Kafka dùng `group_id` để track offset — biết consumer đã đọc đến message nào. Nếu consumer crash rồi restart, nó tiếp tục từ chỗ dừng, không đọc lại từ đầu và không bỏ sót message."*
