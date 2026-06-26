@@ -42,7 +42,7 @@ AIRFLOW_SRC     = "/opt/airflow/src"
 CATEGORY_IDS = [1520, 1789, 8322, 1882, 4384]
 
 with DAG(
-    "tiki_full_lakehouse_pipeline",
+    "tiki_lakehouse_pipeline",
     default_args=default_args,
     description=(
         "Batch pipeline: crawl ALL Tiki categories every 4h → Kafka → Bronze → Silver → Gold → Superset"

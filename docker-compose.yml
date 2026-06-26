@@ -131,7 +131,8 @@ services:
     command: >
       bash -c "
       airflow db migrate &&
-      airflow users create --username admin --password ${AIRFLOW_ADMIN_PASSWORD:-password123} --firstname Admin --lastname User --role Admin --email admin@example.com || true
+      airflow users create --username admin --password ${AIRFLOW_ADMIN_PASSWORD:-password123} --firstname Admin --lastname User --role Admin --email admin@example.com || true &&
+      airflow pools set tiki_api_pool 3 'Limit Tiki API rate to avoid overloading'
       "
     networks:
       - lakehouse
