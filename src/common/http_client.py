@@ -34,7 +34,7 @@ class HttpClient:
             except Exception as exc:
                 logger.error("Connection error: %s", exc)
 
-            time.sleep(delay)
+            time.sleep(1)
 
         return None
 

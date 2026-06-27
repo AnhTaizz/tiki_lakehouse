@@ -23,9 +23,10 @@ default_args = {
     "owner": "anhtaizz",
     "depends_on_past": False,
     "start_date": datetime(2026, 5, 20, tzinfo=local_tz),
-    "email_on_failure": False,
+    "email": ["nguyenhuuanhtai426@gmail.com"],
+    "email_on_failure": True,
     "email_on_retry": False,
-    "retries": 2,
+    "retries": 3,
     "retry_delay": timedelta(minutes=5),
 }
 
@@ -36,10 +37,15 @@ import json
 WORK_DIR        = "/home/jovyan/work"
 AIRFLOW_SRC     = "/opt/airflow/src"
 
-# Danh sách 5 ngành hàng cốt lõi để demo an toàn trên máy tính cá nhân
-# Giải pháp scale toàn sàn (26 ngành hàng) đã được thiết kế sẵn, 
-# chỉ cần thay mảng này bằng mảng đọc từ file tiki_category.json khi đưa lên Server
-CATEGORY_IDS = [1520, 1789, 8322, 1882, 4384]
+# List of 5 core categories for safe local demonstration
+# Replace this array with dynamic categories from tiki_category.json in production
+CATEGORIES = [
+    {"id": 1520, "name": "Làm Đẹp - Sức Khỏe"},
+    {"id": 1846, "name": "Laptop - Máy Vi Tính"},
+    {"id": 8322, "name": "Nhà Sách Tiki"},
+    {"id": 1882, "name": "Điện Gia Dụng"},
+    {"id": 931, "name": "Thời trang nữ"},
+]
 
 with DAG(
     "tiki_lakehouse_pipeline",
@@ -51,9 +57,9 @@ with DAG(
     # every 4h: 08:00, 12:00, 16:00, 20:00, 00:00, 04:00 ICT (UTC+7)
     catchup=False,
     max_active_runs=1,
-    tags=["tiki", "lakehouse", "beauty", "kafka", "batch"],
+    tags=["tiki", "lakehouse", "kafka", "batch"],
     doc_md="""
-## Tiki Beauty Lakehouse — Batch Pipeline
+## Tiki Lakehouse — Batch Pipeline
 
 ### Flow
 ```
@@ -96,7 +102,7 @@ Crawls categories from Tiki API using Dynamic Task Mapping (concurrent).
 Publishes each product to Kafka topic `tiki.raw.products` as a Producer.
 """
     ).expand(
-        bash_command=[f"python {AIRFLOW_SRC}/jobs/tiki_extract.py --category_id {cat}" for cat in CATEGORY_IDS]
+        bash_command=[f"python {AIRFLOW_SRC}/jobs/tiki_extract.py --category_id {cat['id']} --category_name \"{cat['name']}\"" for cat in CATEGORIES]
     )
 
     # ------------------------------------------------------------------
@@ -171,6 +177,18 @@ Each table is written to both Iceberg (Gold layer) and Reporting Postgres (Super
     )
 
     # ------------------------------------------------------------------
-    # Dependency chain
+    # Task 0: Test Email (Always fails)
     # ------------------------------------------------------------------
-    extract_task >> consume_task >> load_medallion_task >> transform_gold_task
+    ENABLE_TEST_EMAIL = False
+
+    if ENABLE_TEST_EMAIL:
+        test_email_task = BashOperator(
+            task_id="test_email_alert",
+            bash_command="echo 'This task is designed to fail to test email alerts!' && exit 1",
+            doc_md="This task intentionally fails to trigger an email alert.",
+            retries=0,  # Disable retry to trigger email alert immediately
+        )
+        test_email_task >> extract_task >> consume_task >> load_medallion_task >> transform_gold_task
+    else:
+        # Normal execution flow (Success path):
+        extract_task >> consume_task >> load_medallion_task >> transform_gold_task

@@ -85,7 +85,7 @@ def fetch_products_by_category(category_id, url_key, max_pages=None):
                     "original_price": item.get("original_price") or item.get("list_price", 0),
                     "discount": item.get("discount", 0),
                     "discount_rate": item.get("discount_rate", 0),
-                    "brand_name": item.get("brand_name", "No Brand"),
+                    "brand_name": item.get("brand_name") or "No Brand",
                     "rating_average": item.get("rating_average", 0),
                     "review_count": item.get("review_count", 0),
                     "thumbnail_url": item.get("thumbnail_url", ""),
@@ -102,6 +102,7 @@ def fetch_products_by_category(category_id, url_key, max_pages=None):
             break
 
         current_page += 1
-        time.sleep(2)
+        time.sleep(0.5)
 
+    logger.info("FINISHED Category %s (%s) - Extracted a total of %d products.", category_id, url_key, len(all_products))
     return all_products

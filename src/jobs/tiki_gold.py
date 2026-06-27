@@ -1,16 +1,16 @@
 """
 tiki_gold.py
 ============
-Gold layer Spark job — đọc từ Silver Iceberg tables, tính toán 4 business
-aggregate tables và ghi ra:
-  1. Iceberg Gold tables (local_catalog.tiki_gold.*)  → lưu trữ lịch sử
+Gold layer Spark job — reads from Silver Iceberg tables, computes 4 business
+aggregate tables and writes to:
+  1. Iceberg Gold tables (local_catalog.tiki_gold.*)  → historical storage
   2. Reporting PostgreSQL (reporting_db)               → Superset dashboard
 
 Gold tables:
-  - brand_performance   : Top brands theo doanh số, rating, số sản phẩm
-  - price_trend         : Giá trung bình theo category + ngày (chuỗi thời gian)
-  - discount_analysis   : Phân tích discount rate theo category và brand
-  - top_products        : Top 100 sản phẩm theo quantity_sold & rating
+  - brand_performance   : Top brands by sales volume, rating, product count
+  - price_trend         : Average price by category + day (time series)
+  - discount_analysis   : Discount rate analysis by category and brand
+  - top_products        : Top 100 products by quantity_sold & rating
 """
 
 import argparse
@@ -27,7 +27,7 @@ from common.utils import setup_logger
 logger = setup_logger(__name__)
 
 # ---------------------------------------------------------------------------
-# Config — đọc từ environment (injected by Docker / Airflow)
+# Config — read from environment (injected by Docker / Airflow)
 # ---------------------------------------------------------------------------
 REPORTING_DB_HOST = os.environ.get("REPORTING_DB_HOST", "reporting-postgres")
 REPORTING_DB_PORT = os.environ.get("REPORTING_DB_PORT", "5432")
@@ -46,16 +46,16 @@ JDBC_PROPS = {
 
 
 # ---------------------------------------------------------------------------
-# Helper — ghi DataFrame ra cả Iceberg lẫn Postgres
+# Helper — writes DataFrame to both Iceberg and Postgres
 # ---------------------------------------------------------------------------
 def save_gold_table(spark, df, iceberg_table: str, pg_table: str, mode: str = "overwrite"):
-    """Ghi df ra Iceberg Gold table và Reporting Postgres table."""
+    """Writes df to Iceberg Gold table and Reporting Postgres table."""
 
     # 1. Iceberg
     logger.info("Writing Iceberg Gold table: %s", iceberg_table)
     spark.sql("CREATE NAMESPACE IF NOT EXISTS local_catalog.tiki_gold")
     
-    # Workaround cho lỗi Schema Mismatch của Iceberg khi có sự thay đổi kiểu dữ liệu
+    # Workaround for Iceberg Schema Mismatch error when data types change
     if mode == "overwrite":
         logger.info("Dropping existing Iceberg table to avoid schema conflicts...")
         spark.sql(f"DROP TABLE IF EXISTS {iceberg_table}")
@@ -76,7 +76,7 @@ def save_gold_table(spark, df, iceberg_table: str, pg_table: str, mode: str = "o
 
 # ---------------------------------------------------------------------------
 # Gold Table 1 — Brand Performance
-# Câu hỏi business: "Brand nào đang dẫn đầu trong từng ngành hàng trên Tiki?"
+# Business question: "Which brand is leading in each category on Tiki?"
 # ---------------------------------------------------------------------------
 def compute_brand_performance(spark):
     logger.info("Computing gold.brand_performance ...")
@@ -95,6 +95,7 @@ def compute_brand_performance(spark):
         FROM local_catalog.tiki_silver.products
         WHERE brand_name IS NOT NULL
           AND brand_name != 'No Brand'
+          AND TRIM(brand_name) != ''
           AND quantity_sold > 0
         GROUP BY category_id, category_name, brand_name
         ORDER BY total_quantity_sold DESC
@@ -108,8 +109,8 @@ def compute_brand_performance(spark):
 
 
 # ---------------------------------------------------------------------------
-# Gold Table 2 — Price Volatility & Trend (chuỗi thời gian)
-# Câu hỏi business: "Thị trường đang biến động giá và tung khuyến mãi khốc liệt thế nào mỗi ngày?"
+# Gold Table 2 — Price Volatility & Trend (time series)
+# Business question: "How volatile are prices and how aggressive are promotions each day?"
 # ---------------------------------------------------------------------------
 def compute_price_trend(spark):
     logger.info("Computing gold.price_trend ...")
@@ -137,7 +138,7 @@ def compute_price_trend(spark):
 
 # ---------------------------------------------------------------------------
 # Gold Table 3 — Discount Analysis
-# Câu hỏi business: "Category nào đang có chương trình giảm giá tốt nhất?"
+# Business question: "Which category has the best discount programs?"
 # ---------------------------------------------------------------------------
 def compute_discount_analysis(spark):
     logger.info("Computing gold.discount_analysis ...")
@@ -169,7 +170,7 @@ def compute_discount_analysis(spark):
 
 # ---------------------------------------------------------------------------
 # Gold Table 4 — Top Products
-# Câu hỏi business: "Top 100 sản phẩm đáng mua nhất trong các ngành hàng cốt lõi của Tiki?"
+# Business question: "Top 100 products worth buying in Tiki's core categories?"
 # ---------------------------------------------------------------------------
 def compute_top_products(spark):
     logger.info("Computing gold.top_products ...")
@@ -249,7 +250,7 @@ def run_gold_pipeline():
     spark = SparkSession.builder.appName("Tiki_Gold_Pipeline").getOrCreate()
 
     try:
-        # Kiểm tra Silver tables tồn tại
+        # Check if Silver tables exist
         if not spark.catalog.tableExists("local_catalog.tiki_silver.products"):
             logger.error(
                 "Silver table 'local_catalog.tiki_silver.products' does not exist. "
@@ -265,7 +266,7 @@ def run_gold_pipeline():
 
         logger.info("=" * 60)
         logger.info("Gold pipeline completed successfully!")
-        logger.info("Superset dashboard sẽ tự refresh khi query lại Postgres.")
+        logger.info("Superset dashboard will auto-refresh upon querying Postgres.")
         logger.info("=" * 60)
 
     except Exception as exc:
@@ -280,11 +281,11 @@ if __name__ == "__main__":
     parser.add_argument(
         "--dry-run",
         action="store_true",
-        help="Chạy thử — chỉ log, không ghi data",
+        help="Dry run — only log, do not write data",
     )
     args = parser.parse_args()
 
     if args.dry_run:
-        logger.info("DRY RUN mode — không ghi data")
+        logger.info("DRY RUN mode — no data written")
     else:
         run_gold_pipeline()

@@ -45,7 +45,7 @@ def publish_to_kafka(products: list, crawl_date: str) -> None:
     logger.info("Published %d products to Kafka topic '%s'", sent, KAFKA_TOPIC)
 
 
-def crawl_tiki_data(target_category_id):
+def crawl_tiki_data(target_category_id, target_category_name):
     logger.info("Start crawling category id %s", target_category_id)
 
     raw_categories = load_categories_from_api(category_id=target_category_id)
@@ -64,15 +64,17 @@ def crawl_tiki_data(target_category_id):
         try:
             products = fetch_products_by_category(category["id"], category["url_key"])
             for p in products:
-                p["category_name"] = category["name"]
+                p["category_id"] = target_category_id
+                p["category_name"] = target_category_name
+            logger.info("[%s/%s] FINISHED: %s - Extracted %d products", index + 1, total, category["name"], len(products))
             return products
         except Exception as e:
             logger.error("Error fetching category %s: %s", category["name"], e)
             return []
 
-    # Use ThreadPoolExecutor to crawl 10 categories concurrently
-    logger.info("Starting concurrent extraction with 10 workers...")
-    with ThreadPoolExecutor(max_workers=10) as executor:
+    # Use ThreadPoolExecutor to crawl 15 categories concurrently
+    logger.info("Starting concurrent extraction with 15 workers...")
+    with ThreadPoolExecutor(max_workers=15) as executor:
         futures = [
             executor.submit(process_category, cat, idx, len(leaf_categories))
             for idx, cat in enumerate(leaf_categories)
@@ -90,5 +92,6 @@ def crawl_tiki_data(target_category_id):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Tiki Data Crawler")
     parser.add_argument("--category_id", type=int, required=True, help="Category ID to crawl")
+    parser.add_argument("--category_name", type=str, required=True, help="Parent Category Name")
     args = parser.parse_args()
-    crawl_tiki_data(args.category_id)
+    crawl_tiki_data(args.category_id, args.category_name)

@@ -162,9 +162,9 @@ def run_pipeline(raw_filepath):
         df_new = (
             df_new.withColumn("source_file", lit(os.path.basename(raw_filepath)))
             .withColumn("loaded_at", current_timestamp())
-            # Trích xuất ngày từ tên file (ví dụ: tiki_beauty_health_raw_2026-06-11.json -> 2026-06-11)
+            # Extract date from filename (e.g., tiki_beauty_health_raw_2026-06-11.json -> 2026-06-11)
             .withColumn("crawl_date", to_date(regexp_extract(col("source_file"), r"(\d{4}-\d{2}-\d{2})", 1)))
-        )
+        ).dropDuplicates(["id"])
 
         # Bronze Raw table
         load_bronze(spark, df_new)

@@ -131,7 +131,7 @@ services:
     command: >
       bash -c "
       airflow db migrate &&
-      airflow users create --username admin --password ${AIRFLOW_ADMIN_PASSWORD:-password123} --firstname Admin --lastname User --role Admin --email admin@example.com || true &&
+      airflow users create --username ${AIRFLOW_ADMIN_USER:-admin} --password ${AIRFLOW_ADMIN_PASSWORD:-password123} --firstname Admin --lastname User --role Admin --email admin@example.com || true &&
       airflow pools set tiki_api_pool 3 'Limit Tiki API rate to avoid overloading'
       "
     networks:
@@ -155,6 +155,14 @@ services:
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://${AIRFLOW_DB_USER}:${AIRFLOW_DB_PASSWORD}@airflow-postgres:5432/${AIRFLOW_DB_NAME}
       AIRFLOW__CORE__LOAD_EXAMPLES: "false"
       AIRFLOW__WEBSERVER__SECRET_KEY: ${AIRFLOW_SECRET_KEY}
+      AIRFLOW__WEBSERVER__BASE_URL: "http://localhost:8081"
+      AIRFLOW__SMTP__SMTP_HOST: "smtp.gmail.com"
+      AIRFLOW__SMTP__SMTP_STARTTLS: "True"
+      AIRFLOW__SMTP__SMTP_SSL: "False"
+      AIRFLOW__SMTP__SMTP_USER: "${AIRFLOW_SMTP_USER}"
+      AIRFLOW__SMTP__SMTP_PASSWORD: "${AIRFLOW_SMTP_PASSWORD}"
+      AIRFLOW__SMTP__SMTP_PORT: "587"
+      AIRFLOW__SMTP__SMTP_MAIL_FROM: "${AIRFLOW_SMTP_USER}"
       PYTHONPATH: /opt/airflow/src
     volumes:
       - ./dags:/opt/airflow/dags
@@ -184,6 +192,14 @@ services:
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://${AIRFLOW_DB_USER}:${AIRFLOW_DB_PASSWORD}@airflow-postgres:5432/${AIRFLOW_DB_NAME}
       AIRFLOW__CORE__LOAD_EXAMPLES: "false"
       AIRFLOW__WEBSERVER__SECRET_KEY: ${AIRFLOW_SECRET_KEY}
+      AIRFLOW__WEBSERVER__BASE_URL: "http://localhost:8081"
+      AIRFLOW__SMTP__SMTP_HOST: "smtp.gmail.com"
+      AIRFLOW__SMTP__SMTP_STARTTLS: "True"
+      AIRFLOW__SMTP__SMTP_SSL: "False"
+      AIRFLOW__SMTP__SMTP_USER: "${AIRFLOW_SMTP_USER}"
+      AIRFLOW__SMTP__SMTP_PASSWORD: "${AIRFLOW_SMTP_PASSWORD}"
+      AIRFLOW__SMTP__SMTP_PORT: "587"
+      AIRFLOW__SMTP__SMTP_MAIL_FROM: "${AIRFLOW_SMTP_USER}"
       PYTHONPATH: /opt/airflow/src
       KAFKA_BROKER: kafka:9092
     volumes:
@@ -200,7 +216,7 @@ services:
       - lakehouse
 
   # ---------------------------------------------------------------------------
-  # Reporting Postgres — Gold layer data cho Superset dashboards
+  # Reporting Postgres — Gold layer data for Superset dashboards
   # ---------------------------------------------------------------------------
   reporting-postgres:
     image: postgres:13
@@ -222,7 +238,7 @@ services:
       retries: 5
 
   # ---------------------------------------------------------------------------
-  # Superset internal Postgres — lưu trữ metadata của Superset (dashboards, charts)
+  # Superset internal Postgres — store Superset metadata (dashboards, charts)
   # ---------------------------------------------------------------------------
   superset-postgres:
     image: postgres:13
@@ -242,7 +258,7 @@ services:
       retries: 5
 
   # ---------------------------------------------------------------------------
-  # Superset Init — chạy 1 lần: upgrade DB, tạo admin user, init roles
+  # Superset Init — runs once: upgrade DB, create admin user, init roles
   # ---------------------------------------------------------------------------
   superset-init:
     build:
@@ -257,11 +273,11 @@ services:
       SUPERSET_ADMIN_PASSWORD: ${SUPERSET_ADMIN_PASSWORD:-password123}
     volumes:
       - ./docker/superset/superset_config.py:/app/pythonpath/superset_config.py:ro
-    # Fix: fab create-admin phải trên 1 dòng — YAML block scalar tách dòng → bash lỗi
+    # Fix: fab create-admin must be on one line — YAML block scalar splitting lines causes bash errors
     command: >
       bash -c "
       superset db upgrade &&
-      superset fab create-admin --username admin --firstname Admin --lastname User --email admin@example.com --password $${SUPERSET_ADMIN_PASSWORD:-password123} || true &&
+      superset fab create-admin --username ${SUPERSET_ADMIN_USER:-admin} --firstname Admin --lastname User --email admin@example.com --password $${SUPERSET_ADMIN_PASSWORD:-password123} || true &&
       superset init
       "
     depends_on:
@@ -272,8 +288,8 @@ services:
 
   # ---------------------------------------------------------------------------
   # Superset — Business Intelligence Dashboard
-  # Truy cập: http://localhost:8088  |  Login: admin / password123
-  # Kết nối data: Host=reporting-postgres, Port=5432, DB=reporting
+  # Access: http://localhost:8088  |  Login: admin / password123
+  # Data Connection: Host=reporting-postgres, Port=5432, DB=reporting
   # ---------------------------------------------------------------------------
   superset:
     build:
@@ -300,7 +316,7 @@ services:
 
 
   # ---------------------------------------------------------------------------
-  # Kafka Stack — Message broker cho data ingestion pipeline
+  # Kafka Stack — Message broker for data ingestion pipeline
   # ---------------------------------------------------------------------------
   zookeeper:
     image: confluentinc/cp-zookeeper:7.6.1
@@ -321,7 +337,7 @@ services:
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      # PLAINTEXT://kafka:9092  — dùng trong nội bộ Docker network
+      # PLAINTEXT://kafka:9092  — used internally within Docker network
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
