@@ -1,10 +1,10 @@
-# Tiki Lakehouse 🛒
+# Tiki Lakehouse
 
 A comprehensive local data lakehouse project that crawls **Tiki 5 Categories** product data every 4 hours, streams it through **Apache Kafka**, processes it via a **Medallion Architecture** (Bronze → Silver → Gold) using Apache Spark, and presents actionable business insights via an **Apache Superset** dashboard.
 
 ---
 
-## 📑 Table of Contents
+##  Table of Contents
 
 - [1. Overview](#1-overview)
 - [2. System Architecture & Tech Stack](#2-system-architecture--tech-stack)
@@ -126,7 +126,7 @@ Once all containers are up and running, you can access the various UIs using the
 | **Kafka UI**      | [http://localhost:8090](http://localhost:8090) | *(no auth)*             |
 | **Jupyter Lab**   | [http://localhost:8888](http://localhost:8888) | *(no auth)*             |
 | **MinIO Console** | [http://localhost:9001](http://localhost:9001) | See `.env` file         |
-| **Superset BI**   | [http://localhost:8088](http://localhost:8088) | `admin` / `admin123`    |
+| **Superset BI**   | [http://localhost:8088](http://localhost:8088) | `admin` / `password123` |
 
 ---
 
@@ -134,7 +134,7 @@ Once all containers are up and running, you can access the various UIs using the
 
 To visualize the Gold data in Superset for the first time:
 
-1. Open **[http://localhost:8088](http://localhost:8088)** and login (`admin` / `admin123`).
+1. Open **[http://localhost:8088](http://localhost:8088)** and login (`admin` / `password123`).
 2. Navigate to **Settings (Top Menu) → Database Connections → + Database**.
 3. Choose **PostgreSQL** and fill in the connection details:
    - **Host**: `reporting-postgres`

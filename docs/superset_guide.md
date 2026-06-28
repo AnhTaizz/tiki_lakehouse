@@ -10,7 +10,7 @@ Data flow: `Silver Iceberg` → `Spark Gold Job` → `Reporting Postgres (port 5
 Sau khi chạy `docker compose up -d`, truy cập vào trình duyệt:
 - **URL**: [http://localhost:8088](http://localhost:8088)
 - **Username mặc định**: `admin`
-- **Password mặc định**: `admin123` 
+- **Password mặc định**: `password123` 
 *(Nếu bạn đã thay đổi trong file `.env` ở biến `SUPERSET_ADMIN_PASSWORD`, hãy dùng mật khẩu đó).*
 
 ---
