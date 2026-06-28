@@ -124,7 +124,7 @@ Ngoài ra thêm `KAFKA_BROKER: kafka:9092` vào environment của `airflow-sched
 
 - Nhận `--crawl_date` từ Airflow XCom (qua argument)
 - Consume toàn bộ messages từ topic `tiki.raw.products`
-- Gom lại thành list, lưu ra `data/tiki_beauty_health_raw_YYYY-MM-DD.json`
+- Gom lại thành list, lưu ra `data/tiki_products_raw_YYYY-MM-DD.json`
 - `print(raw_filepath)` → XCom push cho Task 3 (Spark)
 
 ### 4.5 `dags/tiki_pipeline_dag.py` — Thêm Task 2, sửa schedule
@@ -158,7 +158,7 @@ Task 3 → ti.xcom_pull(consume_from_kafka) → nhận filepath → chạy Spark
        │
        ▼ Task 1 (Airflow container)
 tiki_extract.py
-  - Gọi Tiki API, crawl ~5000 sản phẩm Beauty & Health
+  - Gọi Tiki API, crawl sản phẩm từ 5 ngành hàng chính
   - Với mỗi sản phẩm → producer.send("tiki.raw.products", product)
   - flush() → close()
   - print("2026-06-16")  → XCom
@@ -167,11 +167,11 @@ tiki_extract.py
 kafka_consumer.py --crawl_date "2026-06-16"
   - Kết nối Kafka broker tại kafka:9092
   - Đọc hết messages từ topic "tiki.raw.products" (dừng sau 30s idle)
-  - Gom 5000 products → save JSON → data/tiki_beauty_health_raw_2026-06-16.json
-  - print("/opt/airflow/data/tiki_beauty_health_raw_2026-06-16.json")  → XCom
+  - Gom products → save JSON → data/tiki_products_raw_2026-06-16.json
+  - print("/opt/airflow/data/tiki_products_raw_2026-06-16.json")  → XCom
        │
        ▼ Task 3 (Spark container — docker exec)
-tiki_load_iceberg.py --raw_file .../tiki_beauty_health_raw_2026-06-16.json
+tiki_load_iceberg.py --raw_file .../tiki_products_raw_2026-06-16.json
   - Spark đọc JSON → Bronze Iceberg (overwrite partition)
   - Detect price changes → Silver price_history (append)
   - MERGE INTO Silver products (SCD Type 1)
@@ -195,13 +195,5 @@ tiki_gold.py
 
 ---
 
-## 7. Câu hỏi phỏng vấn thường gặp
-
-**Q: Dự án này có phải là Real-time streaming không?**
+### Q: Dự án này có phải là Real-time streaming không?
 > *"Không, dự án này xử lý theo mẻ (batch processing) với chu kỳ 4 tiếng một lần. Việc thêm Kafka đóng vai trò như một Message Broker để decouple (tách rời) việc thu thập dữ liệu (crawl) và xử lý (Spark). Dữ liệu sau khi crawl được đẩy vào Kafka và consumer sẽ gom mẻ lại (batch) để lưu trữ. Điều này giúp pipeline đáng tin cậy hơn, chịu lỗi tốt hơn, đồng thời là tiền đề cho kiến trúc near-real-time nếu sau này có webhook."*
-
-**Q: Tại sao không dùng Spark Structured Streaming đọc thẳng từ Kafka?**
-> *"Vì hệ thống đang xử lý theo mẻ (batch). Với kiến trúc này, dùng Spark Structured Streaming là không cần thiết và làm phức tạp hóa hệ thống. Một Python Consumer đơn giản gom batch lại rồi ghi ra file cho Spark batch job đọc là cách tiếp cận thực tế, dễ debug và tối ưu tài nguyên hơn."*
-
-**Q: Consumer Group dùng để làm gì?**
-> *"Kafka dùng `group_id` để track offset — biết consumer đã đọc đến message nào. Nếu consumer crash rồi restart, nó tiếp tục từ chỗ dừng, không đọc lại từ đầu và không bỏ sót message."*
