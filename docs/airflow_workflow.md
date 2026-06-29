@@ -255,3 +255,64 @@ RAW JSON Files (local data/)
 
 > **Lý do chọn 4h thay vì daily**: Giá sản phẩm e-commerce thay đổi nhiều lần trong ngày.
 > Crawl mỗi 4h giúp price_history bắt được nhiều biến động hơn, làm dữ liệu phân tích giá chính xác hơn.
+
+---
+
+## 7. Disaster Recovery — Phục Hồi Dữ Liệu Từ Bronze
+
+### Khi nào cần dùng?
+
+| Tình huống | Giải pháp |
+|---|---|
+| Task 2/3/4 fail do mất mạng, cúp điện | Airflow tự retry — **không cần script này** |
+| Code bug làm tính sai số liệu nhiều ngày | **Dùng script này** để rebuild lại Silver + Gold |
+| Xóa nhầm bảng Silver hoặc Gold | **Dùng script này** để phục hồi từ Bronze |
+| Cần recompute lại 1 khoảng thời gian cụ thể | **Dùng script này** với `--from-date` và `--to-date` |
+
+### Script: `src/jobs/tiki_disaster_recovery.py`
+
+Script này thực hiện **mô phỏng lại (replay) từng ngày** theo đúng thứ tự thời gian từ Bronze,
+đảm bảo lịch sử biến động giá (SCD Type 4) được tái tạo chính xác.
+
+```
+Bronze (toàn bộ lịch sử thô)
+    → Lọc theo [from-date, to-date]
+    → Drop Silver + Gold
+    → Vòng lặp ngày-by-ngày (cũ → mới):
+        → load_silver_history()   (SCD Type 4 — phát hiện biến động giá)
+        → load_silver_active()    (SCD Type 1 — cập nhật trạng thái mới nhất)
+    → Rebuild toàn bộ Gold
+```
+
+> **Quan trọng**: Bắt buộc chạy `--dry-run` trước để xác nhận khoảng ngày,
+> tránh xóa nhầm dữ liệu đang tốt.
+
+### Các lệnh mẫu
+
+```bash
+docker exec tiki_spark_crawler \
+    python /home/jovyan/work/src/jobs/tiki_disaster_recovery.py --dry-run
+
+# Phục hồi toàn bộ (tất cả ngày có trong Bronze)
+docker exec tiki_spark_crawler \
+    python /home/jovyan/work/src/jobs/tiki_disaster_recovery.py
+
+# Phục hồi trong khoảng thời gian cụ thể
+docker exec tiki_spark_crawler \
+    python /home/jovyan/work/src/jobs/tiki_disaster_recovery.py \
+    --from-date 2026-06-01 --to-date 2026-06-15
+
+docker exec tiki_spark_crawler \
+    python /home/jovyan/work/src/jobs/tiki_disaster_recovery.py --skip-gold
+
+# Kết hợp: dry-run với khoảng ngày cụ thể
+docker exec tiki_spark_crawler \
+    python /home/jovyan/work/src/jobs/tiki_disaster_recovery.py \
+    --from-date 2026-06-10 --to-date 2026-06-20 --dry-run
+```
+
+### Tại sao phải replay từng ngày?
+
+Logic SCD Type 4 (bảng `price_history`) phát hiện biến động giá bằng cách **so sánh
+dữ liệu ngày N với trạng thái hiện tại của Silver**. Nếu đổ toàn bộ Bronze vào 1 lần,
+hệ thống không biết thứ tự xảy ra → lịch sử giá bị sai. Replay từng ngày giải quyết vấn đề này.
