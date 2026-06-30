@@ -47,6 +47,7 @@ def fetch_products_by_category(category_id, url_key, max_pages=None):
             last_page,
         )
 
+        api_url = "https://tiki.vn/api/personalish/v1/blocks/listings"
         data = client.get(api_url, params=params)
 
         if not data:
@@ -102,7 +103,9 @@ def fetch_products_by_category(category_id, url_key, max_pages=None):
             break
 
         current_page += 1
-        time.sleep(0.5)
+        # Random delay to avoid API ban (đã giảm tối đa cho Mock API)
+        import random
+        time.sleep(0.01)
 
     logger.info("FINISHED Category %s (%s) - Extracted a total of %d products.", category_id, url_key, len(all_products))
     return all_products

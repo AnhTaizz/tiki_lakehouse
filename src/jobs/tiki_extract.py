@@ -48,14 +48,8 @@ def publish_to_kafka(products: list, crawl_date: str) -> None:
 def crawl_tiki_data(target_category_id, target_category_name):
     logger.info("Start crawling category id %s", target_category_id)
 
-    raw_categories = load_categories_from_api(category_id=target_category_id)
-    if not raw_categories:
-        logger.warning("Category API failed, using local backup file")
-        backup_path = os.path.join(project_dir, "data", "tiki_category.json")
-        raw_categories = load_categories_from_file(backup_path)
-
-    leaf_categories = get_leaf_categories(raw_categories)
-    logger.info("Found %s leaf categories", len(leaf_categories))
+    leaf_categories = [{"id": target_category_id, "name": target_category_name, "url_key": ""}]
+    logger.info("Using Root Category directly for extraction: %s", target_category_id)
 
     all_products = []
 
@@ -67,26 +61,29 @@ def crawl_tiki_data(target_category_id, target_category_name):
                 p["category_id"] = target_category_id
                 p["category_name"] = target_category_name
             logger.info("[%s/%s] FINISHED: %s - Extracted %d products", index + 1, total, category["name"], len(products))
+
             return products
         except Exception as e:
             logger.error("Error fetching category %s: %s", category["name"], e)
             return []
 
-    # Use ThreadPoolExecutor to crawl 15 categories concurrently
-    logger.info("Starting concurrent extraction with 15 workers...")
-    with ThreadPoolExecutor(max_workers=15) as executor:
+    crawl_date = datetime.now().strftime("%Y-%m-%d")
+    total_crawled = 0
+
+    logger.info("Starting extraction with 3 workers (Mock API Boost - Safe Mode)...")
+    with ThreadPoolExecutor(max_workers=3) as executor:
         futures = [
             executor.submit(process_category, cat, idx, len(leaf_categories))
             for idx, cat in enumerate(leaf_categories)
         ]
 
         for future in as_completed(futures):
-            all_products.extend(future.result())
+            products = future.result()
+            if products:
+                publish_to_kafka(products, crawl_date)
+                total_crawled += len(products)
 
-    crawl_date = datetime.now().strftime("%Y-%m-%d")
-    logger.info("Finished crawling %d products. Publishing to Kafka...", len(all_products))
-
-    publish_to_kafka(all_products, crawl_date)
+    logger.info("Finished crawling. Total products published to Kafka: %d", total_crawled)
 
 
 if __name__ == "__main__":

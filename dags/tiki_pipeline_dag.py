@@ -37,8 +37,7 @@ import json
 WORK_DIR        = "/home/jovyan/work"
 AIRFLOW_SRC     = "/opt/airflow/src"
 
-# List of 5 core categories for safe local demonstration
-# Replace this array with dynamic categories from tiki_category.json in production
+# Khôi phục cào 5 danh mục để test full-scale với Mock API:
 CATEGORIES = [
     {"id": 1520, "name": "Làm Đẹp - Sức Khỏe"},
     {"id": 1846, "name": "Laptop - Máy Vi Tính"},
@@ -53,7 +52,7 @@ with DAG(
     description=(
         "Batch pipeline: crawl ALL Tiki categories every 4h → Kafka → Bronze → Silver → Gold → Superset"
     ),
-    schedule_interval="0 1,5,9,13,17,21 * * *",
+    schedule_interval="0 */4 * * *",
     # every 4h: 08:00, 12:00, 16:00, 20:00, 00:00, 04:00 ICT (UTC+7)
     catchup=False,
     max_active_runs=1,
@@ -87,8 +86,13 @@ with DAG(
 ) as dag:
 
     # ------------------------------------------------------------------
-    # Task 1: Extract & Publish — Crawl Tiki API → Kafka Producer
+    # Task 1: Extract & Publish (Mocked Crawler with Dynamic Task Mapping)
     # ------------------------------------------------------------------
+    commands = [
+        f"python {AIRFLOW_SRC}/jobs/tiki_extract.py --category_id {cat['id']} --category_name '{cat['name']}'"
+        for cat in CATEGORIES
+    ]
+
     extract_task = BashOperator.partial(
         task_id="extract_and_publish",
         pool="tiki_api_pool",
@@ -98,12 +102,10 @@ with DAG(
         },
         doc_md="""
 ### extract_and_publish
-Crawls categories from Tiki API using Dynamic Task Mapping (concurrent).
-Publishes each product to Kafka topic `tiki.raw.products` as a Producer.
+Sử dụng Dynamic Task Mapping (Airflow 2.3+) để chạy song song nhiều danh mục.
+Bị giới hạn bởi pool `tiki_api_pool` để kiểm soát concurrency.
 """
-    ).expand(
-        bash_command=[f"python {AIRFLOW_SRC}/jobs/tiki_extract.py --category_id {cat['id']} --category_name \"{cat['name']}\"" for cat in CATEGORIES]
-    )
+    ).expand(bash_command=commands)
 
     # ------------------------------------------------------------------
     # Task 2: Consume from Kafka — collect products → raw JSON file
