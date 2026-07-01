@@ -52,7 +52,7 @@ def process_micro_batch(df_batch, epoch_id):
         # Nên ta phải drop nó ra trước khi nạp vào Iceberg để tránh lỗi TOO_MANY_DATA_COLUMNS
         df_iceberg = df_new.drop("_event_type")
 
-        load_bronze(spark, df_iceberg)
+        load_bronze(spark, df_iceberg, is_streaming=True)
         load_silver_history(spark, df_iceberg)
         load_silver_active(spark, df_iceberg)
 
@@ -112,7 +112,7 @@ def start_streaming():
     query = df_parsed.writeStream \
         .foreachBatch(process_micro_batch) \
         .option("checkpointLocation", CHECKPOINT_LOCATION) \
-        .trigger(processingTime="10 seconds") \
+        .trigger(processingTime="20 seconds") \
         .start()
 
     logger.info("TIKI STREAM PROCESSOR STARTED! Waiting for events...")

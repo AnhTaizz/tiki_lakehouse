@@ -33,7 +33,8 @@ def init_db():
         category_id INTEGER,
         quantity_sold INTEGER,
         category_name TEXT,
-        crawl_date TEXT
+        crawl_date TEXT,
+        is_active INTEGER DEFAULT 1
     )
     ''')
     
@@ -60,15 +61,15 @@ def init_db():
             INSERT OR REPLACE INTO products (
                 id, sku, name, url_key, price, original_price, discount, discount_rate, 
                 brand_name, rating_average, review_count, thumbnail_url, category_id, 
-                quantity_sold, category_name, crawl_date
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                quantity_sold, category_name, crawl_date, is_active
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', (
                 p.get("id"), p.get("sku"), p.get("name"), p.get("url_key"), 
                 p.get("price", 0), p.get("original_price", 0), p.get("discount", 0), 
                 p.get("discount_rate", 0), p.get("brand_name", ""), 
                 p.get("rating_average", 0), p.get("review_count", 0), 
                 p.get("thumbnail_url", ""), p.get("category_id"), sold_val, 
-                p.get("category_name", ""), p.get("crawl_date", "")
+                p.get("category_name", ""), p.get("crawl_date", ""), 1
             ))
         
         total_inserted += len(items)

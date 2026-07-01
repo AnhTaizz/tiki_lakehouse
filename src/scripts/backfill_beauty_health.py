@@ -6,10 +6,10 @@ from datetime import datetime
 from kafka import KafkaProducer
 
 """
-SCRIPT: BACKFILL HISTORICAL DATA (HỒI PHỤC DỮ LIỆU LỊCH SỬ)
-Mục đích: Đọc các file JSON raw lịch sử của danh mục 'Làm Đẹp - Sức Khỏe' đã cào từ tháng 5, tháng 6.
-Sau đó bơm (publish) lại toàn bộ vào Kafka (tiki.raw.products) để Consumer nạp vào Iceberg.
-Cách chạy:
+SCRIPT: BACKFILL HISTORICAL DATA
+Purpose: Read raw historical JSON files for Beauty & Health category collected in May/June.
+Publish them to Kafka (tiki.raw.products) for consumer ingestion into Iceberg.
+Usage:
 docker exec airflow_scheduler python /opt/airflow/src/scripts/backfill_beauty_health.py
 """
 

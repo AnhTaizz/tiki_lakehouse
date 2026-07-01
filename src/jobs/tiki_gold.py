@@ -54,12 +54,12 @@ def save_gold_table(spark, df, iceberg_table: str, pg_table: str, mode: str = "o
     # 1. Iceberg
     logger.info("Writing Iceberg Gold table: %s", iceberg_table)
     spark.sql("CREATE NAMESPACE IF NOT EXISTS local_catalog.tiki_gold")
-    
+
     # Workaround for Iceberg Schema Mismatch error when data types change
     if mode == "overwrite":
         logger.info("Dropping existing Iceberg table to avoid schema conflicts...")
         spark.sql(f"DROP TABLE IF EXISTS {iceberg_table}")
-        
+
     df.write.format("iceberg").mode(mode).saveAsTable(iceberg_table)
     logger.info("Iceberg write complete: %s", iceberg_table)
 

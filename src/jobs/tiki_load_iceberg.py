@@ -15,7 +15,7 @@ logger = setup_logger(__name__)
 
 
 def build_product_schema():
-    from pyspark.sql.types import DoubleType, IntegerType, LongType, StringType, StructField, StructType
+    from pyspark.sql.types import DoubleType, IntegerType, LongType, StringType, StructField, StructType, BooleanType
 
     return StructType(
         [
@@ -34,19 +34,24 @@ def build_product_schema():
             StructField("category_id", IntegerType(), True),
             StructField("category_name", StringType(), True),
             StructField("quantity_sold", IntegerType(), True),
+            StructField("is_active", BooleanType(), True),
         ]
     )
 
 
-def load_bronze(spark, df):
+def load_bronze(spark, df, is_streaming=False):
     logger.info("Step 1: Loading raw data to Bronze Iceberg table")
     spark.sql("CREATE NAMESPACE IF NOT EXISTS local_catalog.tiki_bronze")
     table_name = "local_catalog.tiki_bronze.products_raw"
 
     if spark.catalog.tableExists(table_name):
-        logger.info("Table %s exists, overwriting Bronze partition for idempotency", table_name)
-        df.writeTo(table_name).overwritePartitions()
-        logger.info("Bronze append completed")
+        if is_streaming:
+            logger.info("Table %s exists, appending to Bronze partition for streaming", table_name)
+            df.writeTo(table_name).append()
+        else:
+            logger.info("Table %s exists, overwriting Bronze partition for idempotency", table_name)
+            df.writeTo(table_name).overwritePartitions()
+        logger.info("Bronze write completed")
     else:
         logger.info("Table %s does not exist, creating Bronze table", table_name)
         df.write.format("iceberg").partitionBy("crawl_date").saveAsTable(table_name)
@@ -101,7 +106,7 @@ def load_silver_history(spark, df_new):
         logger.info("Initial load to history completed")
 
 
-def load_silver_active(spark, df_new):
+def load_silver_active(spark, df_new, is_full_snapshot=False):
     logger.info("Step 3: Updating Silver Active table (SCD Type 1)")
     spark.sql("CREATE NAMESPACE IF NOT EXISTS local_catalog.tiki_silver")
     active_table = "local_catalog.tiki_silver.products"
@@ -110,6 +115,15 @@ def load_silver_active(spark, df_new):
         logger.info("Active table %s exists. Performing MERGE INTO", active_table)
 
         df_new.createOrReplaceTempView("du_lieu_hom_nay")
+
+        when_not_matched_by_source = ""
+        if is_full_snapshot:
+            # Get distinct categories in this batch to scope the soft delete
+            cat_rows = df_new.select("category_id").distinct().collect()
+            cat_ids = [str(r.category_id) for r in cat_rows if r.category_id is not None]
+            if cat_ids:
+                cat_list = ", ".join(cat_ids)
+                when_not_matched_by_source = f"WHEN NOT MATCHED BY SOURCE AND t.category_id IN ({cat_list}) THEN UPDATE SET t.is_active = false"
 
         merge_query = f"""
             MERGE INTO {active_table} AS t
@@ -133,9 +147,11 @@ def load_silver_active(spark, df_new):
                     t.quantity_sold = s.quantity_sold,
                     t.crawl_date = s.crawl_date,
                     t.loaded_at = s.loaded_at,
-                    t.source_file = s.source_file
+                    t.source_file = s.source_file,
+                    t.is_active = s.is_active
             WHEN NOT MATCHED THEN
                 INSERT *
+            {when_not_matched_by_source}
         """
         spark.sql(merge_query)
         logger.info("MERGE INTO active table completed successfully")
@@ -162,6 +178,7 @@ def run_pipeline(raw_filepath):
         df_new = (
             df_new.withColumn("source_file", lit(os.path.basename(raw_filepath)))
             .withColumn("loaded_at", current_timestamp())
+            .withColumn("is_active", lit(True))
             # Extract date from filename (e.g., tiki_products_raw_2026-06-11.json -> 2026-06-11)
             .withColumn("crawl_date", to_date(regexp_extract(col("source_file"), r"(\d{4}-\d{2}-\d{2})", 1)))
         ).dropDuplicates(["id"])
@@ -172,8 +189,8 @@ def run_pipeline(raw_filepath):
         # Silver History table
         load_silver_history(spark, df_new)
 
-        # Write/Merge into Silver Active table
-        load_silver_active(spark, df_new)
+        # Write/Merge into Silver Active table (Batch Mode = Full Snapshot)
+        load_silver_active(spark, df_new, is_full_snapshot=True)
 
         logger.info("Pipeline executed successfully!")
     except Exception as exc:

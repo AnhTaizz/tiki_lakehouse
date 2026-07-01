@@ -5,6 +5,7 @@ services:
     ports:
       - "8888:8888"
       - "4040:4040"
+      - "4041:4041"
     volumes:
       - ./src:/home/jovyan/work/src
       - ./notebooks:/home/jovyan/work/notebooks
@@ -13,6 +14,7 @@ services:
       - ./docker/shared/core-site.xml:/usr/local/spark/conf/core-site.xml
       - ivy2_cache:/root/.ivy2
     environment:
+      TZ: Asia/Ho_Chi_Minh
       JUPYTER_ENABLE_LAB: "yes"
       GRANT_SUDO: "yes"
       JUPYTER_TOKEN: ""          # empty = no token required (local dev only)
@@ -35,6 +37,7 @@ services:
       - "9000:9000"
       - "9001:9001"
     environment:
+      TZ: Asia/Ho_Chi_Minh
       MINIO_ROOT_USER: ${MINIO_ROOT_USER}
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
     command: server /data --console-address ":9001"
@@ -49,6 +52,7 @@ services:
     ports:
       - "5436:5432"
     environment:
+      TZ: Asia/Ho_Chi_Minh
       POSTGRES_DB: ${HIVE_DB_NAME}
       POSTGRES_USER: ${HIVE_DB_USER}
       POSTGRES_PASSWORD: ${HIVE_DB_PASSWORD}
@@ -69,6 +73,7 @@ services:
     ports:
       - "9083:9083"
     environment:
+      TZ: Asia/Ho_Chi_Minh
       IS_RESUME: "true"
       SERVICE_NAME: "metastore"
       DB_DRIVER: "postgres"
@@ -102,6 +107,7 @@ services:
     ports:
       - "5437:5432"
     environment:
+      TZ: Asia/Ho_Chi_Minh
       POSTGRES_DB: ${AIRFLOW_DB_NAME}
       POSTGRES_USER: ${AIRFLOW_DB_USER}
       POSTGRES_PASSWORD: ${AIRFLOW_DB_PASSWORD}
@@ -125,6 +131,7 @@ services:
       airflow-postgres:
         condition: service_healthy
     environment:
+      TZ: Asia/Ho_Chi_Minh
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://${AIRFLOW_DB_USER}:${AIRFLOW_DB_PASSWORD}@airflow-postgres:5432/${AIRFLOW_DB_NAME}
       AIRFLOW__WEBSERVER__SECRET_KEY: ${AIRFLOW_SECRET_KEY}
@@ -151,6 +158,7 @@ services:
     ports:
       - "8081:8080"
     environment:
+      TZ: Asia/Ho_Chi_Minh
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://${AIRFLOW_DB_USER}:${AIRFLOW_DB_PASSWORD}@airflow-postgres:5432/${AIRFLOW_DB_NAME}
       AIRFLOW__CORE__LOAD_EXAMPLES: "false"
@@ -188,6 +196,7 @@ services:
       kafka:
         condition: service_healthy
     environment:
+      TZ: Asia/Ho_Chi_Minh
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://${AIRFLOW_DB_USER}:${AIRFLOW_DB_PASSWORD}@airflow-postgres:5432/${AIRFLOW_DB_NAME}
       AIRFLOW__CORE__LOAD_EXAMPLES: "false"
@@ -224,6 +233,7 @@ services:
     ports:
       - "5438:5432"
     environment:
+      TZ: Asia/Ho_Chi_Minh
       POSTGRES_DB: ${REPORTING_DB_NAME:-reporting}
       POSTGRES_USER: ${REPORTING_DB_USER:-reporting}
       POSTGRES_PASSWORD: ${REPORTING_DB_PASSWORD:-reporting123}
@@ -244,6 +254,7 @@ services:
     image: postgres:13
     container_name: superset_db
     environment:
+      TZ: Asia/Ho_Chi_Minh
       POSTGRES_DB: superset
       POSTGRES_USER: superset
       POSTGRES_PASSWORD: ${SUPERSET_DB_PASSWORD:-superset123}
@@ -267,6 +278,7 @@ services:
     image: tiki_lakehouse-superset:latest
     container_name: superset_init
     environment:
+      TZ: Asia/Ho_Chi_Minh
       SUPERSET_CONFIG_PATH: /app/pythonpath/superset_config.py
       SUPERSET_SECRET_KEY: ${SUPERSET_SECRET_KEY:-tiki_superset_secret_2026}
       SUPERSET_DB_PASSWORD: ${SUPERSET_DB_PASSWORD:-superset123}
@@ -300,6 +312,7 @@ services:
     ports:
       - "8088:8088"
     environment:
+      TZ: Asia/Ho_Chi_Minh
       SUPERSET_CONFIG_PATH: /app/pythonpath/superset_config.py
       SUPERSET_SECRET_KEY: ${SUPERSET_SECRET_KEY:-tiki_superset_secret_2026}
       SUPERSET_DB_PASSWORD: ${SUPERSET_DB_PASSWORD:-superset123}
@@ -322,6 +335,7 @@ services:
     image: confluentinc/cp-zookeeper:7.6.1
     container_name: tiki_zookeeper
     environment:
+      TZ: Asia/Ho_Chi_Minh
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
     networks:
@@ -333,12 +347,15 @@ services:
     depends_on:
       - zookeeper
     ports:
-      - "9092:9092"
+      - "9093:9093"
     environment:
+      TZ: Asia/Ho_Chi_Minh
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      # PLAINTEXT://kafka:9092  — used internally within Docker network
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_LISTENERS: INTERNAL://0.0.0.0:9092,EXTERNAL://0.0.0.0:9093
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka:9092,EXTERNAL://localhost:9093
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
       KAFKA_NUM_PARTITIONS: 6
@@ -363,6 +380,7 @@ services:
     ports:
       - "8090:8080"
     environment:
+      TZ: Asia/Ho_Chi_Minh
       KAFKA_CLUSTERS_0_NAME: tiki-local
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
     networks:

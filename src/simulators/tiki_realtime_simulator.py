@@ -34,7 +34,7 @@ def load_source_data():
     """Đọc file JSON lớn nhất vào RAM làm dữ liệu nguồn."""
     data_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "data"))
     filepath = os.path.join(data_dir, SOURCE_FILE)
-    
+
     if not os.path.exists(filepath):
         logger.error("Source file not found: %s", filepath)
         return []
@@ -42,7 +42,7 @@ def load_source_data():
     logger.info("Loading massive data source: %s ... (This may take a few seconds)", SOURCE_FILE)
     with open(filepath, "r", encoding="utf-8") as f:
         products = json.load(f)
-        
+
     logger.info("Loaded %d products into RAM.", len(products))
     return products
 
@@ -53,12 +53,12 @@ def mutate_product(product):
     """
     import copy
     p = copy.deepcopy(product)
-    
+
     # Cập nhật thời gian thực
     p["crawl_date"] = datetime.now().strftime("%Y-%m-%d")
-    
+
     dice = random.random()
-    
+
     if dice < 0.10:
         # Sự kiện Flash Sale (10% cơ hội): Giảm giá 5-10%
         discount_percent = random.uniform(0.05, 0.10)
@@ -71,7 +71,7 @@ def mutate_product(product):
             p["discount"] = original_price - new_price
             p["discount_rate"] = int((p["discount"] / original_price) * 100) if original_price > 0 else 0
             p["_event_type"] = "FLASH_SALE"
-            
+
     elif dice < 0.40:
         # Sự kiện Có người mua hàng (30% cơ hội): Tăng quantity_sold
         sold_increase = random.randint(1, 5)
@@ -81,14 +81,14 @@ def mutate_product(product):
             current_sold = current_sold.get("value", 0)
         elif not isinstance(current_sold, (int, float)):
             current_sold = 0
-            
+
         p["quantity_sold"] = int(current_sold) + sold_increase
         p["_event_type"] = "PURCHASE"
-        
+
     else:
         # Bình thường (60% cơ hội): Dữ liệu không đổi (chỉ là luồng quét cập nhật state)
         p["_event_type"] = "PING"
-        
+
     return p
 
 def run_simulator():
@@ -107,34 +107,34 @@ def run_simulator():
 
     logger.info("🚀 TIKI BATCH SIMULATOR STARTED!")
     logger.info("Pushing %d simulated events to topic: %s", len(target_products), KAFKA_TOPIC)
-    
+
     events_sent = 0
     flash_sales = 0
     purchases = 0
-    
+
     try:
         for base_product in target_products:
             if not base_product.get("id"):
                 continue
-                
+
             mutated_product = mutate_product(base_product)
-            
+
             if mutated_product["_event_type"] == "FLASH_SALE":
                 flash_sales += 1
             elif mutated_product["_event_type"] == "PURCHASE":
                 purchases += 1
-                
+
             producer.send(
-                KAFKA_TOPIC, 
-                key=str(mutated_product["id"]).encode("utf-8"), 
+                KAFKA_TOPIC,
+                key=str(mutated_product["id"]).encode("utf-8"),
                 value=mutated_product
             )
             events_sent += 1
-            
+
         producer.flush()
         logger.info("✅ Batch completed! Sent %d events.", events_sent)
         logger.info("📊 Stats: %d Flash Sales, %d Purchases generated.", flash_sales, purchases)
-        
+
     except Exception as e:
         logger.error("❌ Simulator failed: %s", e)
         sys.exit(1)

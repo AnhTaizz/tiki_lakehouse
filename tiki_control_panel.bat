@@ -46,7 +46,7 @@ goto menu
 echo.
 echo ==============================================================
 echo Dang mo 2 cua so phuc vu luong Streaming...
-start cmd /k "title TIKI SIMULATOR && docker exec -it airflow_scheduler python /opt/airflow/src/simulators/tiki_continuous_simulator.py"
+start cmd /k "title TIKI SIMULATOR && set KAFKA_BROKER=localhost:9093 && python src\simulators\tiki_continuous_simulator.py"
 start cmd /k "title SPARK STREAMING PROCESSOR && docker exec -it tiki_spark_crawler python /home/jovyan/work/src/jobs/tiki_stream_processor.py"
 echo Hoan thanh! Hay mo Superset va tan huong toc do Real-time.
 echo ==============================================================

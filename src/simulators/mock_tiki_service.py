@@ -24,14 +24,14 @@ def get_products(
     cursor = conn.cursor()
 
     # Đếm tổng số sản phẩm
-    cursor.execute("SELECT COUNT(1) FROM products WHERE category_id = ?", (category,))
+    cursor.execute("SELECT COUNT(1) FROM products WHERE category_id = ? AND is_active = 1", (category,))
     total_items = cursor.fetchone()[0]
 
     # Lấy dữ liệu phân trang
     offset = (page - 1) * limit
     cursor.execute("""
         SELECT * FROM products
-        WHERE category_id = ?
+        WHERE category_id = ? AND is_active = 1
         LIMIT ? OFFSET ?
     """, (category, limit, offset))
 
