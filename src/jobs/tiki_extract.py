@@ -70,8 +70,9 @@ def crawl_tiki_data(target_category_id, target_category_name):
     crawl_date = datetime.now().strftime("%Y-%m-%d")
     total_crawled = 0
 
-    logger.info("Starting extraction with 3 workers (Mock API Boost - Safe Mode)...")
-    with ThreadPoolExecutor(max_workers=3) as executor:
+    WORKERS = 15
+    logger.info(f"Starting extraction with {WORKERS} workers (Mock API Local - No Ban Risk!)...")
+    with ThreadPoolExecutor(max_workers=WORKERS) as executor:
         futures = [
             executor.submit(process_category, cat, idx, len(leaf_categories))
             for idx, cat in enumerate(leaf_categories)

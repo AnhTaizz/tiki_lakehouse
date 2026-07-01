@@ -39,6 +39,26 @@ def build_product_schema():
     )
 
 
+def clean_silver_data(df):
+    from pyspark.sql.functions import col, when, trim
+
+    logger.info("Step 1.5: Cleaning data (Handling nulls and trimming strings)")
+    
+    # 1. Drop rows with null IDs
+    df_clean = df.filter(col("id").isNotNull())
+    
+    # 2. Fill nulls for numeric columns
+    df_clean = df_clean.withColumn("price", when(col("price").isNull(), 0).otherwise(col("price")))
+    df_clean = df_clean.withColumn("discount_rate", when(col("discount_rate").isNull(), 0).otherwise(col("discount_rate")))
+    df_clean = df_clean.withColumn("quantity_sold", when(col("quantity_sold").isNull(), 0).otherwise(col("quantity_sold")))
+    
+    # 3. Trim whitespace from text columns
+    df_clean = df_clean.withColumn("name", trim(col("name")))
+    df_clean = df_clean.withColumn("brand_name", trim(col("brand_name")))
+    
+    return df_clean
+
+
 def load_bronze(spark, df, is_streaming=False):
     logger.info("Step 1: Loading raw data to Bronze Iceberg table")
     spark.sql("CREATE NAMESPACE IF NOT EXISTS local_catalog.tiki_bronze")
@@ -161,11 +181,9 @@ def load_silver_active(spark, df_new, is_full_snapshot=False):
         logger.info("Initial Active table created")
 
 
-def run_pipeline(raw_filepath):
+def run_pipeline(raw_filepath, layer="all"):
     from pyspark.sql import SparkSession
-    from pyspark.sql.functions import current_date, current_timestamp, lit, regexp_extract, col, to_date
-
-    logger.info("Starting Tiki Medallion pipeline for: %s", raw_filepath)
+    from pyspark.sql.functions import current_date, current_timestamp, lit, regexp_extract, col, to_date, date_format
 
     if not os.path.exists(raw_filepath):
         logger.error("File does not exist: %s", raw_filepath)
@@ -174,6 +192,7 @@ def run_pipeline(raw_filepath):
     spark = SparkSession.builder.appName("Tiki_Medallion_Pipeline").getOrCreate()
 
     try:
+        # Step 1: Read raw JSON regardless of layer to extract crawl_date properly
         df_new = spark.read.option("multiline", "true").schema(build_product_schema()).json(raw_filepath)
         df_new = (
             df_new.withColumn("source_file", lit(os.path.basename(raw_filepath)))
@@ -183,14 +202,33 @@ def run_pipeline(raw_filepath):
             .withColumn("crawl_date", to_date(regexp_extract(col("source_file"), r"(\d{4}-\d{2}-\d{2})", 1)))
         ).dropDuplicates(["id"])
 
-        # Bronze Raw table
-        load_bronze(spark, df_new)
+        if layer in ["all", "bronze"]:
+            logger.info(f"Executing Bronze Layer load for {raw_filepath}")
+            load_bronze(spark, df_new)
+            
+        if layer in ["all", "silver"]:
+            logger.info(f"Executing Silver Layer load for {raw_filepath}")
+            
+            # Extract crawl_date string to filter Bronze table
+            date_row = df_new.select(date_format("crawl_date", "yyyy-MM-dd").alias("cdate")).first()
+            if not date_row or not date_row["cdate"]:
+                logger.error("Could not extract crawl_date from JSON filename.")
+                sys.exit(1)
+                
+            cdate_str = date_row["cdate"]
+            logger.info(f"Reading from Bronze table for crawl_date: {cdate_str}")
+            
+            # Read from Bronze layer for the specific crawl_date
+            df_bronze = spark.sql(f"SELECT * FROM local_catalog.tiki_bronze.products_raw WHERE crawl_date = date('{cdate_str}')")
+            
+            # Clean data
+            df_clean = clean_silver_data(df_bronze)
+            
+            # Silver History table
+            load_silver_history(spark, df_clean)
 
-        # Silver History table
-        load_silver_history(spark, df_new)
-
-        # Write/Merge into Silver Active table (Batch Mode = Full Snapshot)
-        load_silver_active(spark, df_new, is_full_snapshot=True)
+            # Write/Merge into Silver Active table (Batch Mode = Full Snapshot)
+            load_silver_active(spark, df_clean, is_full_snapshot=True)
 
         logger.info("Pipeline executed successfully!")
     except Exception as exc:
@@ -200,14 +238,15 @@ def run_pipeline(raw_filepath):
         spark.stop()
 
 
-def load_to_iceberg(raw_filepath):
-    run_pipeline(raw_filepath)
+def load_to_iceberg(raw_filepath, layer="all"):
+    run_pipeline(raw_filepath, layer)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--raw_file", required=True, help="Path to raw JSON file")
+    parser.add_argument("--layer", choices=["all", "bronze", "silver"], default="all", help="Which medallion layer to execute")
     args = parser.parse_args()
 
-    run_pipeline(args.raw_file)
+    run_pipeline(args.raw_file, args.layer)
 

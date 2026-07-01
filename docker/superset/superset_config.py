@@ -15,6 +15,9 @@ import os
 # ---------------------------------------------------------------------------
 SECRET_KEY = os.environ.get("SUPERSET_SECRET_KEY", "tiki_superset_secret_2026")
 
+# Resolve cookie clash with Airflow when both run on localhost
+SESSION_COOKIE_NAME = "superset_session"
+
 # ---------------------------------------------------------------------------
 # Internal database — nơi Superset lưu dashboards, charts, users, permissions
 # Trỏ vào superset-postgres container (không phải reporting-postgres)

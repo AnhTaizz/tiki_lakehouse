@@ -215,6 +215,12 @@ def compute_top_products(spark):
 def compute_daily_summary(spark):
     logger.info("Computing gold.daily_summary ...")
     df = spark.sql("""
+        WITH daily_latest AS (
+            SELECT
+                *,
+                ROW_NUMBER() OVER(PARTITION BY id, crawl_date ORDER BY loaded_at DESC) as rn
+            FROM local_catalog.tiki_bronze.products_raw
+        )
         SELECT
             crawl_date,
             COUNT(DISTINCT id)              AS total_products,
@@ -224,7 +230,8 @@ def compute_daily_summary(spark):
             ROUND(AVG(discount_rate), 1)    AS avg_discount_rate,
             SUM(quantity_sold)              AS total_quantity_sold,
             SUM(CASE WHEN discount_rate >= 50 THEN 1 ELSE 0 END) AS flash_sale_products
-        FROM local_catalog.tiki_bronze.products_raw
+        FROM daily_latest
+        WHERE rn = 1
         GROUP BY crawl_date
         ORDER BY crawl_date DESC
     """)

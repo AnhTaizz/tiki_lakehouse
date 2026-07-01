@@ -4,10 +4,11 @@ tiki_pipeline_dag.py
 Main DAG: runs every 4 hours (ICT)
   Task 1 — extract_and_publish : crawl Tiki API → publish each product to Kafka topic
   Task 2 — consume_from_kafka  : consume Kafka → collect into raw JSON file
-  Task 3 — load_bronze_silver  : Spark reads JSON → Bronze + Silver Iceberg
-  Task 4 — transform_gold      : Spark computes Gold aggregates → Iceberg + Reporting Postgres
+  Task 3 — load_bronze_task     : Spark reads JSON → Bronze Iceberg
+  Task 4 — clean_and_load_silver: Spark reads Bronze → Cleans Data → Silver Iceberg
+  Task 5 — transform_gold       : Spark computes Gold aggregates → Iceberg + Reporting Postgres
 
-Flow: extract_and_publish >> consume_from_kafka >> load_bronze_silver >> transform_gold
+Flow: extract_and_publish >> consume_from_kafka >> load_bronze_task >> clean_and_load_silver_task >> transform_gold
 """
 
 import os
@@ -23,8 +24,9 @@ default_args = {
     "owner": "anhtaizz",
     "depends_on_past": False,
     "start_date": datetime(2026, 5, 20, tzinfo=local_tz),
-    "email": ["nguyenhuuanhtai426@gmail.com"],
+    "email": [os.environ.get("AIRFLOW__SMTP__SMTP_USER", "admin@localhost")],
     "email_on_failure": True,
+    "email_on_success": True,
     "email_on_retry": False,
     "retries": 3,
     "retry_delay": timedelta(minutes=5),
@@ -66,6 +68,7 @@ with DAG(
     → Kafka Topic: tiki.raw.products  (batch ingestion)
     → Consumer: collect products → raw JSON file
     → Bronze Iceberg (raw append)
+    → Data Cleaning (in-memory Spark)
     → Silver Iceberg (SCD Type 1 active + SCD Type 4 price history)
     → Gold Iceberg + Reporting Postgres (Superset dashboards)
 ```
@@ -132,23 +135,45 @@ XCom push: absolute path of the raw file for Task 3 (Spark) to read.
     )
 
     # ------------------------------------------------------------------
-    # Task 3: Load Bronze + Silver — Spark job on Spark container
+    # Task 3: Load Bronze — Spark job on Spark container
     # ------------------------------------------------------------------
-    load_medallion_task = BashOperator(
-        task_id="load_bronze_silver",
+    load_bronze_task = BashOperator(
+        task_id="load_bronze_task",
         env={**os.environ},
         bash_command=f"""
             RAW_PATH="{{{{ ti.xcom_pull(task_ids='consume_from_kafka') }}}}"
             FILENAME=$(basename "$RAW_PATH")
-            echo "Loading file: $FILENAME"
+            echo "Loading Bronze for file: $FILENAME"
             docker exec {SPARK_CONTAINER} \\
                 {SPARK_EXEC} {WORK_DIR}/src/jobs/tiki_load_iceberg.py \\
-                --raw_file {WORK_DIR}/data/$FILENAME
+                --raw_file {WORK_DIR}/data/$FILENAME --layer bronze
         """,
         doc_md="""
-### load_bronze_silver
-Runs Spark job `tiki_load_iceberg.py` inside the `tiki_spark_crawler` container.
-- **Bronze**: appends all raw rows to `tiki_bronze.products_raw`
+### load_bronze_task
+Runs Spark job `tiki_load_iceberg.py --layer bronze` inside the container.
+- **Bronze**: overwrites today's partition in `tiki_bronze.products_raw` with raw JSON data.
+""",
+    )
+
+    # ------------------------------------------------------------------
+    # Task 3.5: Clean Data & Load Silver — Spark job on Spark container
+    # ------------------------------------------------------------------
+    clean_and_load_silver_task = BashOperator(
+        task_id="clean_and_load_silver_task",
+        env={**os.environ},
+        bash_command=f"""
+            RAW_PATH="{{{{ ti.xcom_pull(task_ids='consume_from_kafka') }}}}"
+            FILENAME=$(basename "$RAW_PATH")
+            echo "Cleaning & Loading Silver for file: $FILENAME"
+            docker exec {SPARK_CONTAINER} \\
+                {SPARK_EXEC} {WORK_DIR}/src/jobs/tiki_load_iceberg.py \\
+                --raw_file {WORK_DIR}/data/$FILENAME --layer silver
+        """,
+        doc_md="""
+### clean_and_load_silver_task
+Runs Spark job `tiki_load_iceberg.py --layer silver` inside the container.
+- Reads raw data from Bronze layer
+- **Data Cleaning**: drops null IDs, fills null prices with 0, trims strings
 - **Silver History**: detects price changes (SCD Type 4) → appends to `tiki.price_history`
 - **Silver Active**: MERGE INTO `tiki.products` (SCD Type 1 — always holds the latest state)
 """,
@@ -190,7 +215,7 @@ Each table is written to both Iceberg (Gold layer) and Reporting Postgres (Super
             doc_md="This task intentionally fails to trigger an email alert.",
             retries=0,  # Disable retry to trigger email alert immediately
         )
-        test_email_task >> extract_task >> consume_task >> load_medallion_task >> transform_gold_task
+        test_email_task >> extract_task >> consume_task >> load_bronze_task >> clean_and_load_silver_task >> transform_gold_task
     else:
         # Normal execution flow (Success path):
-        extract_task >> consume_task >> load_medallion_task >> transform_gold_task
+        extract_task >> consume_task >> load_bronze_task >> clean_and_load_silver_task >> transform_gold_task

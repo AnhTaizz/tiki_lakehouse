@@ -7,7 +7,7 @@ if src_dir not in sys.path:
     sys.path.append(src_dir)
 
 from common.utils import setup_logger
-from jobs.tiki_load_iceberg import build_product_schema, load_bronze, load_silver_history, load_silver_active
+from jobs.tiki_load_iceberg import build_product_schema, load_bronze, load_silver_history, load_silver_active, clean_silver_data
 
 logger = setup_logger(__name__)
 
@@ -53,8 +53,12 @@ def process_micro_batch(df_batch, epoch_id):
         df_iceberg = df_new.drop("_event_type")
 
         load_bronze(spark, df_iceberg, is_streaming=True)
-        load_silver_history(spark, df_iceberg)
-        load_silver_active(spark, df_iceberg)
+
+        # In-memory cleaning before Silver
+        df_iceberg_clean = clean_silver_data(df_iceberg)
+
+        load_silver_history(spark, df_iceberg_clean)
+        load_silver_active(spark, df_iceberg_clean)
 
         # 3. SPEED LAYER (Ghi thẳng vào Postgres để vẽ biểu đồ Real-time trên Superset)
         reporting_db_host = os.environ.get("REPORTING_DB_HOST", "reporting-postgres")
@@ -119,4 +123,12 @@ def start_streaming():
     query.awaitTermination()
 
 if __name__ == "__main__":
-    start_streaming()
+    import time
+    while True:
+        try:
+            start_streaming()
+        except Exception as e:
+            logger.warning("Streaming Exception (likely concurrent write conflict with Airflow Batch).")
+            logger.warning("Auto-Recovery system will restart from checkpoint in 5 seconds to ensure High Availability...")
+            time.sleep(5)
+            logger.info("Restarting Streaming process from the latest Checkpoint...")
