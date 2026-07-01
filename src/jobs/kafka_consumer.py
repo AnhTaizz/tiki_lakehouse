@@ -54,21 +54,25 @@ def consume_and_save(crawl_date: str) -> str:
         consumer_timeout_ms=CONSUMER_TIMEOUT_MS,  # stop automatically when no new messages
     )
 
-    products = []
-    for message in consumer:
-        products.append(message.value)
-
-    consumer.close()
-    logger.info("Consumed %d products from topic '%s'", len(products), KAFKA_TOPIC)
-
-    if not products:
-        logger.error("No products consumed! Kafka topic may be empty. Aborting.")
-        sys.exit(1)
-
     raw_filename = f"tiki_products_raw_{crawl_date}.json"
     raw_filepath = os.path.join(project_dir, "data", raw_filename)
-    save_to_json(products, raw_filepath)
-    logger.info("Saved %d products to %s", len(products), raw_filepath)
+
+    count = 0
+    with open(raw_filepath, "w", encoding="utf-8") as f:
+        for message in consumer:
+            f.write(json.dumps(message.value, ensure_ascii=False) + "\n")
+            count += 1
+
+    consumer.close()
+    logger.info("Consumed %d products from topic '%s'", count, KAFKA_TOPIC)
+
+    if count == 0:
+        logger.error("No products consumed! Kafka topic may be empty. Aborting.")
+        if os.path.exists(raw_filepath):
+            os.remove(raw_filepath)
+        sys.exit(1)
+
+    logger.info("Saved %d products to %s", count, raw_filepath)
 
     # Airflow XCom captures it — Task 3 (Spark) will use
     print(raw_filepath)

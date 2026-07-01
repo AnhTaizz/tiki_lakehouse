@@ -193,7 +193,8 @@ def run_pipeline(raw_filepath, layer="all"):
 
     try:
         # Step 1: Read raw JSON regardless of layer to extract crawl_date properly
-        df_new = spark.read.option("multiline", "true").schema(build_product_schema()).json(raw_filepath)
+        # Reading as JSON lines (NDJSON) prevents OOM issues for large files
+        df_new = spark.read.schema(build_product_schema()).json(raw_filepath)
         df_new = (
             df_new.withColumn("source_file", lit(os.path.basename(raw_filepath)))
             .withColumn("loaded_at", current_timestamp())

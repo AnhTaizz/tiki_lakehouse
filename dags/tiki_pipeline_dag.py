@@ -144,7 +144,7 @@ XCom push: absolute path of the raw file for Task 3 (Spark) to read.
             RAW_PATH="{{{{ ti.xcom_pull(task_ids='consume_from_kafka') }}}}"
             FILENAME=$(basename "$RAW_PATH")
             echo "Loading Bronze for file: $FILENAME"
-            docker exec {SPARK_CONTAINER} \\
+            docker exec -e SPARK_OPTS="--driver-java-options=-Xmx1536M" {SPARK_CONTAINER} \\
                 {SPARK_EXEC} {WORK_DIR}/src/jobs/tiki_load_iceberg.py \\
                 --raw_file {WORK_DIR}/data/$FILENAME --layer bronze
         """,
@@ -165,7 +165,7 @@ Runs Spark job `tiki_load_iceberg.py --layer bronze` inside the container.
             RAW_PATH="{{{{ ti.xcom_pull(task_ids='consume_from_kafka') }}}}"
             FILENAME=$(basename "$RAW_PATH")
             echo "Cleaning & Loading Silver for file: $FILENAME"
-            docker exec {SPARK_CONTAINER} \\
+            docker exec -e SPARK_OPTS="--driver-java-options=-Xmx1536M" {SPARK_CONTAINER} \\
                 {SPARK_EXEC} {WORK_DIR}/src/jobs/tiki_load_iceberg.py \\
                 --raw_file {WORK_DIR}/data/$FILENAME --layer silver
         """,
@@ -187,7 +187,7 @@ Runs Spark job `tiki_load_iceberg.py --layer silver` inside the container.
         env={**os.environ},
         bash_command=f"""
             echo "Running Gold transformation ..."
-            docker exec {SPARK_CONTAINER} \\
+            docker exec -e SPARK_OPTS="--driver-java-options=-Xmx1536M" {SPARK_CONTAINER} \\
                 {SPARK_EXEC} {WORK_DIR}/src/jobs/tiki_gold.py
         """,
         doc_md="""
