@@ -1,199 +1,161 @@
-# Kafka Integration — Tài liệu học tập
+# Kafka Integration — Architecture Guide
 
-## 1. Tổng quan
+## 1. Overview
 
-Dự án tích hợp **Apache Kafka** vào pipeline Tiki Lakehouse nhằm tách biệt rõ ràng hai giai đoạn:
+The Tiki Lakehouse project integrates **Apache Kafka** to establish a robust, decoupled **Lambda Architecture** (handling both Batch and Real-time streaming). This clearly separates ingestion from processing:
 
-- **Ingestion** (thu thập dữ liệu): Python + Kafka
-- **Processing** (xử lý dữ liệu): Apache Spark
+- **Ingestion** (Data Collection): Python + Kafka Producers (`tiki_extract.py` and `tiki_continuous_simulator.py`)
+- **Processing** (Data Transformation): Apache Spark (`tiki_load_iceberg.py` for Batch, `tiki_stream_processor.py` for Streaming)
 
-Pattern này được gọi là **Hybrid Architecture** — rất phổ biến trong các hệ thống Data Engineering thực tế.
-
----
-
-## 2. Kiến trúc trước và sau khi thêm Kafka
-
-### Trước (Batch Pipeline)
-```
-[Airflow - 1 lần/ngày]
-  Task 1: tiki_extract.py  →  lưu file JSON vào data/
-  Task 2: tiki_load_iceberg.py  →  Spark đọc JSON → Bronze → Silver
-  Task 3: tiki_gold.py  →  Spark tính Gold → Superset
-```
-
-### Sau (Batch Pipeline với Kafka - mỗi 4 tiếng)
-```
-[Airflow - mỗi 4 tiếng]
-  Task 1: tiki_extract.py (Producer)  →  crawl API → publish từng product lên Kafka topic
-  Task 2: kafka_consumer.py (Consumer)  →  consume Kafka → gom lại → lưu file JSON
-  Task 3: tiki_load_iceberg.py  →  Spark đọc JSON → Bronze → Silver  [GIỮ NGUYÊN]
-  Task 4: tiki_gold.py  →  Spark tính Gold → Superset               [GIỮ NGUYÊN]
-```
+This pattern is a **Hybrid Architecture** — widely used in enterprise Data Engineering to ensure fault tolerance and high availability.
 
 ---
 
-## 3. Các khái niệm Kafka cốt lõi trong dự án
+## 2. Pipeline Evolution
+
+### Before Kafka (Monolithic Batch Pipeline)
+```
+[Airflow - Once a day]
+  Task 1: tiki_extract.py  →  Saves JSON file to data/
+  Task 2: tiki_load_iceberg.py  →  Spark reads JSON → Bronze → Silver
+  Task 3: tiki_gold.py  →  Spark computes Gold → Superset
+```
+
+### After Kafka (Decoupled Pipeline)
+```
+[Airflow Batch - Every 4 hours]
+  Task 1: tiki_extract.py (Producer)  →  Crawls Mock API → Publishes products to Kafka topic
+  Task 2: kafka_consumer.py (Consumer)  →  Consumes Kafka → Batches into JSON file
+  Task 3: tiki_load_iceberg.py  →  Spark reads JSON → Bronze
+  Task 4: tiki_load_iceberg.py  →  Spark reads Bronze → Cleans Data → Silver
+  Task 5: tiki_gold.py  →  Spark computes Gold → Superset
+
+[Real-time Streaming - Continuous]
+  Simulator (Producer)  →  Generates live events (Sales/Discounts) → Publishes to Kafka
+  Spark Streaming (Consumer)  →  Consumes Kafka → Writes directly to Postgres (Speed Layer)
+```
+
+---
+
+## 3. Core Kafka Concepts
 
 ### 3.1 Topic
-Hàng đợi chứa dữ liệu. Giống một "channel" — producer gửi vào, consumer đọc ra.
+A queue holding data. Think of it as a "channel" — producers send data in, consumers read data out.
 
 ```
-Topic name: tiki.raw.products
+Topic name: tiki.raw.products (Batch) / tiki.stream.products (Streaming)
 
-Nội dung (mỗi message là 1 product):
-  offset 0  → {"id": 123, "name": "Kem chống nắng", "price": 250000, "crawl_date": "2026-06-16", ...}
-  offset 1  → {"id": 124, "name": "Son môi", "price": 180000, ...}
+Contents (each message is 1 product event):
+  offset 0  → {"id": 123, "name": "Sunscreen", "price": 250000, "crawl_date": "2026-06-16", ...}
+  offset 1  → {"id": 124, "name": "Lipstick", "price": 180000, ...}
   ...
-  offset 4999 → {...}
 ```
 
 ### 3.2 Producer
-Bên **gửi** dữ liệu vào Kafka. Trong dự án này là `tiki_extract.py`.
+The component that **sends** data to Kafka. In our project, this is `tiki_extract.py`.
 
 ```python
 producer = KafkaProducer(
-    bootstrap_servers="kafka:9092",   # địa chỉ Kafka broker
-    value_serializer=lambda v: json.dumps(v).encode("utf-8"),  # chuyển dict → bytes
-    acks="all",    # broker phải xác nhận ghi thành công
-    retries=3,     # tự retry nếu lỗi
+    bootstrap_servers="kafka:9092",   # Kafka broker address
+    value_serializer=lambda v: json.dumps(v).encode("utf-8"),  # dict → bytes
+    acks="all",    # Broker must acknowledge successful write
+    retries=3,     # Auto-retry on failure
 )
 producer.send("tiki.raw.products", value=product_dict)
-producer.flush()   # đảm bảo tất cả message đã lên broker
+producer.flush()   # Ensure all messages are delivered
 producer.close()
 ```
 
 ### 3.3 Consumer
-Bên **đọc** dữ liệu từ Kafka. Trong dự án này là `kafka_consumer.py`.
+The component that **reads** data from Kafka. In our batch pipeline, this is `kafka_consumer.py`.
 
 ```python
 consumer = KafkaConsumer(
     "tiki.raw.products",
     bootstrap_servers="kafka:9092",
-    auto_offset_reset="earliest",    # đọc từ đầu topic (idempotent khi re-run)
-    group_id="tiki-bronze-loader",   # Kafka track offset theo group_id này
+    auto_offset_reset="earliest",    # Read from beginning (idempotent for re-runs)
+    group_id="tiki-bronze-loader",   # Kafka tracks offsets by this group_id
     value_deserializer=lambda m: json.loads(m.decode("utf-8")),  # bytes → dict
-    consumer_timeout_ms=30_000,      # tự dừng sau 30s không có message mới
+    consumer_timeout_ms=30_000,      # Auto-stop after 30s idle
 )
 
 for message in consumer:
-    product = message.value   # lấy nội dung message
+    product = message.value   # Extract message content
 ```
 
 ### 3.4 Consumer Group
-`group_id="tiki-bronze-loader"` — Kafka dùng ID này để **ghi nhớ offset** đã đọc đến đâu. Nếu consumer bị crash rồi chạy lại, nó biết tiếp tục từ chỗ nào thay vì đọc lại từ đầu.
+`group_id="tiki-bronze-loader"` — Kafka uses this ID to **remember the offset** (how far it has read). If a consumer crashes and restarts, it resumes from where it left off instead of starting over.
 
 ---
 
-## 4. Các file thay đổi
+## 4. Key Configuration
 
-### 4.1 `requirement.txt` — Thêm thư viện Kafka
-```diff
-+ kafka-python==2.0.2
-```
-
-### 4.2 `docker-compose.yml` — Thêm 2 service mới
+### `docker-compose.yml`
 
 ```yaml
-zookeeper:        # Quản lý cluster Kafka (bắt buộc đi kèm Kafka)
+zookeeper:        # Manages Kafka cluster state
   image: confluentinc/cp-zookeeper:7.6.1
   environment:
     ZOOKEEPER_CLIENT_PORT: 2181
 
-kafka:            # Kafka broker — nơi lưu trữ topics và messages
+kafka:            # Kafka broker — stores topics and messages
   image: confluentinc/cp-kafka:7.6.1
   depends_on: [zookeeper]
-  ports: ["9092:9092"]
+  ports:
+    - "9092:9092"   # Internal Docker port
+    - "9093:9093"   # External Host port
   environment:
     KAFKA_BROKER_ID: 1
     KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-    KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092   # địa chỉ nội bộ Docker
-    KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"              # tự tạo topic khi producer gửi lần đầu
+    KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,EXTERNAL://localhost:9093
+    KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
 ```
 
-Ngoài ra thêm `KAFKA_BROKER: kafka:9092` vào environment của `airflow-scheduler` để các job Python biết địa chỉ Kafka.
-
-### 4.3 `src/jobs/tiki_extract.py` — Chuyển thành Kafka Producer
-
-| Trước | Sau |
-|-------|-----|
-| Crawl xong → `save_to_json(all_products, filepath)` | Crawl xong → `publish_to_kafka(all_products, crawl_date)` |
-| `print(raw_filepath)` → XCom push filepath | `print(crawl_date)` → XCom push ngày crawl |
-| Trả về string filepath | Trả về string crawl_date |
-
-### 4.4 `src/jobs/kafka_consumer.py` — File mới hoàn toàn
-
-- Nhận `--crawl_date` từ Airflow XCom (qua argument)
-- Consume toàn bộ messages từ topic `tiki.raw.products`
-- Gom lại thành list, lưu ra `data/tiki_products_raw_YYYY-MM-DD.json`
-- `print(raw_filepath)` → XCom push cho Task 3 (Spark)
-
-### 4.5 `dags/tiki_pipeline_dag.py` — Thêm Task 2, sửa schedule
-
-```diff
-- schedule_interval="0 15 * * *"       # 1 lần/ngày 15:00
-+ schedule_interval="0 1,5,9,13,17,21 * * *"  # mỗi 4 tiếng (8h, 12h, 16h, 20h, 0h, 4h ICT)
-```
-
-**4 Task thay vì 3:**
-```
-Task 1: extract_and_publish   ← đổi tên, đổi logic (Producer)
-Task 2: consume_from_kafka    ← MỚI HOÀN TOÀN (Consumer)
-Task 3: load_bronze_silver    ← giữ nguyên 100%
-Task 4: transform_gold        ← giữ nguyên 100%
-```
-
-**XCom chain:**
-```
-Task 1 → print(crawl_date)   "2026-06-16"
-Task 2 → ti.xcom_pull(extract_and_publish) → nhận crawl_date → print(filepath)
-Task 3 → ti.xcom_pull(consume_from_kafka) → nhận filepath → chạy Spark
-```
+*Note: We expose port `9093` externally so that scripts running on your host machine (like the Mock API Simulators) can connect to the Dockerized Kafka broker using `localhost:9093`.*
 
 ---
 
-## 5. Luồng dữ liệu chi tiết (end-to-end)
+## 5. End-to-End Data Flow (Batch)
 
 ```
-[08:00 ICT — Airflow trigger]
+[08:00 ICT — Airflow triggers]
        │
        ▼ Task 1 (Airflow container)
 tiki_extract.py
-  - Gọi Tiki API, crawl sản phẩm từ 5 ngành hàng chính
-  - Với mỗi sản phẩm → producer.send("tiki.raw.products", product)
+  - Calls Mock Tiki API (localhost:8000) for deterministic, ban-free data
+  - For each product → producer.send("tiki.raw.products", product)
   - flush() → close()
   - print("2026-06-16")  → XCom
        │
        ▼ Task 2 (Airflow container)
 kafka_consumer.py --crawl_date "2026-06-16"
-  - Kết nối Kafka broker tại kafka:9092
-  - Đọc hết messages từ topic "tiki.raw.products" (dừng sau 30s idle)
-  - Gom products → save JSON → data/tiki_products_raw_2026-06-16.json
-  - print("/opt/airflow/data/tiki_products_raw_2026-06-16.json")  → XCom
+  - Connects to Kafka broker at kafka:9092
+  - Drains all messages from "tiki.raw.products" (stops after 30s idle)
+  - Batches products → saves JSON → data/tiki_products_raw_2026-06-16.json
+  - print(".../data/tiki_products_raw_2026-06-16.json")  → XCom
        │
        ▼ Task 3 (Spark container — docker exec)
-tiki_load_iceberg.py --raw_file .../tiki_products_raw_2026-06-16.json
-  - Spark đọc JSON → Bronze Iceberg (overwrite partition)
-  - Detect price changes → Silver price_history (append)
-  - MERGE INTO Silver products (SCD Type 1)
+tiki_load_iceberg.py --raw_file .../tiki_products_raw_2026-06-16.json --layer bronze
+  - Spark reads JSON → Bronze Iceberg (overwrite partition)
        │
        ▼ Task 4 (Spark container — docker exec)
+tiki_load_iceberg.py --raw_file .../tiki_products_raw_2026-06-16.json --layer silver
+  - Detects price changes → Silver price_history (append SCD Type 4)
+  - MERGE INTO Silver products (SCD Type 1)
+       │
+       ▼ Task 5 (Spark container — docker exec)
 tiki_gold.py
-  - Tính 5 Gold tables: brand_performance, price_trend, discount_analysis, top_products, daily_summary
-  - Ghi ra Iceberg + Reporting Postgres → Superset dashboard cập nhật
+  - Computes 5 Gold tables (brand_performance, price_trend, etc.)
+  - Writes to Iceberg + Reporting Postgres
 ```
 
 ---
 
-## 6. Tại sao dùng Kafka thay vì ghi thẳng vào file?
+## 6. Why use Kafka instead of writing directly to JSON?
 
-| Vấn đề | Không có Kafka | Có Kafka |
+| Challenge | Without Kafka (Direct File) | With Kafka |
 |--------|---------------|----------|
-| Spark bị lỗi giữa chừng | Phải crawl lại từ đầu | Kafka vẫn giữ data, consumer chạy lại là xong |
-| Nhiều downstream cùng cần data | Phải crawl nhiều lần | Nhiều consumer group đọc độc lập cùng 1 topic |
-| Tách biệt trách nhiệm | Extract + Load gộp làm 1 | Ingestion (Python) độc lập với Processing (Spark) |
-| Giải thích khi phỏng vấn | "Tôi crawl rồi lưu file" | "Tôi dùng Kafka để decouple ingestion và processing" |
-
----
-
-### Q: Dự án này có phải là Real-time streaming không?
-> *"Không, dự án này xử lý theo mẻ (batch processing) với chu kỳ 4 tiếng một lần. Việc thêm Kafka đóng vai trò như một Message Broker để decouple (tách rời) việc thu thập dữ liệu (crawl) và xử lý (Spark). Dữ liệu sau khi crawl được đẩy vào Kafka và consumer sẽ gom mẻ lại (batch) để lưu trữ. Điều này giúp pipeline đáng tin cậy hơn, chịu lỗi tốt hơn, đồng thời là tiền đề cho kiến trúc near-real-time nếu sau này có webhook."*
+| Spark job fails midway | Must re-crawl from API entirely | Kafka retains data; consumer simply resumes |
+| Multiple downstream pipelines | Must crawl multiple times | Multiple consumer groups can read the same topic independently |
+| Separation of Concerns | Extraction + Loading bundled together | Ingestion (Python) is strictly isolated from Processing (Spark) |
+| Interview / Defense | "I scraped data and saved a file" | "I implemented Kafka to decouple ingestion and processing, ensuring fault tolerance." |

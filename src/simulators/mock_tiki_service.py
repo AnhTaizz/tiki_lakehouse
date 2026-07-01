@@ -23,11 +23,11 @@ def get_products(
     conn = get_db_connection()
     cursor = conn.cursor()
 
-    # Đếm tổng số sản phẩm
+    # Count total products
     cursor.execute("SELECT COUNT(1) FROM products WHERE category_id = ? AND is_active = 1", (category,))
     total_items = cursor.fetchone()[0]
 
-    # Lấy dữ liệu phân trang
+    # Get paginated data
     offset = (page - 1) * limit
     cursor.execute("""
         SELECT * FROM products
@@ -55,5 +55,5 @@ def get_products(
 
 if __name__ == "__main__":
     import uvicorn
-    print("Khởi động Mock Tiki Service tại http://0.0.0.0:8000")
+    print("Starting Mock Tiki Service at http://0.0.0.0:8000")
     uvicorn.run(app, host="0.0.0.0", port=8000)

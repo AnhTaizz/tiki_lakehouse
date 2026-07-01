@@ -37,12 +37,12 @@ This project implements an end-to-end Big Data pipeline using a **Lambda Archite
 ```text
 ┌──────────────────────────────────────────────────────────────────────────────┐
 │  Airflow Orchestration (Batch Layer — every 4h)                              │
-│  ┌─────────────┐  ┌───────────┐  ┌─────────────┐  ┌────────────────┐         │
-│  │   Extract   │→ │   Kafka   │→ │Bronze+Silver│→ │  Gold Layer    │         │
-│  │  Mock Tiki  │  │  Producer │  │  Iceberg    │  │Iceberg+Postgres│         │
-│  │    API      │  └───────────┘  └─────────────┘  └────────┬───────┘         │
-│  └─────────────┘                                           │                 │
-└────────────────────────────────────────────────────────────│─────────────────┘
+│  ┌─────────────┐  ┌───────────┐  ┌─────────────┐  ┌────────────────┐        │
+│  │   Extract   │→ │   Kafka   │→ │Bronze+Silver│→ │  Gold Layer    │        │
+│  │  Mock Tiki  │  │  Producer │  │  Iceberg    │  │Iceberg+Postgres│        │
+│  │    API      │  └───────────┘  └─────────────┘  └────────┬───────┘        │
+│  └─────────────┘                                           │                │
+└────────────────────────────────────────────────────────────│────────────────┘
           │                                                  │
           │                                                  │
    (Speed Layer)                                             ▼
@@ -99,7 +99,9 @@ Written directly by Spark Structured Streaming (bypassing Iceberg) for sub-secon
 - **Docker** & **Docker Compose** (Ensure Docker engine has at least **8GB RAM** allocated).
 - **Git**
 - **Python 3.9+** installed on the host machine (for the Control Panel scripts).
-- **Windows OS** recommended (for the `tiki_control_panel.bat` script).
+- **Windows OS** (for the `tiki_control_panel.bat` script). On Linux/Mac, run the commands manually — see [Section 6](#6-running-the-pipeline-step-by-step).
+
+> **RAM Note:** The full stack (Spark + Airflow + Kafka + MinIO + PostgreSQL × 3 + Superset) typically consumes ~6–7 GB of RAM under load. Allocating **8 GB** to Docker is the minimum; **12 GB** is recommended.
 
 ---
 
@@ -115,52 +117,124 @@ cd tiki_lakehouse
 
 Copy the example environment file to `.env`:
 ```bash
+# Linux / Mac
 cp .env.example .env
+
+# Windows PowerShell
+Copy-Item .env.example .env
 ```
 
-*(Optional) To enable Airflow Email Alerts, configure SMTP credentials in `.env`:*
+Open `.env` and **replace all placeholder values** before continuing:
+
+```env
+# Replace these placeholder values with real passwords of your choice
+HIVE_DB_PASSWORD=your_hive_db_password_here   # → e.g. hive_secret_123
+AIRFLOW_DB_PASSWORD=your_airflow_db_password_here  # → e.g. airflow_secret_123
+AIRFLOW_SECRET_KEY=your_airflow_secret_key_here    # → any random string
+
+# MinIO credentials (default values are already set and ready to use)
+MINIO_ROOT_USER=admin
+MINIO_ROOT_PASSWORD=minio123
+```
+
+*(Optional) To enable Airflow Email Alerts, also set your SMTP credentials:*
 ```env
 AIRFLOW_SMTP_USER=your-email@gmail.com
-AIRFLOW_SMTP_PASSWORD=your-app-password
+AIRFLOW_SMTP_PASSWORD=your-app-password    # Gmail App Password (not your login password)
 ```
 
-**Step 3: Start the Docker Stack**
+**Step 3: Install Host Python Dependencies**
+
+The Mock API and Simulator scripts run **directly on your host machine** (not inside Docker). Install their dependencies:
+```bash
+pip install -r requirement.txt
+```
+
+**Step 4: Create necessary directories (Important for Linux/Mac)**
+
+Docker might create these directories as `root` if they don't exist, which causes Permission Denied errors for Airflow. Create them manually first:
+```bash
+mkdir -p logs notebooks data/mock_data
+```
+
+**Step 5: Start the Docker Stack**
 
 Build and start all services in detached mode:
 ```bash
 docker compose up -d --build
 ```
-> **Note:** The first run takes ~5–10 minutes to download all Docker images and initialize the Airflow metadata database.
+
+> **Note:** The first run takes **5–15 minutes** to download all Docker images (~5 GB) and initialize the Airflow metadata database. Wait until all containers show `healthy` or `running` status before proceeding.
+
+Monitor startup progress:
+```bash
+docker compose ps
+```
 
 ---
 
 ## 6. Running the Pipeline (Step-by-Step)
 
-The project includes `tiki_control_panel.bat` to simplify operation. Open a terminal in the root directory and run:
+The project includes `tiki_control_panel.bat` to simplify operation on Windows. Open a terminal **in the project root directory** and run:
 ```bash
 tiki_control_panel.bat
 ```
 
-**Step 1 — Initialize the Local Database (Do this once)**
+> **Linux/Mac alternative:** Run each numbered step's command directly in your terminal.
 
-Select **[1] Init SQLite Database**. This loads 180,000+ simulated products into the local `ecommerce_db.sqlite` database used by the Mock API and Simulator.
+---
 
-**Step 2 — Start the Mock API (Required for Airflow Batch)**
+### Step 1 — Initialize the Local Database *(Do this once)*
 
-Select **[2] Start Mock API Service**. This starts a local FastAPI server at `http://0.0.0.0:8000` that Airflow's extractor will call instead of the real Tiki server. Keep this window open.
+Select **[1] Init SQLite Database**. This loads 180,000+ simulated products from the `data/mock_data/` JSON shards into the local `data/tiki_backend.db` SQLite database used by the Mock API and Simulator.
 
-**Step 3 — Trigger the Airflow Batch Pipeline**
+```bash
+# Linux/Mac equivalent:
+python src/simulators/init_sqlite.py
+```
 
-1. Go to [http://localhost:8081](http://localhost:8081) and log in.
-2. Find the `tiki_lakehouse_pipeline` DAG and **Unpause** it.
+> **Prerequisite:** The `data/mock_data.zip` file is included in this repository. When you run `init_sqlite.py`, it will automatically extract the JSON shards into `data/mock_data/` and insert 180,000+ products into the local SQLite database.
+
+---
+
+### Step 2 — Start the Mock API *(Required for Airflow Batch)*
+
+Select **[2] Start Mock API Service**. This starts a local FastAPI server at `http://0.0.0.0:8000` that Airflow's extractor will call instead of the real Tiki server. **Keep this window open** for as long as you want to run batch jobs.
+
+```bash
+# Linux/Mac equivalent:
+python src/simulators/mock_tiki_service.py
+```
+
+Verify it is running: open `http://localhost:8000/docs` in your browser to see the Swagger UI.
+
+---
+
+### Step 3 — Trigger the Airflow Batch Pipeline
+
+1. Go to [http://localhost:8081](http://localhost:8081) and log in (`admin` / `password123`).
+2. Find the `tiki_lakehouse_pipeline` DAG and **Unpause** it (toggle the switch on the left).
 3. Click **Trigger DAG** (▶) to run it immediately.
 4. Watch it flow through all 5 tasks: `extract_and_publish` → `consume_from_kafka` → `load_bronze_task` → `clean_and_load_silver_task` → `transform_gold`.
 
-**Step 4 — Start Real-Time Streaming**
+> **Important:** The Mock API (Step 2) must be running before triggering this DAG, otherwise `extract_and_publish` will fail.
+
+---
+
+### Step 4 — Start Real-Time Streaming
 
 Select **[3] Start Real-time Streaming**. This opens 2 new windows:
-- **TIKI SIMULATOR:** Generates live e-commerce events (PURCHASE, FLASH_SALE, UNPUBLISHED, RESTOCK) using a Sine-wave traffic model to simulate realistic peak/off-peak traffic.
+- **TIKI SIMULATOR:** Generates live e-commerce events (PURCHASE, FLASH_SALE, UNPUBLISHED, RESTOCK) using a Sine-wave traffic model to simulate realistic peak/off-peak traffic. Connects to Kafka on `localhost:9093`.
 - **SPARK STREAMING PROCESSOR:** Consumes events from Kafka every 20 seconds and writes them to `reporting_db.realtime_events` for live Superset charts.
+
+```bash
+# Linux/Mac equivalent (run each in a separate terminal):
+# Terminal 1 — Simulator
+KAFKA_BROKER=localhost:9093 python src/simulators/tiki_continuous_simulator.py
+
+# Terminal 2 — Spark Streaming Processor
+docker exec -it tiki_spark_crawler python /home/jovyan/work/src/jobs/tiki_stream_processor.py
+```
 
 ---
 
@@ -168,14 +242,15 @@ Select **[3] Start Real-time Streaming**. This opens 2 new windows:
 
 Once all containers are up and running:
 
-| Service           | Access URL                                     | Default Login           |
-|-------------------|------------------------------------------------|-------------------------|
-| **Airflow UI**    | [http://localhost:8081](http://localhost:8081) | `admin` / `password123` |
-| **Kafka UI**      | [http://localhost:8090](http://localhost:8090) | *(no auth)*             |
-| **Jupyter Lab**   | [http://localhost:8888](http://localhost:8888) | *(no auth)*             |
-| **MinIO Console** | [http://localhost:9001](http://localhost:9001) | See `.env` file         |
-| **Superset BI**   | [http://localhost:8088](http://localhost:8088) | `admin` / `password123` |
-| **Mock API**      | [http://localhost:8000](http://localhost:8000) | *(started via BAT file)*|
+| Service           | Access URL                                     | Default Login                    |
+|-------------------|------------------------------------------------|----------------------------------|
+| **Airflow UI**    | [http://localhost:8081](http://localhost:8081) | `admin` / `password123`          |
+| **Kafka UI**      | [http://localhost:8090](http://localhost:8090) | *(no auth)*                      |
+| **Jupyter Lab**   | [http://localhost:8888](http://localhost:8888) | *(no auth, no token)*            |
+| **MinIO Console** | [http://localhost:9001](http://localhost:9001) | `admin` / `minio123`             |
+| **Superset BI**   | [http://localhost:8088](http://localhost:8088) | `admin` / `password123`          |
+| **Mock API Docs** | [http://localhost:8000/docs](http://localhost:8000/docs) | *(started via BAT file)*|
+| **Spark UI**      | [http://localhost:4040](http://localhost:4040) | *(available when a job is running)*|
 
 ---
 
@@ -226,7 +301,7 @@ extract_and_publish >> consume_from_kafka >> load_bronze_task >> clean_and_load_
 | `clean_and_load_silver_task`| Spark container      | Cleans data → detects price changes (SCD4 `price_history`) → MERGE INTO active products (SCD1 `products`). |
 | `transform_gold`            | Spark container      | Computes 5 Gold aggregations → writes to Iceberg Gold + Reporting Postgres for Superset. |
 
-> **Retry Policy:** Each task retries up to 3 times with a 5-minute delay. Email alerts are sent on both success and failure via SMTP.
+> **Retry Policy:** Each task retries up to 3 times with a 5-minute delay. Email alerts are sent on both success and failure via SMTP (if configured).
 
 ---
 
@@ -254,16 +329,30 @@ tiki_lakehouse/
 │   ├── hive/
 │   ├── spark/
 │   └── superset/
+├── data/
+│   ├── mock_data/                  # Pre-generated JSON shards (source for SQLite init)
+│   └── *.json                      # Raw JSON extracts from pipeline runs (git-ignored)
 ├── notebooks/                      # Exploratory PySpark Jupyter notebooks
-├── data/                           # Raw JSON extracts (git-ignored)
-├── tiki_control_panel.bat          # One-click operation panel (Windows)
+├── docs/                           # Additional project documentation
+├── tiki_control_panel.bat          # One-click operation panel (Windows only)
 ├── docker-compose.yml              # Full Docker stack definition
-└── .env                            # Environment variables (git-ignored)
+├── requirement.txt                 # Host Python dependencies
+└── .env.example                    # Environment variable template (copy to .env)
 ```
 
 ---
 
 ## 11. Manual Commands & Troubleshooting
+
+### Checking Container Health
+```bash
+# See status of all containers
+docker compose ps
+
+# Follow logs of a specific service
+docker compose logs -f airflow-scheduler
+docker compose logs -f tiki_spark_crawler
+```
 
 ### Restarting Services
 ```bash
@@ -292,11 +381,29 @@ docker exec -it tiki_spark_crawler \
 
 ### Inspecting Kafka Topic
 ```bash
+# From INSIDE the Kafka container (internal port 9092)
 docker exec tiki_kafka kafka-console-consumer.sh \
   --bootstrap-server localhost:9092 \
   --topic tiki.raw.products \
   --from-beginning --max-messages 5
+
+# From your HOST machine (external port 9093)
+# Requires Kafka CLI installed locally
+kafka-console-consumer.sh \
+  --bootstrap-server localhost:9093 \
+  --topic tiki.raw.products \
+  --from-beginning --max-messages 5
 ```
+
+### Common Issues
+
+| Symptom | Cause | Fix |
+|---------|-------|-----|
+| `extract_and_publish` fails immediately | Mock API not running | Run `python src/simulators/mock_tiki_service.py` first |
+| `load_bronze_task` hangs for >10 min | Hive Metastore not healthy | `docker compose restart hive-metastore` then re-trigger |
+| Superset shows no data | Gold task hasn't run yet | Trigger the DAG and wait for all 5 tasks to succeed |
+| Simulator can't connect to Kafka | Wrong broker address | Ensure `KAFKA_BROKER=localhost:9093` is set (host → external port) |
+| `init_sqlite.py` finds 0 products | `data/mock_data/` is empty | Ensure `mock_*.json` shard files exist in `data/mock_data/` |
 
 ---
 

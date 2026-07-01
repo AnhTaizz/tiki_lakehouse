@@ -134,7 +134,7 @@ def load_silver_active(spark, df_new, is_full_snapshot=False):
     if spark.catalog.tableExists(active_table):
         logger.info("Active table %s exists. Performing MERGE INTO", active_table)
 
-        df_new.createOrReplaceTempView("du_lieu_hom_nay")
+        df_new.createOrReplaceTempView("today_data")
 
         when_not_matched_by_source = ""
         if is_full_snapshot:
@@ -147,7 +147,7 @@ def load_silver_active(spark, df_new, is_full_snapshot=False):
 
         merge_query = f"""
             MERGE INTO {active_table} AS t
-            USING du_lieu_hom_nay AS s
+            USING today_data AS s
             ON t.id = s.id
             WHEN MATCHED THEN
                 UPDATE SET

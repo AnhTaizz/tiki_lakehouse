@@ -210,7 +210,7 @@ def compute_top_products(spark):
 
 
 # ---------------------------------------------------------------------------
-# Gold Table 5 — Daily Summary (overview cho Superset home dashboard)
+# Gold Table 5 — Daily Summary (overview for Superset home dashboard)
 # ---------------------------------------------------------------------------
 def compute_daily_summary(spark):
     logger.info("Computing gold.daily_summary ...")

@@ -31,7 +31,7 @@ def get_kafka_producer():
         return None
 
 def load_source_data():
-    """Đọc file JSON lớn nhất vào RAM làm dữ liệu nguồn."""
+    """Load the largest JSON file into RAM as source data."""
     data_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "data"))
     filepath = os.path.join(data_dir, SOURCE_FILE)
 
@@ -48,24 +48,24 @@ def load_source_data():
 
 def mutate_product(product):
     """
-    Sự kiện Event Engine: Xáo trộn dữ liệu ngẫu nhiên
-    để tạo sự kiện thay đổi giá (SCD Type 4) và số lượng bán.
+    Event Engine: Randomly mutate data
+    to create price change events (SCD Type 4) and sales volume updates.
     """
     import copy
     p = copy.deepcopy(product)
 
-    # Cập nhật thời gian thực
+    # Update to real-time
     p["crawl_date"] = datetime.now().strftime("%Y-%m-%d")
 
     dice = random.random()
 
     if dice < 0.10:
-        # Sự kiện Flash Sale (10% cơ hội): Giảm giá 5-10%
+        # Flash Sale event (10% chance): 5-10% discount
         discount_percent = random.uniform(0.05, 0.10)
         current_price = p.get("price", 0)
         if current_price > 0:
             new_price = int(current_price * (1 - discount_percent))
-            # Tính lại discount rate
+            # Recalculate discount rate
             original_price = p.get("original_price", current_price)
             p["price"] = new_price
             p["discount"] = original_price - new_price
@@ -73,10 +73,10 @@ def mutate_product(product):
             p["_event_type"] = "FLASH_SALE"
 
     elif dice < 0.40:
-        # Sự kiện Có người mua hàng (30% cơ hội): Tăng quantity_sold
+        # Purchase event (30% chance): Increase quantity_sold
         sold_increase = random.randint(1, 5)
         current_sold = p.get("quantity_sold")
-        # Đôi khi tiki trả về quantity_sold dạng dictionary, phải check cẩn thận
+        # Sometimes tiki returns quantity_sold as a dictionary, check carefully
         if isinstance(current_sold, dict):
             current_sold = current_sold.get("value", 0)
         elif not isinstance(current_sold, (int, float)):
@@ -86,7 +86,7 @@ def mutate_product(product):
         p["_event_type"] = "PURCHASE"
 
     else:
-        # Bình thường (60% cơ hội): Dữ liệu không đổi (chỉ là luồng quét cập nhật state)
+        # Normal (60% chance): Unchanged data (just a sweep to update state)
         p["_event_type"] = "PING"
 
     return p
@@ -96,8 +96,8 @@ def run_simulator():
     if not products:
         return
 
-    # Chỉ lấy danh mục Làm Đẹp - Sức Khỏe (ID: 1520) để mô phỏng (khoảng 11k sản phẩm)
-    # Điều này giúp dung lượng mỗi mẻ chạy vừa phải, đúng chuẩn ETL Batch.
+    # Only use Beauty - Health category (ID: 1520) for simulation (~11k products)
+    # This keeps the batch size moderate, perfect for ETL Batch testing.
     target_products = [p for p in products if p.get("category_id") == 1520]
     logger.info("Found %d products for category 1520 (Làm Đẹp - Sức Khỏe)", len(target_products))
 

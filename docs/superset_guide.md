@@ -1,70 +1,71 @@
-# Hướng Dẫn Sử Dụng Apache Superset (Tiki Data Lakehouse)
+# Apache Superset Guide (Tiki Data Lakehouse)
 
-Tài liệu này hướng dẫn cách kết nối và trực quan hóa dữ liệu (Visualize) từ Data Lakehouse lên **Apache Superset**. 
+This document provides instructions on how to connect to and visualize data from the Data Lakehouse using **Apache Superset**.
 
 Data flow: `Silver Iceberg` → `Spark Gold Job` → `Reporting Postgres (port 5432)` → `Superset (port 8088)`.
+For real-time streaming: `Kafka` → `Spark Streaming` → `Reporting Postgres (Speed Layer)` → `Superset`.
 
 ---
 
-## 1. Đăng nhập Superset
-Sau khi chạy `docker compose up -d`, truy cập vào trình duyệt:
+## 1. Login to Superset
+After running `docker compose up -d`, open your browser and navigate to:
 - **URL**: [http://localhost:8088](http://localhost:8088)
-- **Username mặc định**: `admin`
-- **Password mặc định**: `password123` 
-*(Nếu bạn đã thay đổi trong file `.env` ở biến `SUPERSET_ADMIN_PASSWORD`, hãy dùng mật khẩu đó).*
+- **Default Username**: `admin`
+- **Default Password**: `password123` 
+*(If you changed `SUPERSET_ADMIN_PASSWORD` in the `.env` file, use that password instead).*
 
 ---
 
-## 2. Kết Nối Database (Data Source)
-Bước đầu tiên là khai báo cho Superset biết nơi chứa dữ liệu Gold.
-1. Ở góc trên cùng bên phải, chọn **Settings** → **Database Connections**.
-2. Bấm nút **+ Database**.
-3. Chọn **PostgreSQL** và điền thông tin sau:
-   - **Host:** `reporting-postgres` *(đây là tên container chứa dữ liệu Gold)*
+## 2. Connect to the Database (Data Source)
+First, you need to tell Superset where the Gold data is stored.
+1. In the top right corner, click **Settings** → **Database Connections**.
+2. Click the **+ Database** button.
+3. Select **PostgreSQL** and fill in the following:
+   - **Host:** `reporting-postgres` *(This is the container name)*
    - **Port:** `5432`
    - **Database Name:** `reporting`
    - **Username:** `reporting`
    - **Password:** `reporting123`
-   - **Display Name:** Tùy chọn (Ví dụ: *Tiki Gold Data*)
-4. Bấm **Test Connection**. Nếu hiện thông báo xanh lá là thành công → Bấm **Connect** và **Finish**.
+   - **Display Name:** Optional (e.g., *Tiki Gold Data*)
+4. Click **Test Connection**. If a green success message appears → Click **Connect** and **Finish**.
 
 ---
 
-## 3. Khai báo Bảng (Tạo Dataset)
-Superset chỉ lấy lên những bảng mà bạn cho phép.
-1. Ở Menu trên cùng, chọn **Datasets**.
-2. Bấm nút **+ Dataset**.
-3. Khai báo lần lượt:
-   - Database: `Tiki Gold Data` (Vừa tạo ở bước 2).
+## 3. Register Tables (Create Dataset)
+Superset can only visualize tables that you explicitly register as datasets.
+1. In the top menu, select **Datasets**.
+2. Click the **+ Dataset** button.
+3. Fill in the following:
+   - Database: `Tiki Gold Data` (Created in step 2).
    - Schema: `public`
-   - Table: Chọn bảng bạn muốn vẽ (vd: `brand_performance`, `top_products`, ...).
-4. Bấm **Create Dataset and Create Chart**.
+   - Table: Select the table you want to visualize (e.g., `brand_performance`, `top_products`, `realtime_events`).
+4. Click **Create Dataset and Create Chart**.
 
 ---
 
-## 4. Xây Dựng Biểu Đồ (Charts)
-Trong giao diện Explore (Tạo biểu đồ), hãy làm theo các bước sau để có biểu đồ đẹp nhất:
+## 4. Building Charts
+In the Explore interface, follow these steps to create beautiful charts:
 
-### Chọn Trục & Số Liệu
-- **X-axis (Trục ngang):** Kéo thả hoặc chọn cột mô tả (Ví dụ: `brand_name`). *Bắt buộc phải có đối với các biểu đồ Echarts*.
-- **Metrics (Giá trị đo lường):** Chọn phép tính. Ví dụ: `SUM(total_quantity_sold)` hoặc `AVG(avg_rating)`.
+### Select Axes & Metrics
+- **X-axis:** Drag and drop or select a descriptive column (e.g., `brand_name`). *This is mandatory for Echarts*.
+- **Metrics:** Select a calculation. Example: `SUM(total_quantity_sold)` or `AVG(avg_rating)`.
 
-### Các Mẹo Chỉnh Sửa Quan Trọng (Troubleshooting)
+### Troubleshooting & Tips
 
-| Vấn Đề Thường Gặp | Cách Xử Lý |
+| Common Issue | Solution |
 | :--- | :--- |
-| Nút **"Create chart" bị mờ**, báo lỗi *"Add required control values..."* | Do bạn chưa điền ô **X-axis**. Hãy kéo cột hiển thị tên (vd: `brand_name`) vào ô X-axis. Không để ở ô Dimensions. |
-| Biểu đồ lộn xộn, các cột cao thấp không đều | Do Superset mặc định xếp theo thứ tự ABC. Cuộn xuống ô **X-Axis Sort By**, chọn metric của bạn (vd: `SUM(...)`) và bật **Sort Descending** (Sắp xếp giảm dần). |
-| Có quá nhiều cột, chữ bị đè lên nhau | Chỉnh thông số ở ô **Row limit** (hoặc Series limit) thành `10` hoặc `20` để chỉ lấy Top 10/Top 20. Nếu muốn dễ đọc hơn, đổi loại biểu đồ sang **Bar Chart (Horizontal)**. |
-| Tên cột tiếng Anh khó đọc (vd: `SUM(total_quantity_sold)`) | Click thẳng vào ô Metrics đó → Trong cửa sổ nhỏ hiện ra, click vào **biểu tượng cây bút chì ✏️** cạnh tên ở trên cùng → Gõ tên tiếng Việt (vd: *Tổng số lượng bán*) → Bấm Save. |
+| **"Create chart" button is grayed out**, error *"Add required control values..."* | You haven't filled in the **X-axis**. Drag a display column (e.g., `brand_name`) into the X-axis box. Do not put it in the Dimensions box. |
+| Chart is messy, bars are not sorted | Superset defaults to alphabetical sorting. Scroll down to **X-Axis Sort By**, select your metric (e.g., `SUM(...)`) and enable **Sort Descending**. |
+| Too many columns, text overlaps | Change the **Row limit** (or Series limit) to `10` or `20` to only get the Top 10/20. To make it more readable, switch the chart type to **Bar Chart (Horizontal)**. |
+| Metric names are ugly (e.g., `SUM(total_quantity_sold)`) | Click directly on the Metric box → In the popup, click the **pencil icon ✏️** next to the name at the top → Type a better name (e.g., *Total Units Sold*) → Click Save. |
 
 ---
 
-## 5. Đưa Biểu Đồ Vào Dashboard
-1. Sau khi chỉnh sửa biểu đồ ưng ý, bấm nút **Update Chart** (để xem trước).
-2. Bấm **Save** ở góc trên cùng bên phải.
-3. Đặt tên Chart (vd: *Top 20 Brand Bán Chạy Nhất*).
-4. Ở mục "Add to dashboard", chọn **Add to new dashboard** và đặt tên cho Dashboard (vd: *Tiki Overview*).
-5. Bấm **Save & Go to Dashboard**.
+## 5. Add Charts to a Dashboard
+1. Once you are satisfied with the chart, click **Update Chart** (to preview).
+2. Click **Save** in the top right corner.
+3. Name your Chart (e.g., *Top 20 Best Selling Brands*).
+4. Under "Add to dashboard", select **Add to new dashboard** and name it (e.g., *Tiki Overview*).
+5. Click **Save & Go to Dashboard**.
 
-Lặp lại quy trình từ **Bước 3** cho các bảng Gold khác, chọn "Add to existing dashboard" để gom tất cả biểu đồ vào một bảng điều khiển duy nhất dùng để báo cáo cho Mentor.
+Repeat the process from **Step 3** for other Gold tables, selecting "Add to existing dashboard" to group all your charts into a single centralized dashboard for your project demonstration.

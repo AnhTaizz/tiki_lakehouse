@@ -22,6 +22,7 @@ part-*
 data/*
 !data/tiki_category.json
 !data/lam_dep_suc_khoe_category.json
+!data/mock_data.zip
 !data/.gitkeep
 
 spark-warehouse/

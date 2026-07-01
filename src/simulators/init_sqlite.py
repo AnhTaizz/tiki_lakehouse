@@ -2,20 +2,21 @@ import os
 import json
 import sqlite3
 import glob
+import zipfile
 
 def init_db():
     current_dir = os.path.dirname(os.path.abspath(__file__))
     data_dir = os.path.abspath(os.path.join(current_dir, "..", "..", "data"))
     db_path = os.path.join(data_dir, "tiki_backend.db")
     
-    # Xóa DB cũ nếu tồn tại
+    # Delete old DB if it exists
     if os.path.exists(db_path):
         os.remove(db_path)
         
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
     
-    # Tạo bảng products
+    # Create products table
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS products (
         id INTEGER PRIMARY KEY,
@@ -38,8 +39,19 @@ def init_db():
     )
     ''')
     
-    # Đọc các file JSON shard và insert vào DB
+    # Automatically extract mock_data.zip if mock_data folder is empty
     mock_dir = os.path.join(data_dir, "mock_data")
+    zip_path = os.path.join(data_dir, "mock_data.zip")
+    
+    if not os.path.exists(mock_dir) or not os.listdir(mock_dir):
+        if os.path.exists(zip_path):
+            print(f"Extracting {zip_path} to {mock_dir}...")
+            with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+                zip_ref.extractall(mock_dir)
+        else:
+            print(f"Error: Neither {mock_dir} nor {zip_path} exists. Cannot initialize Database.")
+            return
+
     shard_files = glob.glob(os.path.join(mock_dir, "mock_*.json"))
     
     total_inserted = 0
@@ -49,7 +61,7 @@ def init_db():
             items = json.load(f)
             
         for p in items:
-            # Lấy quantity_sold an toàn
+            # Safely get quantity_sold
             sold = p.get("quantity_sold")
             sold_val = 0
             if isinstance(sold, dict):
@@ -77,7 +89,7 @@ def init_db():
         
     print(f"Successfully inserted {total_inserted} products into {db_path}!")
     
-    # Tạo Index để query nhanh
+    # Create Index for fast querying
     cursor.execute('CREATE INDEX IF NOT EXISTS idx_category_id ON products(category_id)')
     conn.commit()
     conn.close()
