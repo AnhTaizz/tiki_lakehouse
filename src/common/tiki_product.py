@@ -14,6 +14,8 @@ from common.utils import setup_logger
 logger = setup_logger(__name__)
 
 
+import concurrent.futures
+
 def fetch_products_by_category(category_id, url_key, max_pages=None):
     client = HttpClient()
     api_url = "https://tiki.vn/api/personalish/v1/blocks/listings"
@@ -21,14 +23,7 @@ def fetch_products_by_category(category_id, url_key, max_pages=None):
     all_products = []
     seen_ids = set()
 
-    current_page = 1
-    last_page = 1
-
-    while True:
-        if max_pages and current_page > max_pages:
-            logger.info("Reached max_pages=%s. Stop crawling this category.", max_pages)
-            break
-
+    def fetch_page(page):
         params = {
             "limit": 40,
             "include": "advertisement",
@@ -36,39 +31,20 @@ def fetch_products_by_category(category_id, url_key, max_pages=None):
             "version": "home-persionalized",
             "category": category_id,
             "urlKey": url_key,
-            "page": current_page,
+            "page": page,
         }
 
-        logger.info(
-            "Category %s (%s) - fetching page %s/%s",
-            category_id,
-            url_key,
-            current_page,
-            last_page,
-        )
-
-        api_url = "https://tiki.vn/api/personalish/v1/blocks/listings"
+        logger.info("Category %s (%s) - fetching page %s", category_id, url_key, page)
         data = client.get(api_url, params=params)
 
         if not data:
-            logger.error(
-                "API failed for category %s, page %s. Stop this category.",
-                category_id,
-                current_page,
-            )
-            break
+            logger.error("API failed for category %s, page %s", category_id, page)
+            return [], 1
 
         items = data.get("data", [])
-        if not items:
-            logger.info("No more products on page %s. Finished category %s.", current_page, category_id)
-            break
+        page_products = []
 
         for item in items:
-            product_id = item.get("id")
-            if product_id in seen_ids:
-                continue
-            seen_ids.add(product_id)
-
             quantity_sold = item.get("quantity_sold")
             sold_value = 0
             if isinstance(quantity_sold, dict):
@@ -76,9 +52,9 @@ def fetch_products_by_category(category_id, url_key, max_pages=None):
             elif isinstance(quantity_sold, int):
                 sold_value = quantity_sold
 
-            all_products.append(
+            page_products.append(
                 {
-                    "id": product_id,
+                    "id": item.get("id"),
                     "sku": item.get("sku"),
                     "name": item.get("name"),
                     "url_key": item.get("url_key"),
@@ -98,14 +74,41 @@ def fetch_products_by_category(category_id, url_key, max_pages=None):
         paging = data.get("paging", {})
         last_page = paging.get("last_page", 1)
 
-        if current_page >= last_page:
-            logger.info("Reached last page (%s). Finished category %s.", last_page, category_id)
-            break
-
-        current_page += 1
-        # Random delay to avoid API ban (đã giảm tối đa cho Mock API)
         import random
-        time.sleep(0.01)
+        time.sleep(0.01)  # small delay
+        return page_products, last_page
+
+    # 1. Fetch page 1 sequentially to get last_page
+    first_page_products, last_page = fetch_page(1)
+    for p in first_page_products:
+        if p["id"] not in seen_ids:
+            seen_ids.add(p["id"])
+            all_products.append(p)
+
+    if max_pages and last_page > max_pages:
+        logger.info("Capping last_page from %s to max_pages=%s", last_page, max_pages)
+        last_page = max_pages
+
+    # 2. Fetch remaining pages concurrently
+    if last_page > 1:
+        logger.info("Category %s has %s pages. Starting concurrent fetch for %s pages...", category_id, last_page, last_page - 1)
+        # Tối ưu hóa: Dùng 15 luồng để lật trang cùng lúc
+        with concurrent.futures.ThreadPoolExecutor(max_workers=15) as executor:
+            future_to_page = {
+                executor.submit(fetch_page, page): page
+                for page in range(2, last_page + 1)
+            }
+
+            for future in concurrent.futures.as_completed(future_to_page):
+                page = future_to_page[future]
+                try:
+                    page_products, _ = future.result()
+                    for p in page_products:
+                        if p["id"] not in seen_ids:
+                            seen_ids.add(p["id"])
+                            all_products.append(p)
+                except Exception as exc:
+                    logger.error("Page %s generated an exception: %s", page, exc)
 
     logger.info("FINISHED Category %s (%s) - Extracted a total of %d products.", category_id, url_key, len(all_products))
     return all_products

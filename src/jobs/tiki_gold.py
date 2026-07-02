@@ -254,7 +254,10 @@ def run_gold_pipeline():
     logger.info("Target Postgres: %s / %s", REPORTING_DB_HOST, REPORTING_DB_NAME)
     logger.info("=" * 60)
 
-    spark = SparkSession.builder.appName("Tiki_Gold_Pipeline").getOrCreate()
+    spark = SparkSession.builder \
+        .appName("Tiki_Gold_Pipeline") \
+        .config("spark.sql.shuffle.partitions", "8") \
+        .getOrCreate()
 
     try:
         # Check if Silver tables exist
