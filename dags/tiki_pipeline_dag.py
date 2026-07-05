@@ -39,13 +39,35 @@ import json
 WORK_DIR        = "/home/jovyan/work"
 AIRFLOW_SRC     = "/opt/airflow/src"
 
-# Khôi phục cào 5 danh mục để test full-scale với Mock API:
+# LPT (Longest Processing Time) scheduling: Sorted by product count (descending).
+# Optimizes Airflow makespan by prioritizing heavy categories in the worker pool.
 CATEGORIES = [
-    {"id": 1520, "name": "Làm Đẹp - Sức Khỏe"},
-    {"id": 1846, "name": "Laptop - Máy Vi Tính"},
-    {"id": 8322, "name": "Nhà Sách Tiki"},
-    {"id": 1882, "name": "Điện Gia Dụng"},
-    {"id": 931, "name": "Thời trang nữ"},
+    {"id": 8322, "name": "Nhà Sách Tiki"}, # ~140k products
+    {"id": 1883, "name": "Nhà Cửa - Đời Sống"}, # ~74k products
+    {"id": 1815, "name": "Thiết Bị Số - Phụ Kiện Số"}, # ~20k products
+    {"id": 1520, "name": "Làm Đẹp - Sức Khỏe"}, # ~17k products
+    {"id": 27498, "name": "Phụ kiện thời trang"}, # ~12k products
+    {"id": 4384, "name": "Bách Hóa Online"}, # ~11.2k products
+    {"id": 1882, "name": "Điện Gia Dụng"}, # ~11.1k products
+    {"id": 1846, "name": "Laptop - Máy Vi Tính - Linh kiện"}, # ~10.4k products
+    {"id": 2549, "name": "Đồ Chơi - Mẹ & Bé"}, # ~10k products
+    {"id": 8594, "name": "Ô Tô - Xe Máy - Xe Đạp"}, # ~8.8k products
+    {"id": 931, "name": "Thời trang nữ"}, # ~7.5k products
+    {"id": 8371, "name": "Đồng hồ và Trang sức"}, # ~6.8k products
+    {"id": 915, "name": "Thời trang nam"}, # ~4.5k products
+    {"id": 1975, "name": "Thể Thao - Dã Ngoại"}, # ~4.1k products
+    {"id": 6000, "name": "Balo và Vali"}, # ~2.5k products
+    {"id": 1686, "name": "Giày - Dép nam"}, # ~2.5k products
+    {"id": 4221, "name": "Điện Tử - Điện Lạnh"}, # ~1.8k products
+    {"id": 27616, "name": "Túi thời trang nam"}, # ~1.7k products
+    {"id": 15078, "name": "Chăm sóc nhà cửa"}, # ~1.5k products
+    {"id": 976, "name": "Túi thời trang nữ"}, # ~1.5k products
+    {"id": 1801, "name": "Máy Ảnh - Máy Quay Phim"}, # ~1.3k products
+    {"id": 1703, "name": "Giày - Dép nữ"}, # ~1.2k products
+    {"id": 44792, "name": "NGON"}, # ~1.1k products
+    {"id": 11312, "name": "Voucher - Dịch vụ"}, # ~378 products
+    {"id": 1789, "name": "Điện Thoại - Máy Tính Bảng"}, # ~151 products
+    {"id": 17166, "name": "Cross Border - Hàng Quốc Tế"} # ~27 products
 ]
 
 with DAG(
@@ -92,7 +114,7 @@ with DAG(
     # Task 1: Extract & Publish (Mocked Crawler with Dynamic Task Mapping)
     # ------------------------------------------------------------------
     commands = [
-        f"python {AIRFLOW_SRC}/jobs/tiki_extract.py --category_id {cat['id']} --category_name '{cat['name']}'"
+        f"python {AIRFLOW_SRC}/jobs/tiki_extract.py --category_id {cat['id']} --category_name '{cat['name']}' --logical_date {{{{ data_interval_start.in_timezone('Asia/Ho_Chi_Minh').strftime('%Y-%m-%d') }}}} --logical_timestamp {{{{ ts }}}}"
         for cat in CATEGORIES
     ]
 
@@ -105,8 +127,8 @@ with DAG(
         },
         doc_md="""
 ### extract_and_publish
-Sử dụng Dynamic Task Mapping (Airflow 2.3+) để chạy song song nhiều danh mục.
-Bị giới hạn bởi pool `tiki_api_pool` để kiểm soát concurrency.
+Uses Dynamic Task Mapping (Airflow 2.3+) to run multiple categories concurrently.
+Limited by `tiki_api_pool` to control concurrency.
 """
     ).expand(bash_command=commands)
 
@@ -116,12 +138,13 @@ Bị giới hạn bởi pool `tiki_api_pool` để kiểm soát concurrency.
     # ------------------------------------------------------------------
     consume_task = BashOperator(
         task_id="consume_from_kafka",
+        trigger_rule="all_done",
         env={
             **os.environ,
             "PYTHONPATH": AIRFLOW_SRC,
         },
         bash_command=f"""
-            CRAWL_DATE="{{{{ ds }}}}"
+            CRAWL_DATE="{{{{ data_interval_start.in_timezone('Asia/Ho_Chi_Minh').strftime('%Y-%m-%d') }}}}"
             echo "Consuming Kafka for crawl_date: $CRAWL_DATE"
             python {AIRFLOW_SRC}/jobs/kafka_consumer.py --crawl_date "$CRAWL_DATE"
         """,

@@ -1,4 +1,4 @@
-import os
+﻿import os
 import sqlite3
 import math
 from fastapi import FastAPI, Query
@@ -8,7 +8,7 @@ app = FastAPI(title="Mock Tiki Backend API")
 
 def get_db_connection():
     current_dir = os.path.dirname(os.path.abspath(__file__))
-    data_dir = os.path.abspath(os.path.join(current_dir, "..", "..", "data"))
+    data_dir = os.path.abspath(os.path.join(current_dir, "..", "data"))
     db_path = os.path.join(data_dir, "tiki_backend.db")
     conn = sqlite3.connect(db_path)
     conn.row_factory = sqlite3.Row

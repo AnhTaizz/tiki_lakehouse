@@ -7,7 +7,7 @@ if src_dir not in sys.path:
     sys.path.append(src_dir)
 
 from common.utils import setup_logger
-from jobs.tiki_load_iceberg import build_product_schema, load_bronze, load_silver_history, load_silver_active, clean_silver_data
+from jobs.tiki_load_iceberg import build_product_schema
 
 logger = setup_logger(__name__)
 
@@ -44,23 +44,10 @@ def process_micro_batch(df_batch, epoch_id):
     count = df_new.count()
     logger.info("Received %d unique products in this micro-batch.", count)
 
-    # 2. Reuse 100% Medallion Architecture logic from batch code!
+    # 2. SPEED LAYER (Write directly to Postgres for Real-time Superset dashboards)
     spark = df_batch.sparkSession
 
     try:
-        # Iceberg schema doesn't have _event_type column (this is only for Streaming -> Postgres)
-        # So we must drop it before loading to Iceberg to avoid TOO_MANY_DATA_COLUMNS error
-        df_iceberg = df_new.drop("_event_type")
-
-        load_bronze(spark, df_iceberg, is_streaming=True)
-
-        # In-memory cleaning before Silver
-        df_iceberg_clean = clean_silver_data(df_iceberg)
-
-        load_silver_history(spark, df_iceberg_clean)
-        load_silver_active(spark, df_iceberg_clean)
-
-        # 3. SPEED LAYER (Write directly to Postgres for Real-time Superset dashboards)
         reporting_db_host = os.environ.get("REPORTING_DB_HOST", "reporting-postgres")
         jdbc_url = f"jdbc:postgresql://{reporting_db_host}:5432/reporting"
         jdbc_props = {
@@ -71,8 +58,9 @@ def process_micro_batch(df_batch, epoch_id):
 
         # Extract important data fields to keep Superset reads lightweight
         df_realtime = df_new.select(
-            "id", "name", "price", "discount_rate",
-            "quantity_sold", "loaded_at", "_event_type"
+            "id", "name", "brand_name", "category_name", "price", "original_price",
+            "discount", "discount_rate", "quantity_sold", "thumbnail_url",
+            "url_key", "loaded_at", "_event_type"
         )
 
         df_realtime.write.jdbc(
@@ -82,7 +70,7 @@ def process_micro_batch(df_batch, epoch_id):
             properties=jdbc_props,
         )
 
-        logger.info("Micro-Batch %s successfully written to Iceberg (Storage) & Postgres (Speed Layer).", epoch_id)
+        logger.info("Micro-Batch %s successfully written to Postgres (Speed Layer).", epoch_id)
     except Exception as e:
         logger.error("Error processing Micro-Batch %s: %s", epoch_id, e, exc_info=True)
         # Throw error so Spark Streaming knows this batch failed and will retry

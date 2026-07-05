@@ -3,7 +3,6 @@ import json
 import os
 import sys
 from datetime import datetime
-from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from kafka import KafkaProducer
 
@@ -45,51 +44,72 @@ def publish_to_kafka(products: list, crawl_date: str) -> None:
     logger.info("Published %d products to Kafka topic '%s'", sent, KAFKA_TOPIC)
 
 
-def crawl_tiki_data(target_category_id, target_category_name):
+def crawl_tiki_data(target_category_id, target_category_name, logical_date_str=None, logical_timestamp_str=None):
     logger.info("Start crawling category id %s", target_category_id)
 
-    leaf_categories = [{"id": target_category_id, "name": target_category_name, "url_key": ""}]
-    logger.info("Using Root Category directly for extraction: %s", target_category_id)
-
-    all_products = []
-
-    def process_category(category, index, total):
-        logger.info("[%s/%s] Processing: %s", index + 1, total, category["name"])
+    # --- CIRCUIT BREAKER LOGIC (HOURLY) ---
+    if logical_timestamp_str:
         try:
-            products = fetch_products_by_category(category["id"], category["url_key"])
-            for p in products:
-                p["category_id"] = target_category_id
-                p["category_name"] = target_category_name
-            logger.info("[%s/%s] FINISHED: %s - Extracted %d products", index + 1, total, category["name"], len(products))
+            from datetime import timezone
+            logical_time = datetime.fromisoformat(logical_timestamp_str)
+            # Ensure physical time has timezone (UTC) to compute accurate diff
+            physical_time = datetime.now(timezone.utc)
 
-            return products
+            diff_hours = (physical_time - logical_time).total_seconds() / 3600.0
+
+            if diff_hours > 8:
+                logger.warning(f"CIRCUIT BREAKER TRIGGERED: Logical Time ({logical_time}) is {diff_hours:.1f} hours behind Physical Time.")
+                logger.warning("Skipping extraction to prevent Time-Travel Data Pollution in the Lakehouse.")
+                sys.exit(99) # 99 tells Airflow BashOperator to mark the task as SKIPPED
+            elif diff_hours < -1:
+                logger.warning(f"CIRCUIT BREAKER TRIGGERED: Logical Time ({logical_time}) is in the future.")
+                sys.exit(99)
+            else:
+                logger.info(f"Circuit Breaker PASSED: Time diff is {diff_hours:.1f} hours (Safe threshold <= 8h).")
         except Exception as e:
-            logger.error("Error fetching category %s: %s", category["name"], e)
-            return []
+            logger.error(f"Failed to parse logical_timestamp: {e}")
+    # --------------------------------------
 
-    crawl_date = datetime.now().strftime("%Y-%m-%d")
-    total_crawled = 0
+    logger.info("==================================================")
+    logger.info("AIRFLOW TASK START: EXTRACT_AND_PUBLISH")
+    logger.info("Target Category : %s (ID: %s)", target_category_name, target_category_id)
+    logger.info("Target Kafka    : %s", KAFKA_TOPIC)
+    logger.info("==================================================")
 
-    WORKERS = 15
-    logger.info(f"Starting extraction with {WORKERS} workers (Mock API Local - No Ban Risk!)...")
-    with ThreadPoolExecutor(max_workers=WORKERS) as executor:
-        futures = [
-            executor.submit(process_category, cat, idx, len(leaf_categories))
-            for idx, cat in enumerate(leaf_categories)
-        ]
+    try:
+        logger.info("Initiating concurrent API extraction for category '%s'...", target_category_name)
+        products = fetch_products_by_category(target_category_id, "")
+        
+        # Inject category metadata
+        for p in products:
+            p["category_id"] = target_category_id
+            p["category_name"] = target_category_name
+            
+        logger.info("Successfully extracted %d products from API.", len(products))
+        
+    except Exception as e:
+        logger.error("Failed to extract category %s: %s", target_category_name, e)
+        sys.exit(1)
 
-        for future in as_completed(futures):
-            products = future.result()
-            if products:
-                publish_to_kafka(products, crawl_date)
-                total_crawled += len(products)
+    # Use logical date if provided, otherwise fallback to today (physical date)
+    crawl_date = logical_date_str if logical_date_str else datetime.now().strftime("%Y-%m-%d")
 
-    logger.info("Finished crawling. Total products published to Kafka: %d", total_crawled)
+    if products:
+        logger.info("Publishing %d products to Kafka...", len(products))
+        publish_to_kafka(products, crawl_date)
+    else:
+        logger.warning("No products found for category %s. Nothing to publish.", target_category_name)
+
+    logger.info("==================================================")
+    logger.info("TASK COMPLETED: Extracted and published %d products.", len(products))
+    logger.info("==================================================")
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Tiki Data Crawler")
     parser.add_argument("--category_id", type=int, required=True, help="Category ID to crawl")
     parser.add_argument("--category_name", type=str, required=True, help="Parent Category Name")
+    parser.add_argument("--logical_date", type=str, required=False, help="Airflow Execution Date (YYYY-MM-DD) for Partitioning")
+    parser.add_argument("--logical_timestamp", type=str, required=False, help="Airflow Execution Timestamp (ISO8601) for Circuit Breaker")
     args = parser.parse_args()
-    crawl_tiki_data(args.category_id, args.category_name)
+    crawl_tiki_data(args.category_id, args.category_name, args.logical_date, args.logical_timestamp)

@@ -1,11 +1,11 @@
-import json
+﻿import json
 import logging
 import os
 import random
 import sys
 import time
 import sqlite3
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 
 from kafka import KafkaProducer
 
@@ -33,7 +33,7 @@ def get_kafka_producer():
         return None
 
 def get_db_connection():
-    data_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "data"))
+    data_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "data"))
     db_path = os.path.join(data_dir, "tiki_backend.db")
     conn = sqlite3.connect(db_path, timeout=30)
     try:
@@ -49,7 +49,7 @@ def run_continuous_simulator():
     if not producer:
         return
 
-    logger.info("🚀 TIKI CONTINUOUS STREAMING SIMULATOR STARTED!")
+    logger.info("ðŸš€ TIKI CONTINUOUS STREAMING SIMULATOR STARTED!")
     logger.info("Press Ctrl+C to stop. Emitting events to topic: %s", KAFKA_TOPIC)
 
     conn = get_db_connection()
@@ -130,8 +130,9 @@ def run_continuous_simulator():
                             # Remain inactive, emit no event
                             continue
 
-                    # Attach current date
-                    p["crawl_date"] = datetime.now().strftime("%Y-%m-%d")
+                    # Attach current date (Force Vietnam Time UTC+7 to prevent date mismatch if Docker runs in UTC)
+                    vn_tz = timezone(timedelta(hours=7))
+                    p["crawl_date"] = datetime.now(vn_tz).strftime("%Y-%m-%d")
 
                     # Emit Event to Kafka Stream
                     producer.send(

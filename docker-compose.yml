@@ -176,6 +176,7 @@ services:
     volumes:
       - ./dags:/opt/airflow/dags
       - ./src:/opt/airflow/src
+      - ./scripts:/opt/airflow/scripts
       - ./data:/opt/airflow/data
       - ./logs:/opt/airflow/logs
     command: webserver
@@ -215,6 +216,7 @@ services:
     volumes:
       - ./dags:/opt/airflow/dags
       - ./src:/opt/airflow/src
+      - ./scripts:/opt/airflow/scripts
       - ./data:/opt/airflow/data
       - ./logs:/opt/airflow/logs
       - /var/run/docker.sock:/var/run/docker.sock
@@ -341,16 +343,24 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
     networks:
       - lakehouse
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "2181"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   kafka:
     image: confluentinc/cp-kafka:7.6.1
     container_name: tiki_kafka
+    restart: always
     depends_on:
-      - zookeeper
+      zookeeper:
+        condition: service_healthy
     ports:
       - "9093:9093"
     environment:
       TZ: Asia/Ho_Chi_Minh
+      KAFKA_HEAP_OPTS: "-Xmx512m -Xms512m"
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_LISTENERS: INTERNAL://0.0.0.0:9092,EXTERNAL://0.0.0.0:9093

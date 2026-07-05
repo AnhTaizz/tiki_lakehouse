@@ -1,9 +1,9 @@
-import json
+﻿import json
 import logging
 import os
 import random
 import time
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 
 from kafka import KafkaProducer
 
@@ -32,7 +32,7 @@ def get_kafka_producer():
 
 def load_source_data():
     """Load the largest JSON file into RAM as source data."""
-    data_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "data"))
+    data_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "data"))
     filepath = os.path.join(data_dir, SOURCE_FILE)
 
     if not os.path.exists(filepath):
@@ -54,8 +54,9 @@ def mutate_product(product):
     import copy
     p = copy.deepcopy(product)
 
-    # Update to real-time
-    p["crawl_date"] = datetime.now().strftime("%Y-%m-%d")
+    # Update to real-time (Force Vietnam Time UTC+7)
+    vn_tz = timezone(timedelta(hours=7))
+    p["crawl_date"] = datetime.now(vn_tz).strftime("%Y-%m-%d")
 
     dice = random.random()
 
@@ -99,13 +100,13 @@ def run_simulator():
     # Only use Beauty - Health category (ID: 1520) for simulation (~11k products)
     # This keeps the batch size moderate, perfect for ETL Batch testing.
     target_products = [p for p in products if p.get("category_id") == 1520]
-    logger.info("Found %d products for category 1520 (Làm Đẹp - Sức Khỏe)", len(target_products))
+    logger.info("Found %d products for category 1520 (LÃ m Äáº¹p - Sá»©c Khá»e)", len(target_products))
 
     producer = get_kafka_producer()
     if not producer:
         return
 
-    logger.info("🚀 TIKI BATCH SIMULATOR STARTED!")
+    logger.info("ðŸš€ TIKI BATCH SIMULATOR STARTED!")
     logger.info("Pushing %d simulated events to topic: %s", len(target_products), KAFKA_TOPIC)
 
     events_sent = 0
@@ -132,11 +133,11 @@ def run_simulator():
             events_sent += 1
 
         producer.flush()
-        logger.info("✅ Batch completed! Sent %d events.", events_sent)
-        logger.info("📊 Stats: %d Flash Sales, %d Purchases generated.", flash_sales, purchases)
+        logger.info("âœ… Batch completed! Sent %d events.", events_sent)
+        logger.info("ðŸ“Š Stats: %d Flash Sales, %d Purchases generated.", flash_sales, purchases)
 
     except Exception as e:
-        logger.error("❌ Simulator failed: %s", e)
+        logger.error("âŒ Simulator failed: %s", e)
         sys.exit(1)
     finally:
         if producer:

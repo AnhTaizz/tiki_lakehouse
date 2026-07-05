@@ -35,7 +35,7 @@ class HttpClient:
         time.sleep(random.uniform(0.01, 0.05))
 
         try:
-            response = requests.get(mock_url, params=params, timeout=10)
+            response = requests.get(mock_url, params=params, timeout=30)
             response.raise_for_status()
             data = response.json()
 

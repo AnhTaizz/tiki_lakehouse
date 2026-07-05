@@ -38,7 +38,7 @@ Superset can only visualize tables that you explicitly register as datasets.
 3. Fill in the following:
    - Database: `Tiki Gold Data` (Created in step 2).
    - Schema: `public`
-   - Table: Select the table you want to visualize (e.g., `brand_performance`, `top_products`, `realtime_events`).
+   - Table: Select the table you want to visualize (e.g., `mart_brand_performance`, `fact_price_events`, `realtime_events`).
 4. Click **Create Dataset and Create Chart**.
 
 ---
@@ -69,3 +69,27 @@ In the Explore interface, follow these steps to create beautiful charts:
 5. Click **Save & Go to Dashboard**.
 
 Repeat the process from **Step 3** for other Gold tables, selecting "Add to existing dashboard" to group all your charts into a single centralized dashboard for your project demonstration.
+
+---
+
+## 6. Real-time Anomaly Dashboards (Chaos Engineering)
+
+To properly visualize the live Chaos Engineering scenarios (triggered via the Control Panel), create separate Table charts in Superset targeting the `realtime_events` dataset with specific **Filters**:
+
+1. **Mega Flash Sale Monitor (Yellow/Orange):**
+   - Filter: `_event_type` = `MEGA_FLASH_SALE` OR `discount_rate >= 30`
+   - Purpose: Catches massive intentional price drops (Option 5).
+
+2. **Fatal Price Bug Alert (Red):**
+   - Filter: `_event_type` = `FATAL_PRICE_DROP` OR `discount_rate >= 80`
+   - Purpose: Detects extreme anomalies where expensive products drop below cost (Option 6).
+
+3. **Viral Trend / Sales Surge (Green):**
+   - Filter: `_event_type` = `VIRAL_SURGE`
+   - Purpose: Detects sudden massive spikes in `quantity_sold` (Option 7).
+
+4. **Massive Out-of-Stock Alert (Gray/Black):**
+   - Filter: `_event_type` = `MASSIVE_OUT_OF_STOCK`
+   - Purpose: Alerts supply chain when top-selling products suddenly deactivate (Option 8).
+
+Group these 4 anomaly tables at the bottom of your Streaming Dashboard. During the presentation, when you trigger the `.bat` scripts, these tables will instantly populate, demonstrating true real-time alerting!

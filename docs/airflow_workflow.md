@@ -231,12 +231,17 @@ RAW JSON Files (local data/)
         Only appends when price/discount changes
         │
         ▼
-[Gold Layer] local_catalog.tiki_gold.*     (Business Aggregates)
-  ├── brand_performance    → Superset: Brand Rankings chart
-  ├── price_trend          → Superset: Price Timeline chart
-  ├── discount_analysis    → Superset: Discount Heatmap
-  ├── top_products         → Superset: Product Leaderboard
-  └── daily_summary        → Superset: Homepage KPI cards
+[Gold Layer] local_catalog.tiki_gold.*     (One Big Table Architecture)
+  ├── Core Foundation:
+  │    └── obt_product_daily_snapshot    (Wide table joining all Daily Deltas & Attributes)
+  │
+  └── Data Marts (Join-Free aggregations built from OBT):
+       ├── mart_daily_summary            → Superset: Homepage KPI & Revenue Trend
+       ├── mart_brand_market_share       → Superset: Brand Dominance chart
+       ├── mart_product_ranking          → Superset: Cash-cow Leaderboard
+       ├── mart_price_volatility         → Superset: Price Timeline chart
+       ├── mart_marketing_campaign_roi   → Superset: Discount ROI Analysis
+       └── mart_customer_sentiment       → Superset: Price/Rating Correlation
         │
         ▼
 [Reporting Postgres] reporting_db

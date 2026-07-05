@@ -18,14 +18,14 @@ import concurrent.futures
 
 def fetch_products_by_category(category_id, url_key, max_pages=None):
     client = HttpClient()
-    api_url = "https://tiki.vn/api/personalish/v1/blocks/listings"
+    api_url = os.getenv("TIKI_API_URL", "https://tiki.vn/api/personalish/v1/blocks/listings")
 
     all_products = []
     seen_ids = set()
 
     def fetch_page(page):
         params = {
-            "limit": 40,
+            "limit": 400,
             "include": "advertisement",
             "aggregations": 2,
             "version": "home-persionalized",
@@ -92,8 +92,8 @@ def fetch_products_by_category(category_id, url_key, max_pages=None):
     # 2. Fetch remaining pages concurrently
     if last_page > 1:
         logger.info("Category %s has %s pages. Starting concurrent fetch for %s pages...", category_id, last_page, last_page - 1)
-        # Tối ưu hóa: Dùng 15 luồng để lật trang cùng lúc
-        with concurrent.futures.ThreadPoolExecutor(max_workers=15) as executor:
+        # Tối ưu hóa: Dùng 8 luồng để lật trang cùng lúc (tránh nghẽn SQLite)
+        with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
             future_to_page = {
                 executor.submit(fetch_page, page): page
                 for page in range(2, last_page + 1)

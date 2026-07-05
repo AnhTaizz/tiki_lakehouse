@@ -25,8 +25,15 @@ An end-to-end Data Lakehouse pipeline orchestrated by **Apache Airflow**, simula
 
 This project implements an end-to-end Big Data pipeline using a **Lambda Architecture**:
 
-- **Batch Layer (every 4h):** Orchestrated by Airflow. Extracts data from a **Mock API** (simulating 5 Tiki categories: *Làm Đẹp - Sức Khỏe, Laptop - Máy Vi Tính, Nhà Sách Tiki, Điện Gia Dụng, Thời trang nữ*), routes it through Kafka, and processes it via Spark into Bronze → Silver → Gold Iceberg tables.
-- **Speed Layer (real-time):** A Simulator generates live e-commerce events (Purchases, Flash Sales, Restocks) using a Sine-wave traffic pattern, which Spark Structured Streaming consumes and writes directly to a Reporting PostgreSQL database for live dashboarding.
+### 🎯 Key Features (Mapping to Project Requirements)
+- ✅ **Automated Workflow:** Fully automated end-to-end ETL pipeline from API extraction to BI visualization.
+- ✅ **Management UI:** Orchestrated via **Apache Airflow UI** for real-time tracking, triggering, and visual DAG management.
+- ✅ **Scheduling, Retry & Logging:** Configured with `CRON` scheduling (`0 */4 * * *`), robust 3-retry policies, circuit-breakers, and comprehensive task-level logging.
+- ✅ **Practical Spark ETL Job:** Implements a complex **Medallion Data Model** (Bronze/Silver/Gold) using **PySpark** and **Apache Iceberg**, featuring SCD Type 1 & Type 4 logic.
+- ✅ **Deployment & Operation Guide:** Includes one-click `tiki_control_panel.bat`, Docker Compose stack, and extensive operational documentation.
+
+- **Batch Layer (every 4h):** Orchestrated by Airflow. Extracts data from a **Mock API** (simulating 26 Tiki categories), routes it through Kafka, and processes it via Spark into Bronze → Silver → Gold Iceberg tables.
+- **Speed Layer (real-time):** A Simulator generates live e-commerce events (PURCHASE, FLASH_SALE, RESTOCK, UNPUBLISHED) using a Sine-wave traffic pattern (1-3s per tick). Spark Structured Streaming consumes these events from Kafka (`tiki.stream.products`) in micro-batches (20 seconds), then writes directly to a Reporting PostgreSQL database for low-latency live dashboarding. **Includes built-in Chaos Engineering simulators (Mega Live, Viral Trends, Fatal Price Bugs) to test system resilience and real-time anomaly detection.**
 
 ---
 
@@ -58,7 +65,7 @@ This project implements an end-to-end Big Data pipeline using a **Lambda Archite
 | Component         | Technology                  | Role                                                       |
 |-------------------|-----------------------------|------------------------------------------------------------|
 | **Orchestration** | Apache Airflow 2.8.1        | DAG scheduling, task execution, email alerting             |
-| **Ingestion**     | Python + Apache Kafka       | Extract from Mock Tiki API → publish to Kafka topic        |
+| **Ingestion**     | Python + Apache Kafka       | Extract from Mock Tiki API → publish to Kafka topic (`acks=all`, `retries=3`) |
 | **Compute**       | Spark 3.5.0 (PySpark)       | ETL processing (Bronze/Silver/Gold) + Structured Streaming |
 | **Storage**       | MinIO (S3-compatible)       | Underlying object storage for Iceberg warehouse            |
 | **Catalog**       | Hive Metastore + PostgreSQL | Iceberg table metadata management                          |
@@ -79,15 +86,22 @@ Active product state — always holds the latest snapshot via `MERGE INTO`. Upda
 ### 🥈 Silver — `local_catalog.tiki_silver.price_history` (SCD Type 4)
 Append-only price change history — records a new row only when the price or discount rate changes.
 
-### 🥇 Gold — `local_catalog.tiki_gold.*` (Business Aggregates)
+### 🥇 Gold — `local_catalog.tiki_gold.*` (Kimball Star Schema)
 
+The Gold layer strictly follows the **Kimball Dimensional Modeling** methodology to provide a robust foundation for Business Intelligence:
+
+#### Fact Tables
+- **`fact_price_events`**: A transactional fact table recording every historical price drop or discount fluctuation.
+- **`fact_product_daily_snapshot`**: A periodic snapshot fact table recording the exact state of every product at the end of each day (enforces idempotency).
+
+#### Data Marts (Aggregations)
 | Table               | Business Question Answered                                    |
 |---------------------|---------------------------------------------------------------|
-| `brand_performance` | Which brands are selling the most?                            |
-| `price_trend`       | How do prices change over time across categories?             |
-| `discount_analysis` | Which category has the deepest discounts?                     |
-| `top_products`      | What are the top 100 best products to buy now?                |
-| `daily_summary`     | Daily high-level KPI overview (sales, events, product count)  |
+| `mart_brand_performance` | Which brands are selling the most?                            |
+| `mart_price_volatility`  | How do prices change over time across categories?             |
+| `mart_discount_analysis` | Which category has the deepest discounts?                     |
+| `mart_top_products`      | What are the top 100 best products to buy now?                |
+| `mart_daily_summary`     | Daily high-level KPI overview (sales, events, product count)  |
 
 ### ⚡ Speed — `reporting_db.realtime_events` (PostgreSQL)
 Written directly by Spark Structured Streaming (bypassing Iceberg) for sub-second latency dashboards in Superset.
@@ -184,33 +198,44 @@ tiki_control_panel.bat
 
 ---
 
-### Step 1 — Initialize the Local Database *(Do this once)*
+### Step 1 — Crawl Data from Tiki *(Do this once)*
 
-Select **[1] Init SQLite Database**. This loads 180,000+ simulated products from the `data/mock_data/` JSON shards into the local `data/tiki_backend.db` SQLite database used by the Mock API and Simulator.
+Select **[1] Crawl Data from Tiki**. This runs the web crawler to fetch real product data across categories and saves them as JSON shards inside `data/mock_data/`.
 
 ```bash
 # Linux/Mac equivalent:
-python src/simulators/init_sqlite.py
+python scripts/seed_tiki_data.py
 ```
 
-> **Prerequisite:** The `data/mock_data.zip` file is included in this repository. When you run `init_sqlite.py`, it will automatically extract the JSON shards into `data/mock_data/` and insert 180,000+ products into the local SQLite database.
+> **Note:** The crawler runs locally and has a sleep delay to prevent Akamai blocks. Let it run until it says "Chunk crawl completed successfully".
 
 ---
 
-### Step 2 — Start the Mock API *(Required for Airflow Batch)*
+### Step 2 — Initialize the Local Database *(Do this once)*
 
-Select **[2] Start Mock API Service**. This starts a local FastAPI server at `http://0.0.0.0:8000` that Airflow's extractor will call instead of the real Tiki server. **Keep this window open** for as long as you want to run batch jobs.
+Select **[2] Init SQLite Database**. This consolidates the crawled JSON shards from `data/mock_data/` into the local `data/tiki_backend.db` SQLite database, which acts as our backend data source.
 
 ```bash
 # Linux/Mac equivalent:
-python src/simulators/mock_tiki_service.py
+python simulators/init_sqlite.py
+```
+
+---
+
+### Step 3 — Start the Mock API *(Required for Airflow Batch)*
+
+Select **[3] Start Mock API Service**. This starts a local FastAPI server at `http://0.0.0.0:8000` that Airflow's extractor will call instead of the real Tiki server. **Keep this window open** for as long as you want to run batch jobs.
+
+```bash
+# Linux/Mac equivalent:
+python simulators/mock_tiki_service.py
 ```
 
 Verify it is running: open `http://localhost:8000/docs` in your browser to see the Swagger UI.
 
 ---
 
-### Step 3 — Trigger the Airflow Batch Pipeline
+### Step 4 — Trigger the Airflow Batch Pipeline
 
 1. Go to [http://localhost:8081](http://localhost:8081) and log in (`admin` / `password123`).
 2. Find the `tiki_lakehouse_pipeline` DAG and **Unpause** it (toggle the switch on the left).
@@ -221,20 +246,27 @@ Verify it is running: open `http://localhost:8000/docs` in your browser to see t
 
 ---
 
-### Step 4 — Start Real-Time Streaming
+### Step 5 — Start Real-Time Streaming
 
-Select **[3] Start Real-time Streaming**. This opens 2 new windows:
+Select **[4] Start Real-time Streaming**. This opens 2 new windows:
 - **TIKI SIMULATOR:** Generates live e-commerce events (PURCHASE, FLASH_SALE, UNPUBLISHED, RESTOCK) using a Sine-wave traffic model to simulate realistic peak/off-peak traffic. Connects to Kafka on `localhost:9093`.
 - **SPARK STREAMING PROCESSOR:** Consumes events from Kafka every 20 seconds and writes them to `reporting_db.realtime_events` for live Superset charts.
 
 ```bash
 # Linux/Mac equivalent (run each in a separate terminal):
 # Terminal 1 — Simulator
-KAFKA_BROKER=localhost:9093 python src/simulators/tiki_continuous_simulator.py
+KAFKA_BROKER=localhost:9093 python simulators/tiki_continuous_simulator.py
 
 # Terminal 2 — Spark Streaming Processor
 docker exec -it tiki_spark_crawler python /home/jovyan/work/src/jobs/tiki_stream_processor.py
 ```
+
+### Step 6 — Trigger Chaos Engineering Scenarios (Live Demo)
+Once the Streaming pipeline is active and visualizing on Superset, you can inject operational anomalies using the Control Panel to demonstrate the system's Real-time Anomaly Detection capabilities:
+- **[5] Trigger MEGA LIVE Flash Sale**: Drops prices by 30-70% for 5,000 products (High Throughput test).
+- **[6] Trigger FATAL PRICE BUG**: Drops prices by >90% for 10 expensive products (Anomaly Alerting test).
+- **[7] Trigger VIRAL TREND**: Injects 5,000+ sales instantly to 5 products (Sales Velocity test).
+- **[8] Trigger MASSIVE OUT-OF-STOCK**: Disables 100 top-selling products (Supply Chain Alert test).
 
 ---
 
@@ -249,7 +281,7 @@ Once all containers are up and running:
 | **Jupyter Lab**   | [http://localhost:8888](http://localhost:8888) | *(no auth, no token)*            |
 | **MinIO Console** | [http://localhost:9001](http://localhost:9001) | `admin` / `minio123`             |
 | **Superset BI**   | [http://localhost:8088](http://localhost:8088) | `admin` / `password123`          |
-| **Mock API Docs** | [http://localhost:8000/docs](http://localhost:8000/docs) | *(started via BAT file)*|
+| **Mock API Docs** | [http://localhost:8000/docs](http://localhost:8000/docs) | *(started via Step 3)*|
 | **Spark UI**      | [http://localhost:4040](http://localhost:4040) | *(available when a job is running)*|
 
 ---
@@ -295,11 +327,11 @@ extract_and_publish >> consume_from_kafka >> load_bronze_task >> clean_and_load_
 
 | Task ID                     | Runs In              | Description                                                                |
 |-----------------------------|----------------------|----------------------------------------------------------------------------|
-| `extract_and_publish`       | Airflow container    | Calls Mock API for each category (Dynamic Task Mapping, 15 workers). Publishes products to Kafka topic `tiki.raw.products`. |
-| `consume_from_kafka`        | Airflow container    | Reads all Kafka messages → saves to `data/tiki_products_raw_YYYY-MM-DD.json`. |
+| `extract_and_publish`       | Airflow container    | Calls Mock API for 26 categories concurrently. Uses **Dynamic Task Mapping** constrained by a 3-slot Pool. Implements **LPT (Longest Processing Time)** scheduling by prioritizing heavy categories first to optimize total makespan. Publishes to `tiki.raw.products`. |
+| `consume_from_kafka`        | Airflow container    | Reads all Kafka messages → saves to `data/tiki_products_raw_YYYY-MM-DD.json` → XCom push file path. |
 | `load_bronze_task`          | Spark container      | Spark reads JSON → appends to Bronze Iceberg table (partitioned by `crawl_date`). |
 | `clean_and_load_silver_task`| Spark container      | Cleans data → detects price changes (SCD4 `price_history`) → MERGE INTO active products (SCD1 `products`). |
-| `transform_gold`            | Spark container      | Computes 5 Gold aggregations → writes to Iceberg Gold + Reporting Postgres for Superset. |
+| `transform_gold`            | Spark container      | Computes OBT Foundation + 6 Data Marts (`shuffle.partitions=8`) → writes to Iceberg Gold (lưu lịch sử / historical storage) + Reporting Postgres (serving Superset). |
 
 > **Retry Policy:** Each task retries up to 3 times with a 5-minute delay. Email alerts are sent on both success and failure via SMTP (if configured).
 
@@ -319,12 +351,13 @@ tiki_lakehouse/
 │   │   ├── tiki_load_iceberg.py    # [Task 3&4] Spark: JSON → Bronze & Silver Iceberg
 │   │   ├── tiki_gold.py            # [Task 5] Spark: Gold aggregates → Iceberg + Postgres
 │   │   └── tiki_stream_processor.py# [Speed Layer] Spark Structured Streaming → Postgres
-│   ├── simulators/
-│   │   ├── init_sqlite.py          # One-time: loads 180k+ products into SQLite
-│   │   ├── mock_tiki_service.py    # FastAPI Mock API server (replaces real Tiki API)
-│   │   └── tiki_continuous_simulator.py # Generates live Kafka events (Sine-wave traffic)
-│   └── scripts/                    # Utility & maintenance scripts
-├── docker/                         # Dockerfiles & service configurations
+├── simulators/
+│   ├── init_sqlite.py          # One-time: loads 180k+ products into SQLite
+│   ├── mock_tiki_service.py    # FastAPI Mock API server (replaces real Tiki API)
+│   └── tiki_continuous_simulator.py # Generates live Kafka events (Sine-wave traffic)
+├── scripts/                    # Utility & maintenance scripts
+│   └── seed_tiki_data.py       # Pulls seed data from real Tiki API
+├── docker/                     # Dockerfiles & service configurations
 │   ├── airflow/
 │   ├── hive/
 │   ├── spark/
@@ -399,7 +432,7 @@ kafka-console-consumer.sh \
 
 | Symptom | Cause | Fix |
 |---------|-------|-----|
-| `extract_and_publish` fails immediately | Mock API not running | Run `python src/simulators/mock_tiki_service.py` first |
+| `extract_and_publish` fails immediately | Mock API not running | Run `python simulators/mock_tiki_service.py` first |
 | `load_bronze_task` hangs for >10 min | Hive Metastore not healthy | `docker compose restart hive-metastore` then re-trigger |
 | Superset shows no data | Gold task hasn't run yet | Trigger the DAG and wait for all 5 tasks to succeed |
 | Simulator can't connect to Kafka | Wrong broker address | Ensure `KAFKA_BROKER=localhost:9093` is set (host → external port) |
