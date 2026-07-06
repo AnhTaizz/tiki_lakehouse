@@ -1,7 +1,7 @@
 """
 tiki_gold.py
 ============
-Gold layer Spark job — reads from Silver Iceberg tables, computes One Big Table (OBT) 
+Gold layer Spark job — reads from Silver Iceberg tables, computes One Big Table (OBT)
 and 6 Business Data Marts. Writes to:
   1. Iceberg Gold tables (local_catalog.tiki_gold.*)  → historical storage
   2. Reporting PostgreSQL (reporting_db)               → Superset dashboard
@@ -54,15 +54,10 @@ def save_gold_table(spark, df, iceberg_table: str, pg_table: str, mode: str = "o
 # 1. ONE BIG TABLE (OBT) - CORE FOUNDATION
 # ===========================================================================
 def build_obt_product_daily_snapshot(spark):
-    """
-    Creates a daily snapshot OBT by joining the latest price event of each day (from price_history)
-    with static product attributes (from products).
-    Uses LAG() to calculate the actual daily quantity sold (Delta) instead of cumulative lifetime sales.
-    """
     logger.info("Building obt_product_daily_snapshot...")
     df = spark.sql("""
         WITH ranked_history AS (
-            SELECT 
+            SELECT
                 *,
                 ROW_NUMBER() OVER(PARTITION BY id, crawl_date ORDER BY loaded_at DESC) as rn
             FROM local_catalog.tiki_silver.price_history
@@ -72,7 +67,7 @@ def build_obt_product_daily_snapshot(spark):
             SELECT * FROM ranked_history WHERE rn = 1
         ),
         delta_calc AS (
-            SELECT 
+            SELECT
                 h.*,
                 LAG(h.quantity_sold) OVER(PARTITION BY h.id ORDER BY h.crawl_date ASC) as prev_qty
             FROM daily_latest h
@@ -106,7 +101,7 @@ def build_obt_product_daily_snapshot(spark):
 def build_mart_daily_summary(spark):
     logger.info("Building mart_daily_summary...")
     df = spark.sql("""
-        SELECT 
+        SELECT
             crawl_date,
             COUNT(DISTINCT product_id) AS total_products,
             COUNT(DISTINCT brand_name) AS total_brands,
@@ -125,7 +120,7 @@ def build_mart_daily_summary(spark):
 def build_mart_brand_market_share(spark):
     logger.info("Building mart_brand_market_share...")
     df = spark.sql("""
-        SELECT 
+        SELECT
             crawl_date,
             category_name,
             brand_name,
@@ -143,7 +138,7 @@ def build_mart_product_ranking(spark):
     logger.info("Building mart_product_ranking...")
     df = spark.sql("""
         WITH daily_scored AS (
-            SELECT 
+            SELECT
                 crawl_date,
                 product_id,
                 product_name,
@@ -157,16 +152,16 @@ def build_mart_product_ranking(spark):
                 review_count,
                 daily_quantity_sold,
                 ROUND(
-                    (daily_quantity_sold * 0.5) 
-                    + (rating_average * review_count * 0.3) 
-                    + (discount_rate * 10 * 0.2), 
+                    (daily_quantity_sold * 0.5)
+                    + (rating_average * review_count * 0.3)
+                    + (discount_rate * 10 * 0.2),
                 1) AS popularity_score,
                 (price * daily_quantity_sold) AS daily_revenue
             FROM local_catalog.tiki_gold.obt_product_daily_snapshot
         ),
         ranked_daily AS (
             SELECT *,
-                   ROW_NUMBER() OVER(PARTITION BY crawl_date ORDER BY popularity_score DESC) as rank
+                   ROW_NUMBER() OVER(PARTITION BY crawl_date ORDER BY daily_quantity_sold DESC, daily_revenue DESC) as rank
             FROM daily_scored
         )
         SELECT * FROM ranked_daily WHERE rank <= 100
@@ -177,7 +172,7 @@ def build_mart_price_volatility(spark):
     logger.info("Building mart_price_volatility...")
     # Reads from price_history directly to get all events, not just the daily snapshot
     df = spark.sql("""
-        SELECT 
+        SELECT
             p.category_name,
             h.crawl_date,
             COUNT(h.id) AS total_price_events,
@@ -196,12 +191,15 @@ def build_mart_price_volatility(spark):
 def build_mart_marketing_campaign_roi(spark):
     logger.info("Building mart_marketing_campaign_roi...")
     df = spark.sql("""
-        SELECT 
+        SELECT
             crawl_date,
             category_name,
-            CASE 
-                WHEN discount_rate >= 30 THEN 'Deep Discount (>30%)'
-                ELSE 'Normal Price (<30%)'
+            CASE
+                WHEN discount_rate = 0 THEN '1. No Discount (0%)'
+                WHEN discount_rate > 0 AND discount_rate <= 15 THEN '2. Light Sale (1-15%)'
+                WHEN discount_rate > 15 AND discount_rate <= 30 THEN '3. Regular Sale (16-30%)'
+                WHEN discount_rate > 30 AND discount_rate <= 50 THEN '4. Deep Sale (31-50%)'
+                ELSE '5. Clearance (>50%)'
             END AS campaign_type,
             COUNT(DISTINCT product_id) AS total_products,
             ROUND(AVG(daily_quantity_sold), 0) AS avg_quantity_sold_per_item,
@@ -211,29 +209,6 @@ def build_mart_marketing_campaign_roi(spark):
         GROUP BY 1, 2, 3
     """)
     save_gold_table(spark, df, "local_catalog.tiki_gold.mart_marketing_campaign_roi", "mart_marketing_campaign_roi")
-
-def build_mart_customer_sentiment(spark):
-    logger.info("Building mart_customer_sentiment...")
-    df = spark.sql("""
-        SELECT 
-            crawl_date,
-            category_name,
-            brand_name,
-            COUNT(DISTINCT product_id) AS total_products,
-            ROUND(AVG(rating_average), 2) AS avg_rating,
-            SUM(review_count) AS total_reviews,
-            ROUND(AVG(price), 0) AS avg_price,
-            CASE 
-                WHEN AVG(price) < 100000 THEN 'Low-End'
-                WHEN AVG(price) BETWEEN 100000 AND 1000000 THEN 'Mid-Range'
-                ELSE 'High-End'
-            END AS price_segment
-        FROM local_catalog.tiki_gold.obt_product_daily_snapshot
-        WHERE review_count > 10 AND brand_name IS NOT NULL AND brand_name != 'No Brand'
-        GROUP BY 1, 2, 3
-        HAVING total_reviews > 50
-    """)
-    save_gold_table(spark, df, "local_catalog.tiki_gold.mart_customer_sentiment", "mart_customer_sentiment")
 
 
 def run_gold_pipeline():
@@ -246,6 +221,7 @@ def run_gold_pipeline():
     spark = SparkSession.builder \
         .appName("Tiki_Gold_Pipeline_OBT") \
         .config("spark.sql.shuffle.partitions", "8") \
+        .config("spark.sql.session.timeZone", "Asia/Ho_Chi_Minh") \
         .getOrCreate()
 
     try:
@@ -263,7 +239,6 @@ def run_gold_pipeline():
         build_mart_product_ranking(spark)
         build_mart_price_volatility(spark)
         build_mart_marketing_campaign_roi(spark)
-        build_mart_customer_sentiment(spark)
 
         logger.info("=" * 60)
         logger.info("Gold pipeline completed successfully (OBT mode)!")

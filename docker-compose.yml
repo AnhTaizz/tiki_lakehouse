@@ -56,6 +56,7 @@ services:
       POSTGRES_DB: ${HIVE_DB_NAME}
       POSTGRES_USER: ${HIVE_DB_USER}
       POSTGRES_PASSWORD: ${HIVE_DB_PASSWORD}
+    command: ["postgres", "-c", "timezone=Asia/Ho_Chi_Minh"]
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
@@ -111,6 +112,7 @@ services:
       POSTGRES_DB: ${AIRFLOW_DB_NAME}
       POSTGRES_USER: ${AIRFLOW_DB_USER}
       POSTGRES_PASSWORD: ${AIRFLOW_DB_PASSWORD}
+    command: ["postgres", "-c", "timezone=Asia/Ho_Chi_Minh"]
     volumes:
       - airflow_db_data:/var/lib/postgresql/data
     networks:
@@ -240,6 +242,7 @@ services:
       POSTGRES_DB: ${REPORTING_DB_NAME:-reporting}
       POSTGRES_USER: ${REPORTING_DB_USER:-reporting}
       POSTGRES_PASSWORD: ${REPORTING_DB_PASSWORD:-reporting123}
+    command: ["postgres", "-c", "timezone=Asia/Ho_Chi_Minh"]
     volumes:
       - reporting_db_data:/var/lib/postgresql/data
     networks:
@@ -261,6 +264,7 @@ services:
       POSTGRES_DB: superset
       POSTGRES_USER: superset
       POSTGRES_PASSWORD: ${SUPERSET_DB_PASSWORD:-superset123}
+    command: ["postgres", "-c", "timezone=Asia/Ho_Chi_Minh"]
     volumes:
       - superset_db_data:/var/lib/postgresql/data
     networks:

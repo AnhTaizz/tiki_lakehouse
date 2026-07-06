@@ -39,7 +39,7 @@ def process_micro_batch(df_batch, epoch_id):
         .withColumn("source_file", lit("kafka_realtime_stream"))
         .withColumn("loaded_at", current_timestamp())
         .withColumn("crawl_date", to_date(col("crawl_date")))
-    ).dropDuplicates(["id"])
+    )
 
     count = df_new.count()
     logger.info("Received %d unique products in this micro-batch.", count)
@@ -81,11 +81,13 @@ def start_streaming():
     from pyspark.sql.functions import from_json, col
 
     # Configure Spark Session with Iceberg support
-    spark = SparkSession.builder.appName("Tiki_Realtime_Processor").getOrCreate()
+    spark = SparkSession.builder \
+        .appName("Tiki_Realtime_Processor") \
+        .config("spark.sql.session.timeZone", "Asia/Ho_Chi_Minh") \
+        .getOrCreate()
 
     logger.info("Connecting to Kafka: %s, Topic: %s", KAFKA_BROKER, KAFKA_TOPIC)
 
-    # Initialize Kafka ReadStream
     df_kafka = spark.readStream \
         .format("kafka") \
         .option("kafka.bootstrap.servers", KAFKA_BROKER) \

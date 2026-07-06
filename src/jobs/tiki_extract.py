@@ -47,12 +47,10 @@ def publish_to_kafka(products: list, crawl_date: str) -> None:
 def crawl_tiki_data(target_category_id, target_category_name, logical_date_str=None, logical_timestamp_str=None):
     logger.info("Start crawling category id %s", target_category_id)
 
-    # --- CIRCUIT BREAKER LOGIC (HOURLY) ---
     if logical_timestamp_str:
         try:
             from datetime import timezone
             logical_time = datetime.fromisoformat(logical_timestamp_str)
-            # Ensure physical time has timezone (UTC) to compute accurate diff
             physical_time = datetime.now(timezone.utc)
 
             diff_hours = (physical_time - logical_time).total_seconds() / 3600.0
@@ -68,30 +66,25 @@ def crawl_tiki_data(target_category_id, target_category_name, logical_date_str=N
                 logger.info(f"Circuit Breaker PASSED: Time diff is {diff_hours:.1f} hours (Safe threshold <= 8h).")
         except Exception as e:
             logger.error(f"Failed to parse logical_timestamp: {e}")
-    # --------------------------------------
 
-    logger.info("==================================================")
     logger.info("AIRFLOW TASK START: EXTRACT_AND_PUBLISH")
     logger.info("Target Category : %s (ID: %s)", target_category_name, target_category_id)
     logger.info("Target Kafka    : %s", KAFKA_TOPIC)
-    logger.info("==================================================")
 
     try:
         logger.info("Initiating concurrent API extraction for category '%s'...", target_category_name)
         products = fetch_products_by_category(target_category_id, "")
-        
-        # Inject category metadata
+
         for p in products:
             p["category_id"] = target_category_id
             p["category_name"] = target_category_name
-            
+
         logger.info("Successfully extracted %d products from API.", len(products))
-        
+
     except Exception as e:
         logger.error("Failed to extract category %s: %s", target_category_name, e)
         sys.exit(1)
 
-    # Use logical date if provided, otherwise fallback to today (physical date)
     crawl_date = logical_date_str if logical_date_str else datetime.now().strftime("%Y-%m-%d")
 
     if products:

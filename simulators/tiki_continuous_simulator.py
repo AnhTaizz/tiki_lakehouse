@@ -1,4 +1,4 @@
-﻿import json
+import json
 import logging
 import os
 import random
@@ -58,16 +58,8 @@ def run_continuous_simulator():
         import math
         while True:
             try:
-                # Use Sine wave to generate simulated traffic waves (Cycle ~60 seconds)
-                # The wave will smoothly transition from a low base (50) to a massive peak (1500)
-                current_time = time.time()
-                wave = (math.sin(current_time / 10.0) + 1) / 2 # Normalize to 0.0 -> 1.0
-                
-                base_traffic = 50
-                peak_traffic = 1500
-                batch_size = int(base_traffic + (peak_traffic * wave))
-                batch_size += random.randint(-30, 30) # Add a little noise for realism
-                batch_size = max(10, batch_size) # Ensure no negative batch sizes
+                # Cố định hoàn toàn lưu lượng nền: 50 sản phẩm mỗi 2 giây = 1500 event/phút.
+                batch_size = 50
 
                 cursor = conn.cursor()
                 cursor.execute("SELECT * FROM products ORDER BY RANDOM() LIMIT ?", (batch_size,))
@@ -146,8 +138,7 @@ def run_continuous_simulator():
                 logger.info("Tick: Sent %d events (Flash Sale: %d, Purchase: %d, Hide: %d, Restock: %d) to Kafka. Waiting...",
                             len(rows), flash_sales, purchases, unpublished, restocked)
 
-                # Sleep briefly (1 to 3s) to simulate constant high throughput
-                time.sleep(random.uniform(1.0, 3.0))
+                time.sleep(2.0)
 
             except KeyboardInterrupt:
                 logger.info("Simulator stopped by user.")

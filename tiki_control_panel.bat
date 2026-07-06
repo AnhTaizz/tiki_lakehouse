@@ -10,10 +10,10 @@ echo [1] Crawl Data from Tiki (Generate JSON shards)
 echo [2] Init SQLite Database (Load JSON into local DB)
 echo [3] Start Mock API Service (For Airflow Batch pipeline)
 echo [4] Start Real-time Streaming (Simulate transactions)
-echo [5] Trigger MEGA LIVE Flash Sale (Chaos Mode)
+echo [5] Trigger MASSIVE TRAFFIC SPIKE (Velocity Test)
 echo [6] Trigger FATAL PRICE BUG (90%% Drop Anomaly)
-echo [7] Trigger VIRAL TREND (Massive Sales Velocity)
-echo [8] Trigger MASSIVE OUT-OF-STOCK (Empty Inventory)
+echo [7] Trigger MASSIVE OUT-OF-STOCK (Empty Inventory)
+echo [8] RESET ALL CHAOS (Restore System to Normal)
 echo [9] Exit
 echo.
 set /p choice="Select option (1-9): "
@@ -22,10 +22,10 @@ if "%choice%"=="1" goto crawl_data
 if "%choice%"=="2" goto init_db
 if "%choice%"=="3" goto mock_api
 if "%choice%"=="4" goto streaming
-if "%choice%"=="5" goto flash_sale
+if "%choice%"=="5" goto traffic_spike
 if "%choice%"=="6" goto price_bug
-if "%choice%"=="7" goto viral_trend
-if "%choice%"=="8" goto out_of_stock
+if "%choice%"=="7" goto out_of_stock
+if "%choice%"=="8" goto reset_chaos
 if "%choice%"=="9" goto exit
 
 echo.
@@ -73,12 +73,12 @@ echo ==============================================================
 pause
 goto menu
 
-:flash_sale
+:traffic_spike
 echo.
 echo ==============================================================
-echo INJECTING CHAOS: MEGA LIVE FLASH SALE!
-echo 5,000 products will have their prices slashed by 30-70%%
-python simulators\trigger_flash_sale.py
+echo INJECTING CHAOS: MASSIVE TRAFFIC SPIKE!
+echo Simulating a sudden surge of views and purchases for 3 MINUTES.
+start cmd /k "title TRAFFIC SPIKE IN PROGRESS && python simulators\trigger_traffic_spike.py"
 echo ==============================================================
 pause
 goto menu
@@ -93,15 +93,7 @@ echo ==============================================================
 pause
 goto menu
 
-:viral_trend
-echo.
-echo ==============================================================
-echo VIRAL TIKTOK TREND SIMULATION!
-echo 5 random products will instantly get 5000+ purchases
-python simulators\trigger_viral_trend.py
-echo ==============================================================
-pause
-goto menu
+
 
 :out_of_stock
 echo.
@@ -109,6 +101,16 @@ echo ==============================================================
 echo MASSIVE OUT-OF-STOCK SIMULATION!
 echo 100 hot-selling products will instantly be disabled
 python simulators\trigger_out_of_stock.py
+echo ==============================================================
+pause
+goto menu
+
+:reset_chaos
+echo.
+echo ==============================================================
+echo RESETTING SYSTEM TO NORMAL STATE...
+echo Restoring prices, undoing out-of-stock, and clearing chaos.
+python simulators\reset_chaos.py
 echo ==============================================================
 pause
 goto menu

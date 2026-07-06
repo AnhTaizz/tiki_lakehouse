@@ -86,22 +86,21 @@ Active product state — always holds the latest snapshot via `MERGE INTO`. Upda
 ### 🥈 Silver — `local_catalog.tiki_silver.price_history` (SCD Type 4)
 Append-only price change history — records a new row only when the price or discount rate changes.
 
-### 🥇 Gold — `local_catalog.tiki_gold.*` (Kimball Star Schema)
+### 🥇 Gold — `local_catalog.tiki_gold.*` (One Big Table Architecture)
 
-The Gold layer strictly follows the **Kimball Dimensional Modeling** methodology to provide a robust foundation for Business Intelligence:
+The Gold layer completely replaces the traditional Kimball Star Schema with a highly performant **One Big Table (OBT)** architecture. By pre-aggregating data via Spark, this eliminates heavy JOIN operations at query time, reducing Superset BI latency to milliseconds.
 
-#### Fact Tables
-- **`fact_price_events`**: A transactional fact table recording every historical price drop or discount fluctuation.
-- **`fact_product_daily_snapshot`**: A periodic snapshot fact table recording the exact state of every product at the end of each day (enforces idempotency).
+#### Foundation Table
+- **`obt_product_daily_snapshot`**: The "Single Source of Truth". A massive, fully denormalized daily snapshot table combining product metadata, latest daily prices, and calculating true `daily_quantity_sold` using `LAG()` window functions instead of cumulative sales.
 
-#### Data Marts (Aggregations)
+#### Business Data Marts (Aggregations)
 | Table               | Business Question Answered                                    |
 |---------------------|---------------------------------------------------------------|
-| `mart_brand_performance` | Which brands are selling the most?                            |
-| `mart_price_volatility`  | How do prices change over time across categories?             |
-| `mart_discount_analysis` | Which category has the deepest discounts?                     |
-| `mart_top_products`      | What are the top 100 best products to buy now?                |
 | `mart_daily_summary`     | Daily high-level KPI overview (sales, events, product count)  |
+| `mart_brand_market_share`| Which brands are selling the most (Market Dominance)?         |
+| `mart_product_ranking`   | What are the top 100 best products to buy now?                |
+| `mart_price_volatility`  | How do prices change over time across categories?             |
+| `mart_marketing_campaign_roi` | Which discount tier yields the highest revenue (ROI)?    |
 
 ### ⚡ Speed — `reporting_db.realtime_events` (PostgreSQL)
 Written directly by Spark Structured Streaming (bypassing Iceberg) for sub-second latency dashboards in Superset.
@@ -208,6 +207,7 @@ python scripts/seed_tiki_data.py
 ```
 
 > **Note:** The crawler runs locally and has a sleep delay to prevent Akamai blocks. Let it run until it says "Chunk crawl completed successfully".
+> **Alternative (Airflow):** You can also trigger the `seed_tiki_data_dag` directly from the Airflow UI to perform a distributed crawl using Dynamic Task Mapping.
 
 ---
 
