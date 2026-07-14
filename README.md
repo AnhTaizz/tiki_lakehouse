@@ -329,9 +329,9 @@ extract_and_publish >> consume_from_kafka >> load_bronze_task >> clean_and_load_
 |-----------------------------|----------------------|----------------------------------------------------------------------------|
 | `extract_and_publish`       | Airflow container    | Calls Mock API for 26 categories concurrently. Uses **Dynamic Task Mapping** constrained by a 3-slot Pool. Implements **LPT (Longest Processing Time)** scheduling by prioritizing heavy categories first to optimize total makespan. Publishes to `tiki.raw.products`. |
 | `consume_from_kafka`        | Airflow container    | Reads all Kafka messages → saves to `data/tiki_products_raw_YYYY-MM-DD.json` → XCom push file path. |
-| `load_bronze_task`          | Spark container      | Spark reads JSON → appends to Bronze Iceberg table (partitioned by `crawl_date`). |
-| `clean_and_load_silver_task`| Spark container      | Cleans data → detects price changes (SCD4 `price_history`) → MERGE INTO active products (SCD1 `products`). |
-| `transform_gold`            | Spark container      | Computes OBT Foundation + 6 Data Marts (`shuffle.partitions=8`) → writes to Iceberg Gold (lưu lịch sử / historical storage) + Reporting Postgres (serving Superset). |
+| `load_bronze_task`          | Airflow container (Local Spark) | Spark reads JSON → appends to Bronze Iceberg table (partitioned by `crawl_date`). |
+| `clean_and_load_silver_task`| Airflow container (Local Spark) | Cleans data → detects price changes (SCD4 `price_history`) → MERGE INTO active products (SCD1 `products`). |
+| `transform_gold`            | Airflow container (Local Spark) | Computes OBT Foundation + 6 Data Marts (`shuffle.partitions=8`) → writes to Iceberg Gold (lưu lịch sử / historical storage) + Reporting Postgres (serving Superset). |
 
 > **Retry Policy:** Each task retries up to 3 times with a 5-minute delay. Email alerts are sent on both success and failure via SMTP (if configured).
 
