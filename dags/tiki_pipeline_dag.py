@@ -96,7 +96,7 @@ with DAG(
 ```
 
 ### Adding a new DAG
-1. Write a Python job in `src/jobs/`
+1. Write a Python job in `src/spark_jobs/` or `src/ingestion/`
 2. Define a BashOperator task that calls it
 3. Connect the task into the dependency chain with `>>`
 4. Commit — Airflow auto-discovers the new DAG
@@ -114,7 +114,7 @@ with DAG(
     # Task 1: Extract & Publish (Mocked Crawler with Dynamic Task Mapping)
     # ------------------------------------------------------------------
     commands = [
-        f"python {AIRFLOW_SRC}/jobs/tiki_extract.py --category_id {cat['id']} --category_name '{cat['name']}' --logical_date {{{{ data_interval_start.in_timezone('Asia/Ho_Chi_Minh').strftime('%Y-%m-%d') }}}} --logical_timestamp {{{{ ts }}}}"
+        f"python {AIRFLOW_SRC}/ingestion/tiki_extract.py --category_id {cat['id']} --category_name '{cat['name']}' --logical_date {{{{ data_interval_end.in_timezone('Asia/Ho_Chi_Minh').strftime('%Y-%m-%d') }}}} --logical_timestamp {{{{ ts }}}}"
         for cat in CATEGORIES
     ]
 
@@ -126,10 +126,10 @@ with DAG(
             "PYTHONPATH": AIRFLOW_SRC,
         },
         doc_md="""
-### extract_and_publish
-Uses Dynamic Task Mapping (Airflow 2.3+) to run multiple categories concurrently.
-Limited by `tiki_api_pool` to control concurrency.
-"""
+        ### extract_and_publish
+        Uses Dynamic Task Mapping (Airflow 2.3+) to run multiple categories concurrently.
+        Limited by `tiki_api_pool` to control concurrency.
+        """
     ).expand(bash_command=commands)
 
     # ------------------------------------------------------------------
@@ -144,17 +144,17 @@ Limited by `tiki_api_pool` to control concurrency.
             "PYTHONPATH": AIRFLOW_SRC,
         },
         bash_command=f"""
-            CRAWL_DATE="{{{{ data_interval_start.in_timezone('Asia/Ho_Chi_Minh').strftime('%Y-%m-%d') }}}}"
+            CRAWL_DATE="{{{{ data_interval_end.in_timezone('Asia/Ho_Chi_Minh').strftime('%Y-%m-%d') }}}}"
             echo "Consuming Kafka for crawl_date: $CRAWL_DATE"
-            python {AIRFLOW_SRC}/jobs/kafka_consumer.py --crawl_date "$CRAWL_DATE"
+            python {AIRFLOW_SRC}/ingestion/kafka_consumer.py --crawl_date "$CRAWL_DATE"
         """,
         do_xcom_push=True,
         doc_md="""
-### consume_from_kafka
-Consumes all messages from Kafka topic `tiki.raw.products`.
-Collects them into file `data/tiki_products_raw_YYYY-MM-DD.json`.
-XCom push: absolute path of the raw file for Task 3 (Spark) to read.
-""",
+        ### consume_from_kafka
+        Consumes all messages from Kafka topic `tiki.raw.products`.
+        Collects them into file `data/tiki_products_raw_YYYY-MM-DD.json`.
+        XCom push: absolute path of the raw file for Task 3 (Spark) to read.
+        """,
     )
 
     # ------------------------------------------------------------------
@@ -168,14 +168,14 @@ XCom push: absolute path of the raw file for Task 3 (Spark) to read.
             FILENAME=$(basename "$RAW_PATH")
             echo "Loading Bronze for file: $FILENAME"
             docker exec -e SPARK_OPTS="--driver-java-options=-Xmx1536M" {SPARK_CONTAINER} \\
-                {SPARK_EXEC} {WORK_DIR}/src/jobs/tiki_load_iceberg.py \\
+                {SPARK_EXEC} {WORK_DIR}/src/spark_jobs/tiki_load_iceberg.py \\
                 --raw_file {WORK_DIR}/data/$FILENAME --layer bronze
         """,
         doc_md="""
-### load_bronze_task
-Runs Spark job `tiki_load_iceberg.py --layer bronze` inside the container.
-- **Bronze**: overwrites today's partition in `tiki_bronze.products_raw` with raw JSON data.
-""",
+        ### load_bronze_task
+        Runs Spark job `tiki_load_iceberg.py --layer bronze` inside the container.
+        - **Bronze**: overwrites today's partition in `tiki_bronze.products_raw` with raw JSON data.
+        """,
     )
 
     # ------------------------------------------------------------------
@@ -189,16 +189,16 @@ Runs Spark job `tiki_load_iceberg.py --layer bronze` inside the container.
             FILENAME=$(basename "$RAW_PATH")
             echo "Cleaning & Loading Silver for file: $FILENAME"
             docker exec -e SPARK_OPTS="--driver-java-options=-Xmx1536M" {SPARK_CONTAINER} \\
-                {SPARK_EXEC} {WORK_DIR}/src/jobs/tiki_load_iceberg.py \\
+                {SPARK_EXEC} {WORK_DIR}/src/spark_jobs/tiki_load_iceberg.py \\
                 --raw_file {WORK_DIR}/data/$FILENAME --layer silver
         """,
         doc_md="""
-### clean_and_load_silver_task
-Runs Spark job `tiki_load_iceberg.py --layer silver` inside the container.
-- Reads raw data from Bronze layer
-- **Data Cleaning**: drops null IDs, fills null prices with 0, trims strings
-- **Silver History**: detects price changes (SCD Type 4) → appends to `tiki.price_history`
-- **Silver Active**: MERGE INTO `tiki.products` (SCD Type 1 — always holds the latest state)
+        ### clean_and_load_silver_task
+        Runs Spark job `tiki_load_iceberg.py --layer silver` inside the container.
+        - Reads raw data from Bronze layer
+        - **Data Cleaning**: drops null IDs, fills null prices with 0, trims strings
+        - **Silver History**: detects price changes (SCD Type 4) → appends to `tiki.price_history`
+        - **Silver Active**: MERGE INTO `tiki.products` (SCD Type 1 — always holds the latest state)
 """,
     )
 
@@ -211,19 +211,19 @@ Runs Spark job `tiki_load_iceberg.py --layer silver` inside the container.
         bash_command=f"""
             echo "Running Gold transformation ..."
             docker exec -e SPARK_OPTS="--driver-java-options=-Xmx1536M" {SPARK_CONTAINER} \\
-                {SPARK_EXEC} {WORK_DIR}/src/jobs/tiki_gold.py
+                {SPARK_EXEC} {WORK_DIR}/src/spark_jobs/tiki_gold.py
         """,
         doc_md="""
-### transform_gold
-Runs Spark job `tiki_gold.py` to compute 5 Gold tables:
-- `brand_performance` — Top brands by sales volume and rating
-- `price_trend` — Average price by day and category
-- `discount_analysis` — Discount rate analysis by category
-- `top_products` — Top 100 best products
-- `daily_summary` — Daily KPI overview for the dashboard
+        ### transform_gold
+        Runs Spark job `tiki_gold.py` to compute 5 Gold tables:
+        - `brand_performance` — Top brands by sales volume and rating
+        - `price_trend` — Average price by day and category
+        - `discount_analysis` — Discount rate analysis by category
+        - `top_products` — Top 100 best products
+        - `daily_summary` — Daily KPI overview for the dashboard
 
-Each table is written to both Iceberg (Gold layer) and Reporting Postgres (Superset).
-""",
+        Each table is written to both Iceberg (Gold layer) and Reporting Postgres (Superset).
+        """,
     )
 
     # ------------------------------------------------------------------

@@ -7,7 +7,7 @@ if src_dir not in sys.path:
     sys.path.append(src_dir)
 
 from common.utils import setup_logger
-from jobs.tiki_load_iceberg import build_product_schema
+from spark_jobs.tiki_load_iceberg import build_product_schema
 
 logger = setup_logger(__name__)
 

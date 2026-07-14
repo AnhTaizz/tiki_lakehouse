@@ -38,6 +38,13 @@ JDBC_PROPS = {
 
 
 def save_gold_table(spark, df, iceberg_table: str, pg_table: str, mode: str = "overwrite"):
+    from pyspark.sql.functions import expr
+    
+    # Superset Timezone Hack: Convert Date to Timestamp and add 7 hours (ICT offset).
+    # When Superset renders this in the browser, it subtracts 7 hours, landing perfectly on 00:00 of the correct day!
+    if "crawl_date" in df.columns:
+        df = df.withColumn("crawl_date", expr("CAST(crawl_date AS TIMESTAMP) + INTERVAL 7 HOURS"))
+
     # 1. Iceberg
     logger.info("Writing Iceberg Gold table: %s", iceberg_table)
     spark.sql("CREATE NAMESPACE IF NOT EXISTS local_catalog.tiki_gold")

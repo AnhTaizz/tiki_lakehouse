@@ -258,7 +258,7 @@ Select **[4] Start Real-time Streaming**. This opens 2 new windows:
 KAFKA_BROKER=localhost:9093 python simulators/tiki_continuous_simulator.py
 
 # Terminal 2 — Spark Streaming Processor
-docker exec -it tiki_spark_crawler python /home/jovyan/work/src/jobs/tiki_stream_processor.py
+docker exec -it tiki_spark_crawler python /home/jovyan/work/src/spark_jobs/tiki_stream_processor.py
 ```
 
 ### Step 6 — Trigger Chaos Engineering Scenarios (Live Demo)
@@ -400,16 +400,16 @@ docker compose build --no-cache airflow-init airflow-webserver airflow-scheduler
 ```bash
 # Run Bronze & Silver load (inside Spark container)
 docker exec tiki_spark_crawler \
-    python /home/jovyan/work/src/jobs/tiki_load_iceberg.py \
+    python /home/jovyan/work/src/spark_jobs/tiki_load_iceberg.py \
     --raw_file /home/jovyan/work/data/<filename>.json --layer bronze
 
 # Run Gold transformation (inside Spark container)
 docker exec tiki_spark_crawler \
-    python /home/jovyan/work/src/jobs/tiki_gold.py
+    python /home/jovyan/work/src/spark_jobs/tiki_gold.py
 
 # Run Streaming Processor manually
 docker exec -it tiki_spark_crawler \
-    python /home/jovyan/work/src/jobs/tiki_stream_processor.py
+    python /home/jovyan/work/src/spark_jobs/tiki_stream_processor.py
 ```
 
 ### Inspecting Kafka Topic

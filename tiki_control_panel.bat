@@ -67,7 +67,7 @@ echo.
 echo ==============================================================
 echo Opening 2 windows for Streaming pipeline...
 start cmd /k "title TIKI SIMULATOR && set KAFKA_BROKER=localhost:9093 && python simulators\tiki_continuous_simulator.py"
-start cmd /k "title SPARK STREAMING PROCESSOR && docker exec -it tiki_spark_crawler python /home/jovyan/work/src/jobs/tiki_stream_processor.py"
+start cmd /k "title SPARK STREAMING PROCESSOR && docker exec -it tiki_spark_crawler python /home/jovyan/work/src/spark_jobs/tiki_stream_processor.py"
 echo Done! Open Superset and enjoy Real-time analytics.
 echo ==============================================================
 pause

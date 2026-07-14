@@ -25,7 +25,7 @@ This document describes the **entire lifecycle** from receiving a business requi
                              ▼
 ┌─────────────────────────────────────────────────────────────────┐
 │                   WRITE PYTHON JOB                              │
-│  src/jobs/tiki_gold.py                                          │
+│  src/spark_jobs/tiki_gold.py                                    │
 │  → compute_brand_performance(spark)                             │
 │  → save_gold_table(..., "brand_performance", ...)               │
 └────────────────────────────┬────────────────────────────────────┘
@@ -112,7 +112,7 @@ Questions to answer:
 ### Step 2 — Write Python Job
 
 ```python
-# src/jobs/new_job.py
+# src/spark_jobs/new_job.py
 from common.utils import setup_logger
 
 logger = setup_logger(__name__)
@@ -131,10 +131,10 @@ if __name__ == "__main__":
 
 ```bash
 # Test directly on host machine (requires environment setup)
-PYTHONPATH=src python src/jobs/new_job.py
+PYTHONPATH=src python src/spark_jobs/new_job.py
 
 # Or inside the Spark container (Recommended)
-docker exec tiki_spark_crawler python /home/jovyan/work/src/jobs/new_job.py
+docker exec tiki_spark_crawler python /home/jovyan/work/src/spark_jobs/new_job.py
 ```
 
 ### Step 4 — Add Task to DAG
@@ -143,7 +143,7 @@ docker exec tiki_spark_crawler python /home/jovyan/work/src/jobs/new_job.py
 # dags/tiki_pipeline_dag.py (or create a new DAG)
 new_task = BashOperator(
     task_id="new_task_name",
-    bash_command="docker exec tiki_spark_crawler python /home/jovyan/work/src/jobs/new_job.py",
+    bash_command="docker exec tiki_spark_crawler python /home/jovyan/work/src/spark_jobs/new_job.py",
     doc_md="### new_task_name\nBrief description of this task.",
 )
 
@@ -179,7 +179,7 @@ After saving the file in dags/:
 1. Go to Airflow UI → DAG → Graph View
 2. Click the red task → "Log"
 3. Search for ERROR in the logs
-4. Fix the code in src/jobs/
+4. Fix the code in src/spark_jobs/
 5. Airflow retries automatically (retries=2, retry_delay=5m)
    or you can manually Clear + Re-run.
 ```
@@ -273,7 +273,7 @@ RAW JSON Files (local data/)
 | Accidentally dropped Silver or Gold tables | **Use this script** to recover from Bronze |
 | Need to recompute a specific date range | **Use this script** with `--from-date` and `--to-date` |
 
-### Script: `src/jobs/tiki_disaster_recovery.py`
+### Script: `src/spark_jobs/tiki_disaster_recovery.py`
 
 This script replays **each day sequentially** from Bronze, ensuring that the price change history (SCD Type 4) is perfectly reconstructed.
 
@@ -293,15 +293,15 @@ Bronze (entire raw history)
 
 ```bash
 docker exec tiki_spark_crawler \
-    python /home/jovyan/work/src/jobs/tiki_disaster_recovery.py --dry-run
+    python /home/jovyan/work/src/spark_jobs/tiki_disaster_recovery.py --dry-run
 
 # Full recovery (all dates in Bronze)
 docker exec tiki_spark_crawler \
-    python /home/jovyan/work/src/jobs/tiki_disaster_recovery.py
+    python /home/jovyan/work/src/spark_jobs/tiki_disaster_recovery.py
 
 # Recovery for a specific date range
 docker exec tiki_spark_crawler \
-    python /home/jovyan/work/src/jobs/tiki_disaster_recovery.py \
+    python /home/jovyan/work/src/spark_jobs/tiki_disaster_recovery.py \
     --from-date 2026-06-01 --to-date 2026-06-15
 ```
 
