@@ -30,7 +30,7 @@ logger = setup_logger(__name__)
 KAFKA_BROKER        = os.getenv("KAFKA_BROKER", "kafka:9092")
 KAFKA_TOPIC         = "tiki.raw.products"
 CONSUMER_GROUP      = "tiki-bronze-loader"
-# Stop consuming after 30s of no new messages — enough time to drain one crawl batch
+
 CONSUMER_TIMEOUT_MS = 30_000
 
 
